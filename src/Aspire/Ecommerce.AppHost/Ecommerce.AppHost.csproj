@@ -1,0 +1,51 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <IsAspireHost>true</IsAspireHost>
+    <UserSecretsId>298ef630-429f-4b0e-a259-954e51d4b993</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Aspire.Hosting.AppHost" />
+    <PackageReference Include="Aspire.Hosting.PostgreSQL" />
+    <PackageReference Include="Aspire.Hosting.RabbitMQ" />
+    <PackageReference Include="Aspire.Hosting.Redis" />
+    <PackageReference Include="Aspire.Hosting.Azure.Storage" />
+    <PackageReference Include="Aspire.Hosting.MongoDB" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\ApiGateway\Ecommerce.Bff.BackOffice\Ecommerce.Bff.BackOffice.csproj" />
+    <ProjectReference Include="..\..\ApiGateway\Ecommerce.Bff.StoreFront\Ecommerce.Bff.StoreFront.csproj" />
+    <ProjectReference Include="..\..\Clients\Ecommerce.BackOffice\Ecommerce.BackOffice\Ecommerce.BackOffice.csproj" />
+    <ProjectReference Include="..\..\Clients\Ecommerce.StoreFront\Ecommerce.StoreFront\Ecommerce.StoreFront.csproj" />
+    <ProjectReference Include="..\..\Clients\Ecommerce.WebhookClient\Ecommerce.WebhookClient.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Services\Ecommerce.Basket\Ecommerce.Basket.csproj" />
+    <ProjectReference Include="..\..\Services\Ecommerce.Catalog\Ecommerce.Catalog.csproj" />
+    <ProjectReference Include="..\..\Services\Ecommerce.Customer\Ecommerce.Customer.csproj" />
+    <ProjectReference Include="..\..\Services\Ecommerce.Identity\Ecommerce.Identity.csproj" />
+    <ProjectReference Include="..\..\Services\Ecommerce.Inventory\Ecommerce.Inventory.csproj" />
+    <ProjectReference Include="..\..\Services\Ecommerce.Location\Ecommerce.Location.csproj" />
+    <ProjectReference Include="..\..\Services\Ecommerce.Media\Ecommerce.Media.csproj" />
+    <ProjectReference Include="..\..\Services\Ecommerce.Notification\Ecommerce.Notification.csproj" />
+    <ProjectReference Include="..\..\Services\Ecommerce.Order\Ecommerce.Order.csproj" />
+    <ProjectReference Include="..\..\Services\Ecommerce.Promotion\Ecommerce.Promotion.csproj" />
+    <ProjectReference Include="..\..\Services\Ecommerce.Rating\Ecommerce.Rating.csproj" />
+    <ProjectReference Include="..\..\Services\Ecommerce.Tax\Ecommerce.Tax.csproj" />
+    <ProjectReference Include="..\..\Services\Ecommerce.Webhook\Ecommerce.Webhook.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\BuildingBlocks\Ecommerce.Constant\Ecommerce.Constant.csproj"
+                      IsAspireProjectResource="false" />
+    <ProjectReference Include="..\..\BuildingBlocks\Ecommerce.HealthCheckUi\Ecommerce.HealthCheckUi.csproj"
+                      IsAspireProjectResource="false" />
+    <ProjectReference Include="..\..\BuildingBlocks\Ecommerce.MailDev\Ecommerce.MailDev.csproj"
+                      IsAspireProjectResource="false" />
+  </ItemGroup>
+
+</Project>

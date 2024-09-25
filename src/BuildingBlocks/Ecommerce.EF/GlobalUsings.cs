@@ -1,0 +1,13 @@
+global using System.Diagnostics;
+global using Ardalis.Specification;
+global using Ecommerce.SharedKernel.Model;
+global using EntityFramework.Exceptions.Common;
+global using EntityFramework.Exceptions.PostgreSQL;
+global using Microsoft.AspNetCore.Diagnostics;
+global using Microsoft.AspNetCore.Http;
+global using Microsoft.AspNetCore.Mvc;
+global using Microsoft.EntityFrameworkCore;
+global using Microsoft.EntityFrameworkCore.Metadata;
+global using Microsoft.Extensions.DependencyInjection;
+global using Microsoft.Extensions.Hosting;
+global using Microsoft.Extensions.Logging;
