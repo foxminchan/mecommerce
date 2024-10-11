@@ -31,9 +31,23 @@ public sealed class ProductFilterSpec : Specification<Product>
             Query.Where(x => x.SearchVector!.Matches(request.Search));
         }
 
+        if (request.IsFeatured)
+        {
+            Query.Where(x => x.IsFeatured);
+        }
+
         Query
             .ApplyPriceRange(request.StartPrice, request.EndPrice)
             .ApplyOrdering(request.SortBy, request.IsDescending)
+            .ApplyPaging(request.PageIndex, request.PageSize);
+    }
+
+    public ProductFilterSpec(Guid id, PaginationRequest request)
+    {
+        Query
+            .Where(x =>
+                x.ProductRelateds.Any(y => y.RelatedProductId == id && !y.Product.IsDeleted)
+            )
             .ApplyPaging(request.PageIndex, request.PageSize);
     }
 }

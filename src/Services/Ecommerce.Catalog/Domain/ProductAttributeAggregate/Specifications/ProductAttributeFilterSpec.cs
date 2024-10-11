@@ -2,8 +2,8 @@
 
 public sealed class ProductAttributeFilterSpec : Specification<ProductAttribute>
 {
-    public ProductAttributeFilterSpec(int pageIndex, int pageSize)
+    public ProductAttributeFilterSpec(PaginationRequest request)
     {
-        Query.Skip((pageIndex - 1) * pageSize).Take(pageSize);
+        Query.Skip((request.PageIndex - 1) * request.PageSize).Take(request.PageSize);
     }
 }

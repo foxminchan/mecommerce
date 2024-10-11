@@ -2,8 +2,8 @@
 
 public sealed class ProductAttributeGroupFilterSpec : Specification<ProductAttributeGroup>
 {
-    public ProductAttributeGroupFilterSpec(int pageIndex, int pageSize)
+    public ProductAttributeGroupFilterSpec(PaginationRequest request)
     {
-        Query.Skip((pageIndex - 1) * pageSize).Take(pageSize);
+        Query.Skip((request.PageIndex - 1) * request.PageSize).Take(request.PageSize);
     }
 }

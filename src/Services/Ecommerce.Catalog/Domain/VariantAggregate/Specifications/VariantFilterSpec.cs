@@ -12,8 +12,11 @@ public sealed class VariantFilterSpec : Specification<Variant>
         Query.Where(x => x.Id == id && !x.IsDeleted);
     }
 
-    public VariantFilterSpec(int pageIndex, int pageSize)
+    public VariantFilterSpec(PaginationRequest request)
     {
-        Query.Where(x => !x.IsDeleted).Skip((pageIndex - 1) * pageSize).Take(pageSize);
+        Query
+            .Where(x => !x.IsDeleted)
+            .Skip((request.PageIndex - 1) * request.PageSize)
+            .Take(request.PageSize);
     }
 }

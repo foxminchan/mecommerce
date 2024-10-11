@@ -21,9 +21,10 @@ internal sealed class ListProductAttributeGroupPaginationHandler(
     {
         var filter = request.Filter;
 
-        var spec = new ProductAttributeGroupFilterSpec(filter.PageIndex, filter.PageSize);
-
-        var productAttributeGroups = await repository.ListAsync(spec, cancellationToken);
+        var productAttributeGroups = await repository.ListAsync(
+            new ProductAttributeGroupFilterSpec(filter),
+            cancellationToken
+        );
 
         var totalRecords = await repository.CountAsync(cancellationToken);
 

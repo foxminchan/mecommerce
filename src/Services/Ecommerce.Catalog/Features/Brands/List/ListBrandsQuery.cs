@@ -16,9 +16,7 @@ internal sealed class ListBrandsHandler(IReadRepository<Brand> repository)
     {
         var filter = request.Filter;
 
-        var spec = new BrandFilterSpec(filter.PageIndex, filter.PageSize, filter.Search);
-
-        var brands = await repository.ListAsync(spec, cancellationToken);
+        var brands = await repository.ListAsync(new BrandFilterSpec(filter), cancellationToken);
 
         var totalRecords = await repository.CountAsync(cancellationToken);
 

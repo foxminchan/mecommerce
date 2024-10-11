@@ -16,9 +16,7 @@ internal sealed class ListVariantsPaginationHandler(IRepository<Variant> reposit
     {
         var filter = request.Filter;
 
-        var spec = new VariantFilterSpec(filter.PageIndex, filter.PageSize);
-
-        var variants = await repository.ListAsync(spec, cancellationToken);
+        var variants = await repository.ListAsync(new VariantFilterSpec(filter), cancellationToken);
 
         var totalRecords = await repository.CountAsync(cancellationToken);
 

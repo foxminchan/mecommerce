@@ -2,18 +2,18 @@
 
 public sealed class BrandFilterSpec : Specification<Brand>
 {
-    public BrandFilterSpec(int pageIndex, int pageSize, string? name)
+    public BrandFilterSpec(PaginationWithSearchRequest request)
     {
+        if (!string.IsNullOrWhiteSpace(request.Search))
+        {
+            Query.Where(brand => brand.Name!.Contains(request.Search));
+        }
+
         Query
             .Where(brand => !brand.IsDeleted)
             .OrderBy(brand => brand.DisplayOrder)
-            .Skip((pageIndex - 1) * pageSize)
-            .Take(pageSize);
-
-        if (!string.IsNullOrWhiteSpace(name))
-        {
-            Query.Where(brand => brand.Name!.Contains(name));
-        }
+            .Skip((request.PageIndex - 1) * request.PageSize)
+            .Take(request.PageSize);
     }
 
     public BrandFilterSpec(long id)
