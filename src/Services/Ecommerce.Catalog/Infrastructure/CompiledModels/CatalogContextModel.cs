@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 #pragma warning disable 219, 612, 618
 #nullable disable
 
-namespace Ecommerce.Catalog.Infrastructure.CompliedModels
+namespace Ecommerce.Catalog.Infrastructure.CompiledModels
 {
     [DbContext(typeof(CatalogContext))]
     public partial class CatalogContextModel : RuntimeModel

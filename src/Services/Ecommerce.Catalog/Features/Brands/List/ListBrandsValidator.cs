@@ -5,6 +5,7 @@ internal sealed class ListBrandsValidator : AbstractValidator<ListBrandsQuery>
     public ListBrandsValidator()
     {
         RuleFor(x => x.Filter)
+            .NotNull()
             .ChildRules(x =>
             {
                 x.RuleFor(y => y.PageIndex).GreaterThan(0);

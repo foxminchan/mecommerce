@@ -6,6 +6,7 @@ internal sealed class ListVariantsPaginationValidator
     public ListVariantsPaginationValidator()
     {
         RuleFor(x => x.Filter)
+            .NotNull()
             .ChildRules(x =>
             {
                 x.RuleFor(y => y.PageIndex).GreaterThan(0);

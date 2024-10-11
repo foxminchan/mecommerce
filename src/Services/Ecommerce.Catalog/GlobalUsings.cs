@@ -5,7 +5,7 @@ global using Ardalis.Specification.EntityFrameworkCore;
 global using Ecommerce.Catalog.Extensions;
 global using Ecommerce.Catalog.Features.Products.Dtos;
 global using Ecommerce.Catalog.Infrastructure;
-global using Ecommerce.Catalog.Infrastructure.CompliedModels;
+global using Ecommerce.Catalog.Infrastructure.CompiledModels;
 global using Ecommerce.Catalog.Services;
 global using Ecommerce.Constant;
 global using Ecommerce.EF;

@@ -7,4 +7,7 @@ public record PaginationRequest(
     int PageSize = Pagination.DefaultPageSize
 );
 
-public sealed record PaginationWithSearchRequest(string? Search = null) : PaginationRequest;
+public record PaginationWithSearchRequest(string? Search = null) : PaginationRequest;
+
+public record PaginationWithFilterRequest(string? SortBy = null, bool IsDescending = false)
+    : PaginationWithSearchRequest;

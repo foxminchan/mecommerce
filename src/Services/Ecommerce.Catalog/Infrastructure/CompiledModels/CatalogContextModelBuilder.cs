@@ -11,7 +11,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 #pragma warning disable 219, 612, 618
 #nullable disable
 
-namespace Ecommerce.Catalog.Infrastructure.CompliedModels
+namespace Ecommerce.Catalog.Infrastructure.CompiledModels
 {
     public partial class CatalogContextModel
     {
@@ -20,14 +20,15 @@ namespace Ecommerce.Catalog.Infrastructure.CompliedModels
             var brand = BrandEntityType.Create(this);
             var category = CategoryEntityType.Create(this);
             var productCategory = ProductCategoryEntityType.Create(this);
-            var price = PriceEntityType.Create(this);
             var product = ProductEntityType.Create(this);
+            var price = PriceEntityType.Create(this);
             var productImage = ProductImageEntityType.Create(this);
             var productRelated = ProductRelatedEntityType.Create(this);
             var productAttribute = ProductAttributeEntityType.Create(this);
             var productAttributeCombination = ProductAttributeCombinationEntityType.Create(this);
             var productAttributeGroup = ProductAttributeGroupEntityType.Create(this);
             var productVariant = ProductVariantEntityType.Create(this);
+            var price0 = Price0EntityType.Create(this);
             var productVariantCombination = ProductVariantCombinationEntityType.Create(this);
             var variant = VariantEntityType.Create(this);
             var inboxState = InboxStateEntityType.Create(this);
@@ -37,8 +38,8 @@ namespace Ecommerce.Catalog.Infrastructure.CompliedModels
             CategoryEntityType.CreateForeignKey1(category, category);
             ProductCategoryEntityType.CreateForeignKey1(productCategory, category);
             ProductCategoryEntityType.CreateForeignKey2(productCategory, product);
-            PriceEntityType.CreateForeignKey1(price, productVariant);
             ProductEntityType.CreateForeignKey1(product, brand);
+            PriceEntityType.CreateForeignKey1(price, product);
             ProductImageEntityType.CreateForeignKey1(productImage, product);
             ProductRelatedEntityType.CreateForeignKey1(productRelated, product);
             ProductRelatedEntityType.CreateForeignKey2(productRelated, product);
@@ -46,20 +47,22 @@ namespace Ecommerce.Catalog.Infrastructure.CompliedModels
             ProductAttributeCombinationEntityType.CreateForeignKey1(productAttributeCombination, productAttribute);
             ProductAttributeCombinationEntityType.CreateForeignKey2(productAttributeCombination, product);
             ProductVariantEntityType.CreateForeignKey1(productVariant, product);
+            Price0EntityType.CreateForeignKey1(price0, productVariant);
             ProductVariantCombinationEntityType.CreateForeignKey1(productVariantCombination, productVariant);
             ProductVariantCombinationEntityType.CreateForeignKey2(productVariantCombination, variant);
 
             BrandEntityType.CreateAnnotations(brand);
             CategoryEntityType.CreateAnnotations(category);
             ProductCategoryEntityType.CreateAnnotations(productCategory);
-            PriceEntityType.CreateAnnotations(price);
             ProductEntityType.CreateAnnotations(product);
+            PriceEntityType.CreateAnnotations(price);
             ProductImageEntityType.CreateAnnotations(productImage);
             ProductRelatedEntityType.CreateAnnotations(productRelated);
             ProductAttributeEntityType.CreateAnnotations(productAttribute);
             ProductAttributeCombinationEntityType.CreateAnnotations(productAttributeCombination);
             ProductAttributeGroupEntityType.CreateAnnotations(productAttributeGroup);
             ProductVariantEntityType.CreateAnnotations(productVariant);
+            Price0EntityType.CreateAnnotations(price0);
             ProductVariantCombinationEntityType.CreateAnnotations(productVariantCombination);
             VariantEntityType.CreateAnnotations(variant);
             InboxStateEntityType.CreateAnnotations(inboxState);
@@ -67,7 +70,7 @@ namespace Ecommerce.Catalog.Infrastructure.CompliedModels
             OutboxStateEntityType.CreateAnnotations(outboxState);
 
             AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-            AddAnnotation("ProductVersion", "8.0.8");
+            AddAnnotation("ProductVersion", "8.0.10");
             AddAnnotation("Relational:MaxIdentifierLength", 63);
             AddRuntimeAnnotation("Relational:RelationalModel", CreateRelationalModel());
         }
@@ -477,107 +480,10 @@ namespace Ecommerce.Catalog.Infrastructure.CompliedModels
             RelationalModel.CreateColumnMapping(category_idColumn, productCategory.FindProperty("CategoryId")!, product_categoriesTableMapping);
             RelationalModel.CreateColumnMapping(product_idColumn, productCategory.FindProperty("ProductId")!, product_categoriesTableMapping);
 
-            var price = FindEntityType("Ecommerce.Catalog.Domain.ProductAggregate.Price")!;
-
-            var defaultTableMappings2 = new List<TableMappingBase<ColumnMappingBase>>();
-            price.SetRuntimeAnnotation("Relational:DefaultMappings", defaultTableMappings2);
-            var ecommerceCatalogDomainProductAggregatePriceTableBase = new TableBase("Ecommerce.Catalog.Domain.ProductAggregate.Price", null, relationalModel);
-            var idColumnBase2 = new ColumnBase<ColumnMappingBase>("id", "bigint", ecommerceCatalogDomainProductAggregatePriceTableBase);
-            ecommerceCatalogDomainProductAggregatePriceTableBase.Columns.Add("id", idColumnBase2);
-            var price_discount_priceColumnBase = new ColumnBase<ColumnMappingBase>("price_discount_price", "numeric(18,2)", ecommerceCatalogDomainProductAggregatePriceTableBase)
-            {
-                IsNullable = true
-            };
-            ecommerceCatalogDomainProductAggregatePriceTableBase.Columns.Add("price_discount_price", price_discount_priceColumnBase);
-            var price_original_priceColumnBase = new ColumnBase<ColumnMappingBase>("price_original_price", "numeric(18,2)", ecommerceCatalogDomainProductAggregatePriceTableBase);
-            ecommerceCatalogDomainProductAggregatePriceTableBase.Columns.Add("price_original_price", price_original_priceColumnBase);
-            relationalModel.DefaultTables.Add("Ecommerce.Catalog.Domain.ProductAggregate.Price", ecommerceCatalogDomainProductAggregatePriceTableBase);
-            var ecommerceCatalogDomainProductAggregatePriceMappingBase = new TableMappingBase<ColumnMappingBase>(price, ecommerceCatalogDomainProductAggregatePriceTableBase, true);
-            ecommerceCatalogDomainProductAggregatePriceTableBase.AddTypeMapping(ecommerceCatalogDomainProductAggregatePriceMappingBase, false);
-            defaultTableMappings2.Add(ecommerceCatalogDomainProductAggregatePriceMappingBase);
-            RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)idColumnBase2, price.FindProperty("ProductVariantId")!, ecommerceCatalogDomainProductAggregatePriceMappingBase);
-            RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)price_discount_priceColumnBase, price.FindProperty("DiscountPrice")!, ecommerceCatalogDomainProductAggregatePriceMappingBase);
-            RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)price_original_priceColumnBase, price.FindProperty("OriginalPrice")!, ecommerceCatalogDomainProductAggregatePriceMappingBase);
-
-            var tableMappings2 = new List<TableMapping>();
-            price.SetRuntimeAnnotation("Relational:TableMappings", tableMappings2);
-            var product_variantsTable = new Table("product_variants", null, relationalModel);
-            var idColumn2 = new Column("id", "bigint", product_variantsTable);
-            product_variantsTable.Columns.Add("id", idColumn2);
-            idColumn2.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-            var display_orderColumn1 = new Column("display_order", "integer", product_variantsTable);
-            product_variantsTable.Columns.Add("display_order", display_orderColumn1);
-            var price_discount_priceColumn = new Column("price_discount_price", "numeric(18,2)", product_variantsTable)
-            {
-                IsNullable = true
-            };
-            product_variantsTable.Columns.Add("price_discount_price", price_discount_priceColumn);
-            var price_original_priceColumn = new Column("price_original_price", "numeric(18,2)", product_variantsTable)
-            {
-                IsNullable = true
-            };
-            product_variantsTable.Columns.Add("price_original_price", price_original_priceColumn);
-            var product_idColumn0 = new Column("product_id", "uuid", product_variantsTable);
-            product_variantsTable.Columns.Add("product_id", product_idColumn0);
-            var skuColumn = new Column("sku", "character varying(50)", product_variantsTable);
-            product_variantsTable.Columns.Add("sku", skuColumn);
-            var pk_product_variants = new UniqueConstraint("pk_product_variants", product_variantsTable, new[] { idColumn2 });
-            product_variantsTable.PrimaryKey = pk_product_variants;
-            var pk_product_variantsUc = RelationalModel.GetKey(this,
-                "Ecommerce.Catalog.Domain.VariantAggregate.ProductVariant",
-                new[] { "Id" });
-            pk_product_variants.MappedKeys.Add(pk_product_variantsUc);
-            RelationalModel.GetOrCreateUniqueConstraints(pk_product_variantsUc).Add(pk_product_variants);
-            var pk_product_variantsUc0 = RelationalModel.GetKey(this,
-                "Ecommerce.Catalog.Domain.ProductAggregate.Price",
-                new[] { "ProductVariantId" });
-            pk_product_variants.MappedKeys.Add(pk_product_variantsUc0);
-            RelationalModel.GetOrCreateUniqueConstraints(pk_product_variantsUc0).Add(pk_product_variants);
-            product_variantsTable.UniqueConstraints.Add("pk_product_variants", pk_product_variants);
-            var ix_product_variants_display_order = new TableIndex(
-            "ix_product_variants_display_order", product_variantsTable, new[] { display_orderColumn1 }, true);
-            var ix_product_variants_display_orderIx = RelationalModel.GetIndex(this,
-                "Ecommerce.Catalog.Domain.VariantAggregate.ProductVariant",
-                new[] { "DisplayOrder" });
-            ix_product_variants_display_order.MappedIndexes.Add(ix_product_variants_display_orderIx);
-            RelationalModel.GetOrCreateTableIndexes(ix_product_variants_display_orderIx).Add(ix_product_variants_display_order);
-            product_variantsTable.Indexes.Add("ix_product_variants_display_order", ix_product_variants_display_order);
-            var ix_product_variants_product_id = new TableIndex(
-            "ix_product_variants_product_id", product_variantsTable, new[] { product_idColumn0 }, false);
-            var ix_product_variants_product_idIx = RelationalModel.GetIndex(this,
-                "Ecommerce.Catalog.Domain.VariantAggregate.ProductVariant",
-                new[] { "ProductId" });
-            ix_product_variants_product_id.MappedIndexes.Add(ix_product_variants_product_idIx);
-            RelationalModel.GetOrCreateTableIndexes(ix_product_variants_product_idIx).Add(ix_product_variants_product_id);
-            product_variantsTable.Indexes.Add("ix_product_variants_product_id", ix_product_variants_product_id);
-            var ix_product_variants_sku = new TableIndex(
-            "ix_product_variants_sku", product_variantsTable, new[] { skuColumn }, true);
-            var ix_product_variants_skuIx = RelationalModel.GetIndex(this,
-                "Ecommerce.Catalog.Domain.VariantAggregate.ProductVariant",
-                new[] { "Sku" });
-            ix_product_variants_sku.MappedIndexes.Add(ix_product_variants_skuIx);
-            RelationalModel.GetOrCreateTableIndexes(ix_product_variants_skuIx).Add(ix_product_variants_sku);
-            product_variantsTable.Indexes.Add("ix_product_variants_sku", ix_product_variants_sku);
-            relationalModel.Tables.Add(("product_variants", null), product_variantsTable);
-            var product_variantsTableMapping = new TableMapping(price, product_variantsTable, true)
-            {
-                IsSharedTablePrincipal = false,
-            };
-            product_variantsTable.AddTypeMapping(product_variantsTableMapping, true);
-            tableMappings2.Add(product_variantsTableMapping);
-            product_variantsTable.AddRowInternalForeignKey(price, RelationalModel.GetForeignKey(this,
-                "Ecommerce.Catalog.Domain.ProductAggregate.Price",
-                new[] { "ProductVariantId" },
-                "Ecommerce.Catalog.Domain.VariantAggregate.ProductVariant",
-                new[] { "Id" }));
-            RelationalModel.CreateColumnMapping(idColumn2, price.FindProperty("ProductVariantId")!, product_variantsTableMapping);
-            RelationalModel.CreateColumnMapping(price_discount_priceColumn, price.FindProperty("DiscountPrice")!, product_variantsTableMapping);
-            RelationalModel.CreateColumnMapping(price_original_priceColumn, price.FindProperty("OriginalPrice")!, product_variantsTableMapping);
-
             var product = FindEntityType("Ecommerce.Catalog.Domain.ProductAggregate.Product")!;
 
-            var defaultTableMappings3 = new List<TableMappingBase<ColumnMappingBase>>();
-            product.SetRuntimeAnnotation("Relational:DefaultMappings", defaultTableMappings3);
+            var defaultTableMappings2 = new List<TableMappingBase<ColumnMappingBase>>();
+            product.SetRuntimeAnnotation("Relational:DefaultMappings", defaultTableMappings2);
             var ecommerceCatalogDomainProductAggregateProductTableBase = new TableBase("Ecommerce.Catalog.Domain.ProductAggregate.Product", null, relationalModel);
             var average_ratingColumnBase = new ColumnBase<ColumnMappingBase>("average_rating", "double precision", ecommerceCatalogDomainProductAggregateProductTableBase);
             ecommerceCatalogDomainProductAggregateProductTableBase.Columns.Add("average_rating", average_ratingColumnBase);
@@ -598,8 +504,8 @@ namespace Ecommerce.Catalog.Infrastructure.CompliedModels
                 IsNullable = true
             };
             ecommerceCatalogDomainProductAggregateProductTableBase.Columns.Add("gtin", gtinColumnBase);
-            var idColumnBase3 = new ColumnBase<ColumnMappingBase>("id", "uuid", ecommerceCatalogDomainProductAggregateProductTableBase);
-            ecommerceCatalogDomainProductAggregateProductTableBase.Columns.Add("id", idColumnBase3);
+            var idColumnBase2 = new ColumnBase<ColumnMappingBase>("id", "uuid", ecommerceCatalogDomainProductAggregateProductTableBase);
+            ecommerceCatalogDomainProductAggregateProductTableBase.Columns.Add("id", idColumnBase2);
             var is_deletedColumnBase1 = new ColumnBase<ColumnMappingBase>("is_deleted", "boolean", ecommerceCatalogDomainProductAggregateProductTableBase);
             ecommerceCatalogDomainProductAggregateProductTableBase.Columns.Add("is_deleted", is_deletedColumnBase1);
             var is_discontinuedColumnBase = new ColumnBase<ColumnMappingBase>("is_discontinued", "boolean", ecommerceCatalogDomainProductAggregateProductTableBase);
@@ -661,8 +567,8 @@ namespace Ecommerce.Catalog.Infrastructure.CompliedModels
             relationalModel.DefaultTables.Add("Ecommerce.Catalog.Domain.ProductAggregate.Product", ecommerceCatalogDomainProductAggregateProductTableBase);
             var ecommerceCatalogDomainProductAggregateProductMappingBase = new TableMappingBase<ColumnMappingBase>(product, ecommerceCatalogDomainProductAggregateProductTableBase, true);
             ecommerceCatalogDomainProductAggregateProductTableBase.AddTypeMapping(ecommerceCatalogDomainProductAggregateProductMappingBase, false);
-            defaultTableMappings3.Add(ecommerceCatalogDomainProductAggregateProductMappingBase);
-            RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)idColumnBase3, product.FindProperty("Id")!, ecommerceCatalogDomainProductAggregateProductMappingBase);
+            defaultTableMappings2.Add(ecommerceCatalogDomainProductAggregateProductMappingBase);
+            RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)idColumnBase2, product.FindProperty("Id")!, ecommerceCatalogDomainProductAggregateProductMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)average_ratingColumnBase, product.FindProperty("AverageRating")!, ecommerceCatalogDomainProductAggregateProductMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)brand_idColumnBase, product.FindProperty("BrandId")!, ecommerceCatalogDomainProductAggregateProductMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)created_atColumnBase1, product.FindProperty("CreatedAt")!, ecommerceCatalogDomainProductAggregateProductMappingBase);
@@ -686,11 +592,11 @@ namespace Ecommerce.Catalog.Infrastructure.CompliedModels
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)total_reviewsColumnBase, product.FindProperty("TotalReviews")!, ecommerceCatalogDomainProductAggregateProductMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)versionColumnBase1, product.FindProperty("Version")!, ecommerceCatalogDomainProductAggregateProductMappingBase);
 
-            var tableMappings3 = new List<TableMapping>();
-            product.SetRuntimeAnnotation("Relational:TableMappings", tableMappings3);
+            var tableMappings2 = new List<TableMapping>();
+            product.SetRuntimeAnnotation("Relational:TableMappings", tableMappings2);
             var productsTable = new Table("products", null, relationalModel);
-            var idColumn3 = new Column("id", "uuid", productsTable);
-            productsTable.Columns.Add("id", idColumn3);
+            var idColumn2 = new Column("id", "uuid", productsTable);
+            productsTable.Columns.Add("id", idColumn2);
             var average_ratingColumn = new Column("average_rating", "double precision", productsTable);
             productsTable.Columns.Add("average_rating", average_ratingColumn);
             var brand_idColumn = new Column("brand_id", "bigint", productsTable)
@@ -740,6 +646,16 @@ namespace Ecommerce.Catalog.Infrastructure.CompliedModels
             productsTable.Columns.Add("meta_title", meta_titleColumn1);
             var nameColumn1 = new Column("name", "character varying(255)", productsTable);
             productsTable.Columns.Add("name", nameColumn1);
+            var price_discount_priceColumn = new Column("price_discount_price", "numeric(18,2)", productsTable)
+            {
+                IsNullable = true
+            };
+            productsTable.Columns.Add("price_discount_price", price_discount_priceColumn);
+            var price_original_priceColumn = new Column("price_original_price", "numeric(18,2)", productsTable)
+            {
+                IsNullable = true
+            };
+            productsTable.Columns.Add("price_original_price", price_original_priceColumn);
             var search_vectorColumn = new Column("search_vector", "tsvector", productsTable)
             {
                 IsNullable = true
@@ -768,13 +684,18 @@ namespace Ecommerce.Catalog.Infrastructure.CompliedModels
             productsTable.Columns.Add("total_reviews", total_reviewsColumn);
             var versionColumn1 = new Column("version", "uuid", productsTable);
             productsTable.Columns.Add("version", versionColumn1);
-            var pk_products = new UniqueConstraint("pk_products", productsTable, new[] { idColumn3 });
+            var pk_products = new UniqueConstraint("pk_products", productsTable, new[] { idColumn2 });
             productsTable.PrimaryKey = pk_products;
             var pk_productsUc = RelationalModel.GetKey(this,
                 "Ecommerce.Catalog.Domain.ProductAggregate.Product",
                 new[] { "Id" });
             pk_products.MappedKeys.Add(pk_productsUc);
             RelationalModel.GetOrCreateUniqueConstraints(pk_productsUc).Add(pk_products);
+            var pk_productsUc0 = RelationalModel.GetKey(this,
+                "Ecommerce.Catalog.Domain.ProductAggregate.Product.Price#Price",
+                new[] { "ProductId" });
+            pk_products.MappedKeys.Add(pk_productsUc0);
+            RelationalModel.GetOrCreateUniqueConstraints(pk_productsUc0).Add(pk_products);
             productsTable.UniqueConstraints.Add("pk_products", pk_products);
             var ix_products_brand_id = new TableIndex(
             "ix_products_brand_id", productsTable, new[] { brand_idColumn }, false);
@@ -801,10 +722,13 @@ namespace Ecommerce.Catalog.Infrastructure.CompliedModels
             RelationalModel.GetOrCreateTableIndexes(ix_products_slugIx).Add(ix_products_slug);
             productsTable.Indexes.Add("ix_products_slug", ix_products_slug);
             relationalModel.Tables.Add(("products", null), productsTable);
-            var productsTableMapping = new TableMapping(product, productsTable, true);
+            var productsTableMapping = new TableMapping(product, productsTable, true)
+            {
+                IsSharedTablePrincipal = true,
+            };
             productsTable.AddTypeMapping(productsTableMapping, false);
-            tableMappings3.Add(productsTableMapping);
-            RelationalModel.CreateColumnMapping(idColumn3, product.FindProperty("Id")!, productsTableMapping);
+            tableMappings2.Add(productsTableMapping);
+            RelationalModel.CreateColumnMapping(idColumn2, product.FindProperty("Id")!, productsTableMapping);
             RelationalModel.CreateColumnMapping(average_ratingColumn, product.FindProperty("AverageRating")!, productsTableMapping);
             RelationalModel.CreateColumnMapping(brand_idColumn, product.FindProperty("BrandId")!, productsTableMapping);
             RelationalModel.CreateColumnMapping(created_atColumn1, product.FindProperty("CreatedAt")!, productsTableMapping);
@@ -828,6 +752,45 @@ namespace Ecommerce.Catalog.Infrastructure.CompliedModels
             RelationalModel.CreateColumnMapping(total_reviewsColumn, product.FindProperty("TotalReviews")!, productsTableMapping);
             RelationalModel.CreateColumnMapping(versionColumn1, product.FindProperty("Version")!, productsTableMapping);
 
+            var price = FindEntityType("Ecommerce.Catalog.Domain.ProductAggregate.Product.Price#Price")!;
+
+            var defaultTableMappings3 = new List<TableMappingBase<ColumnMappingBase>>();
+            price.SetRuntimeAnnotation("Relational:DefaultMappings", defaultTableMappings3);
+            var ecommerceCatalogDomainProductAggregateProductPricePriceTableBase = new TableBase("Ecommerce.Catalog.Domain.ProductAggregate.Product.Price#Price", null, relationalModel);
+            var idColumnBase3 = new ColumnBase<ColumnMappingBase>("id", "uuid", ecommerceCatalogDomainProductAggregateProductPricePriceTableBase);
+            ecommerceCatalogDomainProductAggregateProductPricePriceTableBase.Columns.Add("id", idColumnBase3);
+            var price_discount_priceColumnBase = new ColumnBase<ColumnMappingBase>("price_discount_price", "numeric(18,2)", ecommerceCatalogDomainProductAggregateProductPricePriceTableBase)
+            {
+                IsNullable = true
+            };
+            ecommerceCatalogDomainProductAggregateProductPricePriceTableBase.Columns.Add("price_discount_price", price_discount_priceColumnBase);
+            var price_original_priceColumnBase = new ColumnBase<ColumnMappingBase>("price_original_price", "numeric(18,2)", ecommerceCatalogDomainProductAggregateProductPricePriceTableBase);
+            ecommerceCatalogDomainProductAggregateProductPricePriceTableBase.Columns.Add("price_original_price", price_original_priceColumnBase);
+            relationalModel.DefaultTables.Add("Ecommerce.Catalog.Domain.ProductAggregate.Product.Price#Price", ecommerceCatalogDomainProductAggregateProductPricePriceTableBase);
+            var ecommerceCatalogDomainProductAggregateProductPricePriceMappingBase = new TableMappingBase<ColumnMappingBase>(price, ecommerceCatalogDomainProductAggregateProductPricePriceTableBase, true);
+            ecommerceCatalogDomainProductAggregateProductPricePriceTableBase.AddTypeMapping(ecommerceCatalogDomainProductAggregateProductPricePriceMappingBase, false);
+            defaultTableMappings3.Add(ecommerceCatalogDomainProductAggregateProductPricePriceMappingBase);
+            RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)idColumnBase3, price.FindProperty("ProductId")!, ecommerceCatalogDomainProductAggregateProductPricePriceMappingBase);
+            RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)price_discount_priceColumnBase, price.FindProperty("DiscountPrice")!, ecommerceCatalogDomainProductAggregateProductPricePriceMappingBase);
+            RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)price_original_priceColumnBase, price.FindProperty("OriginalPrice")!, ecommerceCatalogDomainProductAggregateProductPricePriceMappingBase);
+
+            var tableMappings3 = new List<TableMapping>();
+            price.SetRuntimeAnnotation("Relational:TableMappings", tableMappings3);
+            var productsTableMapping0 = new TableMapping(price, productsTable, true)
+            {
+                IsSharedTablePrincipal = false,
+            };
+            productsTable.AddTypeMapping(productsTableMapping0, true);
+            tableMappings3.Add(productsTableMapping0);
+            productsTable.AddRowInternalForeignKey(price, RelationalModel.GetForeignKey(this,
+                "Ecommerce.Catalog.Domain.ProductAggregate.Product.Price#Price",
+                new[] { "ProductId" },
+                "Ecommerce.Catalog.Domain.ProductAggregate.Product",
+                new[] { "Id" }));
+            RelationalModel.CreateColumnMapping(idColumn2, price.FindProperty("ProductId")!, productsTableMapping0);
+            RelationalModel.CreateColumnMapping(price_discount_priceColumn, price.FindProperty("DiscountPrice")!, productsTableMapping0);
+            RelationalModel.CreateColumnMapping(price_original_priceColumn, price.FindProperty("OriginalPrice")!, productsTableMapping0);
+
             var productImage = FindEntityType("Ecommerce.Catalog.Domain.ProductAggregate.ProductImage")!;
 
             var defaultTableMappings4 = new List<TableMappingBase<ColumnMappingBase>>();
@@ -850,14 +813,14 @@ namespace Ecommerce.Catalog.Infrastructure.CompliedModels
             var tableMappings4 = new List<TableMapping>();
             productImage.SetRuntimeAnnotation("Relational:TableMappings", tableMappings4);
             var product_imagesTable = new Table("product_images", null, relationalModel);
-            var idColumn4 = new Column("id", "bigint", product_imagesTable);
-            product_imagesTable.Columns.Add("id", idColumn4);
-            idColumn4.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-            var product_idColumn1 = new Column("product_id", "uuid", product_imagesTable);
-            product_imagesTable.Columns.Add("product_id", product_idColumn1);
+            var idColumn3 = new Column("id", "bigint", product_imagesTable);
+            product_imagesTable.Columns.Add("id", idColumn3);
+            idColumn3.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+            var product_idColumn0 = new Column("product_id", "uuid", product_imagesTable);
+            product_imagesTable.Columns.Add("product_id", product_idColumn0);
             var image_idColumn = new Column("image_id", "uuid", product_imagesTable);
             product_imagesTable.Columns.Add("image_id", image_idColumn);
-            var pk_product_images = new UniqueConstraint("pk_product_images", product_imagesTable, new[] { idColumn4, product_idColumn1 });
+            var pk_product_images = new UniqueConstraint("pk_product_images", product_imagesTable, new[] { idColumn3, product_idColumn0 });
             product_imagesTable.PrimaryKey = pk_product_images;
             var pk_product_imagesUc = RelationalModel.GetKey(this,
                 "Ecommerce.Catalog.Domain.ProductAggregate.ProductImage",
@@ -866,7 +829,7 @@ namespace Ecommerce.Catalog.Infrastructure.CompliedModels
             RelationalModel.GetOrCreateUniqueConstraints(pk_product_imagesUc).Add(pk_product_images);
             product_imagesTable.UniqueConstraints.Add("pk_product_images", pk_product_images);
             var ix_product_images_product_id = new TableIndex(
-            "ix_product_images_product_id", product_imagesTable, new[] { product_idColumn1 }, false);
+            "ix_product_images_product_id", product_imagesTable, new[] { product_idColumn0 }, false);
             var ix_product_images_product_idIx = RelationalModel.GetIndex(this,
                 "Ecommerce.Catalog.Domain.ProductAggregate.ProductImage",
                 new[] { "ProductId" });
@@ -877,8 +840,8 @@ namespace Ecommerce.Catalog.Infrastructure.CompliedModels
             var product_imagesTableMapping = new TableMapping(productImage, product_imagesTable, true);
             product_imagesTable.AddTypeMapping(product_imagesTableMapping, false);
             tableMappings4.Add(product_imagesTableMapping);
-            RelationalModel.CreateColumnMapping(idColumn4, productImage.FindProperty("Id")!, product_imagesTableMapping);
-            RelationalModel.CreateColumnMapping(product_idColumn1, productImage.FindProperty("ProductId")!, product_imagesTableMapping);
+            RelationalModel.CreateColumnMapping(idColumn3, productImage.FindProperty("Id")!, product_imagesTableMapping);
+            RelationalModel.CreateColumnMapping(product_idColumn0, productImage.FindProperty("ProductId")!, product_imagesTableMapping);
             RelationalModel.CreateColumnMapping(image_idColumn, productImage.FindProperty("ImageId")!, product_imagesTableMapping);
 
             var productRelated = FindEntityType("Ecommerce.Catalog.Domain.ProductAggregate.ProductRelated")!;
@@ -903,14 +866,14 @@ namespace Ecommerce.Catalog.Infrastructure.CompliedModels
             var tableMappings5 = new List<TableMapping>();
             productRelated.SetRuntimeAnnotation("Relational:TableMappings", tableMappings5);
             var product_relatedsTable = new Table("product_relateds", null, relationalModel);
-            var idColumn5 = new Column("id", "bigint", product_relatedsTable);
-            product_relatedsTable.Columns.Add("id", idColumn5);
-            idColumn5.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-            var product_idColumn2 = new Column("product_id", "uuid", product_relatedsTable);
-            product_relatedsTable.Columns.Add("product_id", product_idColumn2);
+            var idColumn4 = new Column("id", "bigint", product_relatedsTable);
+            product_relatedsTable.Columns.Add("id", idColumn4);
+            idColumn4.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+            var product_idColumn1 = new Column("product_id", "uuid", product_relatedsTable);
+            product_relatedsTable.Columns.Add("product_id", product_idColumn1);
             var related_product_idColumn = new Column("related_product_id", "uuid", product_relatedsTable);
             product_relatedsTable.Columns.Add("related_product_id", related_product_idColumn);
-            var pk_product_relateds = new UniqueConstraint("pk_product_relateds", product_relatedsTable, new[] { idColumn5 });
+            var pk_product_relateds = new UniqueConstraint("pk_product_relateds", product_relatedsTable, new[] { idColumn4 });
             product_relatedsTable.PrimaryKey = pk_product_relateds;
             var pk_product_relatedsUc = RelationalModel.GetKey(this,
                 "Ecommerce.Catalog.Domain.ProductAggregate.ProductRelated",
@@ -919,7 +882,7 @@ namespace Ecommerce.Catalog.Infrastructure.CompliedModels
             RelationalModel.GetOrCreateUniqueConstraints(pk_product_relatedsUc).Add(pk_product_relateds);
             product_relatedsTable.UniqueConstraints.Add("pk_product_relateds", pk_product_relateds);
             var ix_product_relateds_product_id = new TableIndex(
-            "ix_product_relateds_product_id", product_relatedsTable, new[] { product_idColumn2 }, false);
+            "ix_product_relateds_product_id", product_relatedsTable, new[] { product_idColumn1 }, false);
             var ix_product_relateds_product_idIx = RelationalModel.GetIndex(this,
                 "Ecommerce.Catalog.Domain.ProductAggregate.ProductRelated",
                 new[] { "ProductId" });
@@ -938,8 +901,8 @@ namespace Ecommerce.Catalog.Infrastructure.CompliedModels
             var product_relatedsTableMapping = new TableMapping(productRelated, product_relatedsTable, true);
             product_relatedsTable.AddTypeMapping(product_relatedsTableMapping, false);
             tableMappings5.Add(product_relatedsTableMapping);
-            RelationalModel.CreateColumnMapping(idColumn5, productRelated.FindProperty("Id")!, product_relatedsTableMapping);
-            RelationalModel.CreateColumnMapping(product_idColumn2, productRelated.FindProperty("ProductId")!, product_relatedsTableMapping);
+            RelationalModel.CreateColumnMapping(idColumn4, productRelated.FindProperty("Id")!, product_relatedsTableMapping);
+            RelationalModel.CreateColumnMapping(product_idColumn1, productRelated.FindProperty("ProductId")!, product_relatedsTableMapping);
             RelationalModel.CreateColumnMapping(related_product_idColumn, productRelated.FindProperty("RelatedProductId")!, product_relatedsTableMapping);
 
             var productAttribute = FindEntityType("Ecommerce.Catalog.Domain.ProductAttributeAggregate.ProductAttribute")!;
@@ -979,9 +942,9 @@ namespace Ecommerce.Catalog.Infrastructure.CompliedModels
             var tableMappings6 = new List<TableMapping>();
             productAttribute.SetRuntimeAnnotation("Relational:TableMappings", tableMappings6);
             var product_attributesTable = new Table("product_attributes", null, relationalModel);
-            var idColumn6 = new Column("id", "bigint", product_attributesTable);
-            product_attributesTable.Columns.Add("id", idColumn6);
-            idColumn6.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+            var idColumn5 = new Column("id", "bigint", product_attributesTable);
+            product_attributesTable.Columns.Add("id", idColumn5);
+            idColumn5.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
             var attribute_group_idColumn = new Column("attribute_group_id", "bigint", product_attributesTable)
             {
                 IsNullable = true
@@ -998,7 +961,7 @@ namespace Ecommerce.Catalog.Infrastructure.CompliedModels
             product_attributesTable.Columns.Add("name", nameColumn2);
             var versionColumn2 = new Column("version", "uuid", product_attributesTable);
             product_attributesTable.Columns.Add("version", versionColumn2);
-            var pk_product_attributes = new UniqueConstraint("pk_product_attributes", product_attributesTable, new[] { idColumn6 });
+            var pk_product_attributes = new UniqueConstraint("pk_product_attributes", product_attributesTable, new[] { idColumn5 });
             product_attributesTable.PrimaryKey = pk_product_attributes;
             var pk_product_attributesUc = RelationalModel.GetKey(this,
                 "Ecommerce.Catalog.Domain.ProductAttributeAggregate.ProductAttribute",
@@ -1018,7 +981,7 @@ namespace Ecommerce.Catalog.Infrastructure.CompliedModels
             var product_attributesTableMapping = new TableMapping(productAttribute, product_attributesTable, true);
             product_attributesTable.AddTypeMapping(product_attributesTableMapping, false);
             tableMappings6.Add(product_attributesTableMapping);
-            RelationalModel.CreateColumnMapping(idColumn6, productAttribute.FindProperty("Id")!, product_attributesTableMapping);
+            RelationalModel.CreateColumnMapping(idColumn5, productAttribute.FindProperty("Id")!, product_attributesTableMapping);
             RelationalModel.CreateColumnMapping(attribute_group_idColumn, productAttribute.FindProperty("AttributeGroupId")!, product_attributesTableMapping);
             RelationalModel.CreateColumnMapping(created_atColumn2, productAttribute.FindProperty("CreatedAt")!, product_attributesTableMapping);
             RelationalModel.CreateColumnMapping(last_modified_atColumn2, productAttribute.FindProperty("LastModifiedAt")!, product_attributesTableMapping);
@@ -1053,18 +1016,18 @@ namespace Ecommerce.Catalog.Infrastructure.CompliedModels
             var tableMappings7 = new List<TableMapping>();
             productAttributeCombination.SetRuntimeAnnotation("Relational:TableMappings", tableMappings7);
             var product_attribute_combinationsTable = new Table("product_attribute_combinations", null, relationalModel);
-            var idColumn7 = new Column("id", "bigint", product_attribute_combinationsTable);
-            product_attribute_combinationsTable.Columns.Add("id", idColumn7);
-            idColumn7.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+            var idColumn6 = new Column("id", "bigint", product_attribute_combinationsTable);
+            product_attribute_combinationsTable.Columns.Add("id", idColumn6);
+            idColumn6.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
             var attribute_idColumn = new Column("attribute_id", "bigint", product_attribute_combinationsTable);
             product_attribute_combinationsTable.Columns.Add("attribute_id", attribute_idColumn);
-            var display_orderColumn2 = new Column("display_order", "integer", product_attribute_combinationsTable);
-            product_attribute_combinationsTable.Columns.Add("display_order", display_orderColumn2);
-            var product_idColumn3 = new Column("product_id", "uuid", product_attribute_combinationsTable);
-            product_attribute_combinationsTable.Columns.Add("product_id", product_idColumn3);
+            var display_orderColumn1 = new Column("display_order", "integer", product_attribute_combinationsTable);
+            product_attribute_combinationsTable.Columns.Add("display_order", display_orderColumn1);
+            var product_idColumn2 = new Column("product_id", "uuid", product_attribute_combinationsTable);
+            product_attribute_combinationsTable.Columns.Add("product_id", product_idColumn2);
             var valueColumn = new Column("value", "character varying(1000)", product_attribute_combinationsTable);
             product_attribute_combinationsTable.Columns.Add("value", valueColumn);
-            var pk_product_attribute_combinations = new UniqueConstraint("pk_product_attribute_combinations", product_attribute_combinationsTable, new[] { idColumn7 });
+            var pk_product_attribute_combinations = new UniqueConstraint("pk_product_attribute_combinations", product_attribute_combinationsTable, new[] { idColumn6 });
             product_attribute_combinationsTable.PrimaryKey = pk_product_attribute_combinations;
             var pk_product_attribute_combinationsUc = RelationalModel.GetKey(this,
                 "Ecommerce.Catalog.Domain.ProductAttributeAggregate.ProductAttributeCombination",
@@ -1081,7 +1044,7 @@ namespace Ecommerce.Catalog.Infrastructure.CompliedModels
             RelationalModel.GetOrCreateTableIndexes(ix_product_attribute_combinations_attribute_idIx).Add(ix_product_attribute_combinations_attribute_id);
             product_attribute_combinationsTable.Indexes.Add("ix_product_attribute_combinations_attribute_id", ix_product_attribute_combinations_attribute_id);
             var ix_product_attribute_combinations_product_id = new TableIndex(
-            "ix_product_attribute_combinations_product_id", product_attribute_combinationsTable, new[] { product_idColumn3 }, false);
+            "ix_product_attribute_combinations_product_id", product_attribute_combinationsTable, new[] { product_idColumn2 }, false);
             var ix_product_attribute_combinations_product_idIx = RelationalModel.GetIndex(this,
                 "Ecommerce.Catalog.Domain.ProductAttributeAggregate.ProductAttributeCombination",
                 new[] { "ProductId" });
@@ -1092,10 +1055,10 @@ namespace Ecommerce.Catalog.Infrastructure.CompliedModels
             var product_attribute_combinationsTableMapping = new TableMapping(productAttributeCombination, product_attribute_combinationsTable, true);
             product_attribute_combinationsTable.AddTypeMapping(product_attribute_combinationsTableMapping, false);
             tableMappings7.Add(product_attribute_combinationsTableMapping);
-            RelationalModel.CreateColumnMapping(idColumn7, productAttributeCombination.FindProperty("Id")!, product_attribute_combinationsTableMapping);
+            RelationalModel.CreateColumnMapping(idColumn6, productAttributeCombination.FindProperty("Id")!, product_attribute_combinationsTableMapping);
             RelationalModel.CreateColumnMapping(attribute_idColumn, productAttributeCombination.FindProperty("AttributeId")!, product_attribute_combinationsTableMapping);
-            RelationalModel.CreateColumnMapping(display_orderColumn2, productAttributeCombination.FindProperty("DisplayOrder")!, product_attribute_combinationsTableMapping);
-            RelationalModel.CreateColumnMapping(product_idColumn3, productAttributeCombination.FindProperty("ProductId")!, product_attribute_combinationsTableMapping);
+            RelationalModel.CreateColumnMapping(display_orderColumn1, productAttributeCombination.FindProperty("DisplayOrder")!, product_attribute_combinationsTableMapping);
+            RelationalModel.CreateColumnMapping(product_idColumn2, productAttributeCombination.FindProperty("ProductId")!, product_attribute_combinationsTableMapping);
             RelationalModel.CreateColumnMapping(valueColumn, productAttributeCombination.FindProperty("Value")!, product_attribute_combinationsTableMapping);
 
             var productAttributeGroup = FindEntityType("Ecommerce.Catalog.Domain.ProductAttributeGroupAggregate.ProductAttributeGroup")!;
@@ -1129,9 +1092,9 @@ namespace Ecommerce.Catalog.Infrastructure.CompliedModels
             var tableMappings8 = new List<TableMapping>();
             productAttributeGroup.SetRuntimeAnnotation("Relational:TableMappings", tableMappings8);
             var product_attribute_groupsTable = new Table("product_attribute_groups", null, relationalModel);
-            var idColumn8 = new Column("id", "bigint", product_attribute_groupsTable);
-            product_attribute_groupsTable.Columns.Add("id", idColumn8);
-            idColumn8.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+            var idColumn7 = new Column("id", "bigint", product_attribute_groupsTable);
+            product_attribute_groupsTable.Columns.Add("id", idColumn7);
+            idColumn7.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
             var created_atColumn3 = new Column("created_at", "timestamp with time zone", product_attribute_groupsTable);
             product_attribute_groupsTable.Columns.Add("created_at", created_atColumn3);
             var last_modified_atColumn3 = new Column("last_modified_at", "timestamp with time zone", product_attribute_groupsTable)
@@ -1143,7 +1106,7 @@ namespace Ecommerce.Catalog.Infrastructure.CompliedModels
             product_attribute_groupsTable.Columns.Add("name", nameColumn3);
             var versionColumn3 = new Column("version", "uuid", product_attribute_groupsTable);
             product_attribute_groupsTable.Columns.Add("version", versionColumn3);
-            var pk_product_attribute_groups = new UniqueConstraint("pk_product_attribute_groups", product_attribute_groupsTable, new[] { idColumn8 });
+            var pk_product_attribute_groups = new UniqueConstraint("pk_product_attribute_groups", product_attribute_groupsTable, new[] { idColumn7 });
             product_attribute_groupsTable.PrimaryKey = pk_product_attribute_groups;
             var pk_product_attribute_groupsUc = RelationalModel.GetKey(this,
                 "Ecommerce.Catalog.Domain.ProductAttributeGroupAggregate.ProductAttributeGroup",
@@ -1163,7 +1126,7 @@ namespace Ecommerce.Catalog.Infrastructure.CompliedModels
             var product_attribute_groupsTableMapping = new TableMapping(productAttributeGroup, product_attribute_groupsTable, true);
             product_attribute_groupsTable.AddTypeMapping(product_attribute_groupsTableMapping, false);
             tableMappings8.Add(product_attribute_groupsTableMapping);
-            RelationalModel.CreateColumnMapping(idColumn8, productAttributeGroup.FindProperty("Id")!, product_attribute_groupsTableMapping);
+            RelationalModel.CreateColumnMapping(idColumn7, productAttributeGroup.FindProperty("Id")!, product_attribute_groupsTableMapping);
             RelationalModel.CreateColumnMapping(created_atColumn3, productAttributeGroup.FindProperty("CreatedAt")!, product_attribute_groupsTableMapping);
             RelationalModel.CreateColumnMapping(last_modified_atColumn3, productAttributeGroup.FindProperty("LastModifiedAt")!, product_attribute_groupsTableMapping);
             RelationalModel.CreateColumnMapping(nameColumn3, productAttributeGroup.FindProperty("Name")!, product_attribute_groupsTableMapping);
@@ -1193,24 +1156,121 @@ namespace Ecommerce.Catalog.Infrastructure.CompliedModels
 
             var tableMappings9 = new List<TableMapping>();
             productVariant.SetRuntimeAnnotation("Relational:TableMappings", tableMappings9);
-            var product_variantsTableMapping0 = new TableMapping(productVariant, product_variantsTable, true)
+            var product_variantsTable = new Table("product_variants", null, relationalModel);
+            var idColumn8 = new Column("id", "bigint", product_variantsTable);
+            product_variantsTable.Columns.Add("id", idColumn8);
+            idColumn8.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+            var display_orderColumn2 = new Column("display_order", "integer", product_variantsTable);
+            product_variantsTable.Columns.Add("display_order", display_orderColumn2);
+            var price_discount_priceColumn0 = new Column("price_discount_price", "numeric(18,2)", product_variantsTable)
+            {
+                IsNullable = true
+            };
+            product_variantsTable.Columns.Add("price_discount_price", price_discount_priceColumn0);
+            var price_original_priceColumn0 = new Column("price_original_price", "numeric(18,2)", product_variantsTable)
+            {
+                IsNullable = true
+            };
+            product_variantsTable.Columns.Add("price_original_price", price_original_priceColumn0);
+            var product_idColumn3 = new Column("product_id", "uuid", product_variantsTable);
+            product_variantsTable.Columns.Add("product_id", product_idColumn3);
+            var skuColumn = new Column("sku", "character varying(50)", product_variantsTable);
+            product_variantsTable.Columns.Add("sku", skuColumn);
+            var pk_product_variants = new UniqueConstraint("pk_product_variants", product_variantsTable, new[] { idColumn8 });
+            product_variantsTable.PrimaryKey = pk_product_variants;
+            var pk_product_variantsUc = RelationalModel.GetKey(this,
+                "Ecommerce.Catalog.Domain.VariantAggregate.ProductVariant",
+                new[] { "Id" });
+            pk_product_variants.MappedKeys.Add(pk_product_variantsUc);
+            RelationalModel.GetOrCreateUniqueConstraints(pk_product_variantsUc).Add(pk_product_variants);
+            var pk_product_variantsUc0 = RelationalModel.GetKey(this,
+                "Ecommerce.Catalog.Domain.VariantAggregate.ProductVariant.Price#Price",
+                new[] { "ProductVariantId" });
+            pk_product_variants.MappedKeys.Add(pk_product_variantsUc0);
+            RelationalModel.GetOrCreateUniqueConstraints(pk_product_variantsUc0).Add(pk_product_variants);
+            product_variantsTable.UniqueConstraints.Add("pk_product_variants", pk_product_variants);
+            var ix_product_variants_display_order = new TableIndex(
+            "ix_product_variants_display_order", product_variantsTable, new[] { display_orderColumn2 }, true);
+            var ix_product_variants_display_orderIx = RelationalModel.GetIndex(this,
+                "Ecommerce.Catalog.Domain.VariantAggregate.ProductVariant",
+                new[] { "DisplayOrder" });
+            ix_product_variants_display_order.MappedIndexes.Add(ix_product_variants_display_orderIx);
+            RelationalModel.GetOrCreateTableIndexes(ix_product_variants_display_orderIx).Add(ix_product_variants_display_order);
+            product_variantsTable.Indexes.Add("ix_product_variants_display_order", ix_product_variants_display_order);
+            var ix_product_variants_product_id = new TableIndex(
+            "ix_product_variants_product_id", product_variantsTable, new[] { product_idColumn3 }, false);
+            var ix_product_variants_product_idIx = RelationalModel.GetIndex(this,
+                "Ecommerce.Catalog.Domain.VariantAggregate.ProductVariant",
+                new[] { "ProductId" });
+            ix_product_variants_product_id.MappedIndexes.Add(ix_product_variants_product_idIx);
+            RelationalModel.GetOrCreateTableIndexes(ix_product_variants_product_idIx).Add(ix_product_variants_product_id);
+            product_variantsTable.Indexes.Add("ix_product_variants_product_id", ix_product_variants_product_id);
+            var ix_product_variants_sku = new TableIndex(
+            "ix_product_variants_sku", product_variantsTable, new[] { skuColumn }, true);
+            var ix_product_variants_skuIx = RelationalModel.GetIndex(this,
+                "Ecommerce.Catalog.Domain.VariantAggregate.ProductVariant",
+                new[] { "Sku" });
+            ix_product_variants_sku.MappedIndexes.Add(ix_product_variants_skuIx);
+            RelationalModel.GetOrCreateTableIndexes(ix_product_variants_skuIx).Add(ix_product_variants_sku);
+            product_variantsTable.Indexes.Add("ix_product_variants_sku", ix_product_variants_sku);
+            relationalModel.Tables.Add(("product_variants", null), product_variantsTable);
+            var product_variantsTableMapping = new TableMapping(productVariant, product_variantsTable, true)
             {
                 IsSharedTablePrincipal = true,
             };
-            product_variantsTable.AddTypeMapping(product_variantsTableMapping0, false);
-            tableMappings9.Add(product_variantsTableMapping0);
-            RelationalModel.CreateColumnMapping(idColumn2, productVariant.FindProperty("Id")!, product_variantsTableMapping0);
-            RelationalModel.CreateColumnMapping(display_orderColumn1, productVariant.FindProperty("DisplayOrder")!, product_variantsTableMapping0);
-            RelationalModel.CreateColumnMapping(product_idColumn0, productVariant.FindProperty("ProductId")!, product_variantsTableMapping0);
-            RelationalModel.CreateColumnMapping(skuColumn, productVariant.FindProperty("Sku")!, product_variantsTableMapping0);
+            product_variantsTable.AddTypeMapping(product_variantsTableMapping, false);
+            tableMappings9.Add(product_variantsTableMapping);
+            RelationalModel.CreateColumnMapping(idColumn8, productVariant.FindProperty("Id")!, product_variantsTableMapping);
+            RelationalModel.CreateColumnMapping(display_orderColumn2, productVariant.FindProperty("DisplayOrder")!, product_variantsTableMapping);
+            RelationalModel.CreateColumnMapping(product_idColumn3, productVariant.FindProperty("ProductId")!, product_variantsTableMapping);
+            RelationalModel.CreateColumnMapping(skuColumn, productVariant.FindProperty("Sku")!, product_variantsTableMapping);
+
+            var price0 = FindEntityType("Ecommerce.Catalog.Domain.VariantAggregate.ProductVariant.Price#Price")!;
+
+            var defaultTableMappings10 = new List<TableMappingBase<ColumnMappingBase>>();
+            price0.SetRuntimeAnnotation("Relational:DefaultMappings", defaultTableMappings10);
+            var ecommerceCatalogDomainVariantAggregateProductVariantPricePriceTableBase = new TableBase("Ecommerce.Catalog.Domain.VariantAggregate.ProductVariant.Price#Price", null, relationalModel);
+            var idColumnBase10 = new ColumnBase<ColumnMappingBase>("id", "bigint", ecommerceCatalogDomainVariantAggregateProductVariantPricePriceTableBase);
+            ecommerceCatalogDomainVariantAggregateProductVariantPricePriceTableBase.Columns.Add("id", idColumnBase10);
+            var price_discount_priceColumnBase0 = new ColumnBase<ColumnMappingBase>("price_discount_price", "numeric(18,2)", ecommerceCatalogDomainVariantAggregateProductVariantPricePriceTableBase)
+            {
+                IsNullable = true
+            };
+            ecommerceCatalogDomainVariantAggregateProductVariantPricePriceTableBase.Columns.Add("price_discount_price", price_discount_priceColumnBase0);
+            var price_original_priceColumnBase0 = new ColumnBase<ColumnMappingBase>("price_original_price", "numeric(18,2)", ecommerceCatalogDomainVariantAggregateProductVariantPricePriceTableBase);
+            ecommerceCatalogDomainVariantAggregateProductVariantPricePriceTableBase.Columns.Add("price_original_price", price_original_priceColumnBase0);
+            relationalModel.DefaultTables.Add("Ecommerce.Catalog.Domain.VariantAggregate.ProductVariant.Price#Price", ecommerceCatalogDomainVariantAggregateProductVariantPricePriceTableBase);
+            var ecommerceCatalogDomainVariantAggregateProductVariantPricePriceMappingBase = new TableMappingBase<ColumnMappingBase>(price0, ecommerceCatalogDomainVariantAggregateProductVariantPricePriceTableBase, true);
+            ecommerceCatalogDomainVariantAggregateProductVariantPricePriceTableBase.AddTypeMapping(ecommerceCatalogDomainVariantAggregateProductVariantPricePriceMappingBase, false);
+            defaultTableMappings10.Add(ecommerceCatalogDomainVariantAggregateProductVariantPricePriceMappingBase);
+            RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)idColumnBase10, price0.FindProperty("ProductVariantId")!, ecommerceCatalogDomainVariantAggregateProductVariantPricePriceMappingBase);
+            RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)price_discount_priceColumnBase0, price0.FindProperty("DiscountPrice")!, ecommerceCatalogDomainVariantAggregateProductVariantPricePriceMappingBase);
+            RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)price_original_priceColumnBase0, price0.FindProperty("OriginalPrice")!, ecommerceCatalogDomainVariantAggregateProductVariantPricePriceMappingBase);
+
+            var tableMappings10 = new List<TableMapping>();
+            price0.SetRuntimeAnnotation("Relational:TableMappings", tableMappings10);
+            var product_variantsTableMapping0 = new TableMapping(price0, product_variantsTable, true)
+            {
+                IsSharedTablePrincipal = false,
+            };
+            product_variantsTable.AddTypeMapping(product_variantsTableMapping0, true);
+            tableMappings10.Add(product_variantsTableMapping0);
+            product_variantsTable.AddRowInternalForeignKey(price0, RelationalModel.GetForeignKey(this,
+                "Ecommerce.Catalog.Domain.VariantAggregate.ProductVariant.Price#Price",
+                new[] { "ProductVariantId" },
+                "Ecommerce.Catalog.Domain.VariantAggregate.ProductVariant",
+                new[] { "Id" }));
+            RelationalModel.CreateColumnMapping(idColumn8, price0.FindProperty("ProductVariantId")!, product_variantsTableMapping0);
+            RelationalModel.CreateColumnMapping(price_discount_priceColumn0, price0.FindProperty("DiscountPrice")!, product_variantsTableMapping0);
+            RelationalModel.CreateColumnMapping(price_original_priceColumn0, price0.FindProperty("OriginalPrice")!, product_variantsTableMapping0);
 
             var productVariantCombination = FindEntityType("Ecommerce.Catalog.Domain.VariantAggregate.ProductVariantCombination")!;
 
-            var defaultTableMappings10 = new List<TableMappingBase<ColumnMappingBase>>();
-            productVariantCombination.SetRuntimeAnnotation("Relational:DefaultMappings", defaultTableMappings10);
+            var defaultTableMappings11 = new List<TableMappingBase<ColumnMappingBase>>();
+            productVariantCombination.SetRuntimeAnnotation("Relational:DefaultMappings", defaultTableMappings11);
             var ecommerceCatalogDomainVariantAggregateProductVariantCombinationTableBase = new TableBase("Ecommerce.Catalog.Domain.VariantAggregate.ProductVariantCombination", null, relationalModel);
-            var idColumnBase10 = new ColumnBase<ColumnMappingBase>("id", "bigint", ecommerceCatalogDomainVariantAggregateProductVariantCombinationTableBase);
-            ecommerceCatalogDomainVariantAggregateProductVariantCombinationTableBase.Columns.Add("id", idColumnBase10);
+            var idColumnBase11 = new ColumnBase<ColumnMappingBase>("id", "bigint", ecommerceCatalogDomainVariantAggregateProductVariantCombinationTableBase);
+            ecommerceCatalogDomainVariantAggregateProductVariantCombinationTableBase.Columns.Add("id", idColumnBase11);
             var product_variant_idColumnBase = new ColumnBase<ColumnMappingBase>("product_variant_id", "bigint", ecommerceCatalogDomainVariantAggregateProductVariantCombinationTableBase);
             ecommerceCatalogDomainVariantAggregateProductVariantCombinationTableBase.Columns.Add("product_variant_id", product_variant_idColumnBase);
             var variant_idColumnBase = new ColumnBase<ColumnMappingBase>("variant_id", "bigint", ecommerceCatalogDomainVariantAggregateProductVariantCombinationTableBase);
@@ -1218,13 +1278,13 @@ namespace Ecommerce.Catalog.Infrastructure.CompliedModels
             relationalModel.DefaultTables.Add("Ecommerce.Catalog.Domain.VariantAggregate.ProductVariantCombination", ecommerceCatalogDomainVariantAggregateProductVariantCombinationTableBase);
             var ecommerceCatalogDomainVariantAggregateProductVariantCombinationMappingBase = new TableMappingBase<ColumnMappingBase>(productVariantCombination, ecommerceCatalogDomainVariantAggregateProductVariantCombinationTableBase, true);
             ecommerceCatalogDomainVariantAggregateProductVariantCombinationTableBase.AddTypeMapping(ecommerceCatalogDomainVariantAggregateProductVariantCombinationMappingBase, false);
-            defaultTableMappings10.Add(ecommerceCatalogDomainVariantAggregateProductVariantCombinationMappingBase);
-            RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)idColumnBase10, productVariantCombination.FindProperty("Id")!, ecommerceCatalogDomainVariantAggregateProductVariantCombinationMappingBase);
+            defaultTableMappings11.Add(ecommerceCatalogDomainVariantAggregateProductVariantCombinationMappingBase);
+            RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)idColumnBase11, productVariantCombination.FindProperty("Id")!, ecommerceCatalogDomainVariantAggregateProductVariantCombinationMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)product_variant_idColumnBase, productVariantCombination.FindProperty("ProductVariantId")!, ecommerceCatalogDomainVariantAggregateProductVariantCombinationMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)variant_idColumnBase, productVariantCombination.FindProperty("VariantId")!, ecommerceCatalogDomainVariantAggregateProductVariantCombinationMappingBase);
 
-            var tableMappings10 = new List<TableMapping>();
-            productVariantCombination.SetRuntimeAnnotation("Relational:TableMappings", tableMappings10);
+            var tableMappings11 = new List<TableMapping>();
+            productVariantCombination.SetRuntimeAnnotation("Relational:TableMappings", tableMappings11);
             var product_variant_combinationTable = new Table("product_variant_combination", null, relationalModel);
             var idColumn9 = new Column("id", "bigint", product_variant_combinationTable);
             product_variant_combinationTable.Columns.Add("id", idColumn9);
@@ -1260,20 +1320,20 @@ namespace Ecommerce.Catalog.Infrastructure.CompliedModels
             relationalModel.Tables.Add(("product_variant_combination", null), product_variant_combinationTable);
             var product_variant_combinationTableMapping = new TableMapping(productVariantCombination, product_variant_combinationTable, true);
             product_variant_combinationTable.AddTypeMapping(product_variant_combinationTableMapping, false);
-            tableMappings10.Add(product_variant_combinationTableMapping);
+            tableMappings11.Add(product_variant_combinationTableMapping);
             RelationalModel.CreateColumnMapping(idColumn9, productVariantCombination.FindProperty("Id")!, product_variant_combinationTableMapping);
             RelationalModel.CreateColumnMapping(product_variant_idColumn, productVariantCombination.FindProperty("ProductVariantId")!, product_variant_combinationTableMapping);
             RelationalModel.CreateColumnMapping(variant_idColumn, productVariantCombination.FindProperty("VariantId")!, product_variant_combinationTableMapping);
 
             var variant = FindEntityType("Ecommerce.Catalog.Domain.VariantAggregate.Variant")!;
 
-            var defaultTableMappings11 = new List<TableMappingBase<ColumnMappingBase>>();
-            variant.SetRuntimeAnnotation("Relational:DefaultMappings", defaultTableMappings11);
+            var defaultTableMappings12 = new List<TableMappingBase<ColumnMappingBase>>();
+            variant.SetRuntimeAnnotation("Relational:DefaultMappings", defaultTableMappings12);
             var ecommerceCatalogDomainVariantAggregateVariantTableBase = new TableBase("Ecommerce.Catalog.Domain.VariantAggregate.Variant", null, relationalModel);
             var created_atColumnBase4 = new ColumnBase<ColumnMappingBase>("created_at", "timestamp with time zone", ecommerceCatalogDomainVariantAggregateVariantTableBase);
             ecommerceCatalogDomainVariantAggregateVariantTableBase.Columns.Add("created_at", created_atColumnBase4);
-            var idColumnBase11 = new ColumnBase<ColumnMappingBase>("id", "bigint", ecommerceCatalogDomainVariantAggregateVariantTableBase);
-            ecommerceCatalogDomainVariantAggregateVariantTableBase.Columns.Add("id", idColumnBase11);
+            var idColumnBase12 = new ColumnBase<ColumnMappingBase>("id", "bigint", ecommerceCatalogDomainVariantAggregateVariantTableBase);
+            ecommerceCatalogDomainVariantAggregateVariantTableBase.Columns.Add("id", idColumnBase12);
             var is_deletedColumnBase2 = new ColumnBase<ColumnMappingBase>("is_deleted", "boolean", ecommerceCatalogDomainVariantAggregateVariantTableBase);
             ecommerceCatalogDomainVariantAggregateVariantTableBase.Columns.Add("is_deleted", is_deletedColumnBase2);
             var last_modified_atColumnBase4 = new ColumnBase<ColumnMappingBase>("last_modified_at", "timestamp with time zone", ecommerceCatalogDomainVariantAggregateVariantTableBase)
@@ -1290,8 +1350,8 @@ namespace Ecommerce.Catalog.Infrastructure.CompliedModels
             relationalModel.DefaultTables.Add("Ecommerce.Catalog.Domain.VariantAggregate.Variant", ecommerceCatalogDomainVariantAggregateVariantTableBase);
             var ecommerceCatalogDomainVariantAggregateVariantMappingBase = new TableMappingBase<ColumnMappingBase>(variant, ecommerceCatalogDomainVariantAggregateVariantTableBase, true);
             ecommerceCatalogDomainVariantAggregateVariantTableBase.AddTypeMapping(ecommerceCatalogDomainVariantAggregateVariantMappingBase, false);
-            defaultTableMappings11.Add(ecommerceCatalogDomainVariantAggregateVariantMappingBase);
-            RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)idColumnBase11, variant.FindProperty("Id")!, ecommerceCatalogDomainVariantAggregateVariantMappingBase);
+            defaultTableMappings12.Add(ecommerceCatalogDomainVariantAggregateVariantMappingBase);
+            RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)idColumnBase12, variant.FindProperty("Id")!, ecommerceCatalogDomainVariantAggregateVariantMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)created_atColumnBase4, variant.FindProperty("CreatedAt")!, ecommerceCatalogDomainVariantAggregateVariantMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)is_deletedColumnBase2, variant.FindProperty("IsDeleted")!, ecommerceCatalogDomainVariantAggregateVariantMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)last_modified_atColumnBase4, variant.FindProperty("LastModifiedAt")!, ecommerceCatalogDomainVariantAggregateVariantMappingBase);
@@ -1299,8 +1359,8 @@ namespace Ecommerce.Catalog.Infrastructure.CompliedModels
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)typeColumnBase, variant.FindProperty("Type")!, ecommerceCatalogDomainVariantAggregateVariantMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)versionColumnBase4, variant.FindProperty("Version")!, ecommerceCatalogDomainVariantAggregateVariantMappingBase);
 
-            var tableMappings11 = new List<TableMapping>();
-            variant.SetRuntimeAnnotation("Relational:TableMappings", tableMappings11);
+            var tableMappings12 = new List<TableMapping>();
+            variant.SetRuntimeAnnotation("Relational:TableMappings", tableMappings12);
             var variantsTable = new Table("variants", null, relationalModel);
             var idColumn10 = new Column("id", "bigint", variantsTable);
             variantsTable.Columns.Add("id", idColumn10);
@@ -1339,7 +1399,7 @@ namespace Ecommerce.Catalog.Infrastructure.CompliedModels
             relationalModel.Tables.Add(("variants", null), variantsTable);
             var variantsTableMapping = new TableMapping(variant, variantsTable, true);
             variantsTable.AddTypeMapping(variantsTableMapping, false);
-            tableMappings11.Add(variantsTableMapping);
+            tableMappings12.Add(variantsTableMapping);
             RelationalModel.CreateColumnMapping(idColumn10, variant.FindProperty("Id")!, variantsTableMapping);
             RelationalModel.CreateColumnMapping(created_atColumn4, variant.FindProperty("CreatedAt")!, variantsTableMapping);
             RelationalModel.CreateColumnMapping(is_deletedColumn2, variant.FindProperty("IsDeleted")!, variantsTableMapping);
@@ -1350,8 +1410,8 @@ namespace Ecommerce.Catalog.Infrastructure.CompliedModels
 
             var inboxState = FindEntityType("MassTransit.EntityFrameworkCoreIntegration.InboxState")!;
 
-            var defaultTableMappings12 = new List<TableMappingBase<ColumnMappingBase>>();
-            inboxState.SetRuntimeAnnotation("Relational:DefaultMappings", defaultTableMappings12);
+            var defaultTableMappings13 = new List<TableMappingBase<ColumnMappingBase>>();
+            inboxState.SetRuntimeAnnotation("Relational:DefaultMappings", defaultTableMappings13);
             var massTransitEntityFrameworkCoreIntegrationInboxStateTableBase = new TableBase("MassTransit.EntityFrameworkCoreIntegration.InboxState", null, relationalModel);
             var consumedColumnBase = new ColumnBase<ColumnMappingBase>("consumed", "timestamp with time zone", massTransitEntityFrameworkCoreIntegrationInboxStateTableBase)
             {
@@ -1370,8 +1430,8 @@ namespace Ecommerce.Catalog.Infrastructure.CompliedModels
                 IsNullable = true
             };
             massTransitEntityFrameworkCoreIntegrationInboxStateTableBase.Columns.Add("expiration_time", expiration_timeColumnBase);
-            var idColumnBase12 = new ColumnBase<ColumnMappingBase>("id", "bigint", massTransitEntityFrameworkCoreIntegrationInboxStateTableBase);
-            massTransitEntityFrameworkCoreIntegrationInboxStateTableBase.Columns.Add("id", idColumnBase12);
+            var idColumnBase13 = new ColumnBase<ColumnMappingBase>("id", "bigint", massTransitEntityFrameworkCoreIntegrationInboxStateTableBase);
+            massTransitEntityFrameworkCoreIntegrationInboxStateTableBase.Columns.Add("id", idColumnBase13);
             var last_sequence_numberColumnBase = new ColumnBase<ColumnMappingBase>("last_sequence_number", "bigint", massTransitEntityFrameworkCoreIntegrationInboxStateTableBase)
             {
                 IsNullable = true
@@ -1393,8 +1453,8 @@ namespace Ecommerce.Catalog.Infrastructure.CompliedModels
             relationalModel.DefaultTables.Add("MassTransit.EntityFrameworkCoreIntegration.InboxState", massTransitEntityFrameworkCoreIntegrationInboxStateTableBase);
             var massTransitEntityFrameworkCoreIntegrationInboxStateMappingBase = new TableMappingBase<ColumnMappingBase>(inboxState, massTransitEntityFrameworkCoreIntegrationInboxStateTableBase, true);
             massTransitEntityFrameworkCoreIntegrationInboxStateTableBase.AddTypeMapping(massTransitEntityFrameworkCoreIntegrationInboxStateMappingBase, false);
-            defaultTableMappings12.Add(massTransitEntityFrameworkCoreIntegrationInboxStateMappingBase);
-            RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)idColumnBase12, inboxState.FindProperty("Id")!, massTransitEntityFrameworkCoreIntegrationInboxStateMappingBase);
+            defaultTableMappings13.Add(massTransitEntityFrameworkCoreIntegrationInboxStateMappingBase);
+            RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)idColumnBase13, inboxState.FindProperty("Id")!, massTransitEntityFrameworkCoreIntegrationInboxStateMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)consumedColumnBase, inboxState.FindProperty("Consumed")!, massTransitEntityFrameworkCoreIntegrationInboxStateMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)consumer_idColumnBase, inboxState.FindProperty("ConsumerId")!, massTransitEntityFrameworkCoreIntegrationInboxStateMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)deliveredColumnBase, inboxState.FindProperty("Delivered")!, massTransitEntityFrameworkCoreIntegrationInboxStateMappingBase);
@@ -1406,8 +1466,8 @@ namespace Ecommerce.Catalog.Infrastructure.CompliedModels
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)receivedColumnBase, inboxState.FindProperty("Received")!, massTransitEntityFrameworkCoreIntegrationInboxStateMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)row_versionColumnBase, inboxState.FindProperty("RowVersion")!, massTransitEntityFrameworkCoreIntegrationInboxStateMappingBase);
 
-            var tableMappings12 = new List<TableMapping>();
-            inboxState.SetRuntimeAnnotation("Relational:TableMappings", tableMappings12);
+            var tableMappings13 = new List<TableMapping>();
+            inboxState.SetRuntimeAnnotation("Relational:TableMappings", tableMappings13);
             var inbox_stateTable = new Table("inbox_state", null, relationalModel);
             var idColumn11 = new Column("id", "bigint", inbox_stateTable);
             inbox_stateTable.Columns.Add("id", idColumn11);
@@ -1473,7 +1533,7 @@ namespace Ecommerce.Catalog.Infrastructure.CompliedModels
             relationalModel.Tables.Add(("inbox_state", null), inbox_stateTable);
             var inbox_stateTableMapping = new TableMapping(inboxState, inbox_stateTable, true);
             inbox_stateTable.AddTypeMapping(inbox_stateTableMapping, false);
-            tableMappings12.Add(inbox_stateTableMapping);
+            tableMappings13.Add(inbox_stateTableMapping);
             RelationalModel.CreateColumnMapping(idColumn11, inboxState.FindProperty("Id")!, inbox_stateTableMapping);
             RelationalModel.CreateColumnMapping(consumedColumn, inboxState.FindProperty("Consumed")!, inbox_stateTableMapping);
             RelationalModel.CreateColumnMapping(consumer_idColumn, inboxState.FindProperty("ConsumerId")!, inbox_stateTableMapping);
@@ -1488,8 +1548,8 @@ namespace Ecommerce.Catalog.Infrastructure.CompliedModels
 
             var outboxMessage = FindEntityType("MassTransit.EntityFrameworkCoreIntegration.OutboxMessage")!;
 
-            var defaultTableMappings13 = new List<TableMappingBase<ColumnMappingBase>>();
-            outboxMessage.SetRuntimeAnnotation("Relational:DefaultMappings", defaultTableMappings13);
+            var defaultTableMappings14 = new List<TableMappingBase<ColumnMappingBase>>();
+            outboxMessage.SetRuntimeAnnotation("Relational:DefaultMappings", defaultTableMappings14);
             var massTransitEntityFrameworkCoreIntegrationOutboxMessageTableBase = new TableBase("MassTransit.EntityFrameworkCoreIntegration.OutboxMessage", null, relationalModel);
             var bodyColumnBase = new ColumnBase<ColumnMappingBase>("body", "text", massTransitEntityFrameworkCoreIntegrationOutboxMessageTableBase);
             massTransitEntityFrameworkCoreIntegrationOutboxMessageTableBase.Columns.Add("body", bodyColumnBase);
@@ -1581,7 +1641,7 @@ namespace Ecommerce.Catalog.Infrastructure.CompliedModels
             relationalModel.DefaultTables.Add("MassTransit.EntityFrameworkCoreIntegration.OutboxMessage", massTransitEntityFrameworkCoreIntegrationOutboxMessageTableBase);
             var massTransitEntityFrameworkCoreIntegrationOutboxMessageMappingBase = new TableMappingBase<ColumnMappingBase>(outboxMessage, massTransitEntityFrameworkCoreIntegrationOutboxMessageTableBase, true);
             massTransitEntityFrameworkCoreIntegrationOutboxMessageTableBase.AddTypeMapping(massTransitEntityFrameworkCoreIntegrationOutboxMessageMappingBase, false);
-            defaultTableMappings13.Add(massTransitEntityFrameworkCoreIntegrationOutboxMessageMappingBase);
+            defaultTableMappings14.Add(massTransitEntityFrameworkCoreIntegrationOutboxMessageMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)sequence_numberColumnBase, outboxMessage.FindProperty("SequenceNumber")!, massTransitEntityFrameworkCoreIntegrationOutboxMessageMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)bodyColumnBase, outboxMessage.FindProperty("Body")!, massTransitEntityFrameworkCoreIntegrationOutboxMessageMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)content_typeColumnBase, outboxMessage.FindProperty("ContentType")!, massTransitEntityFrameworkCoreIntegrationOutboxMessageMappingBase);
@@ -1604,8 +1664,8 @@ namespace Ecommerce.Catalog.Infrastructure.CompliedModels
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)sent_timeColumnBase, outboxMessage.FindProperty("SentTime")!, massTransitEntityFrameworkCoreIntegrationOutboxMessageMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)source_addressColumnBase, outboxMessage.FindProperty("SourceAddress")!, massTransitEntityFrameworkCoreIntegrationOutboxMessageMappingBase);
 
-            var tableMappings13 = new List<TableMapping>();
-            outboxMessage.SetRuntimeAnnotation("Relational:TableMappings", tableMappings13);
+            var tableMappings14 = new List<TableMapping>();
+            outboxMessage.SetRuntimeAnnotation("Relational:TableMappings", tableMappings14);
             var outbox_messageTable = new Table("outbox_message", null, relationalModel);
             var sequence_numberColumn = new Column("sequence_number", "bigint", outbox_messageTable);
             outbox_messageTable.Columns.Add("sequence_number", sequence_numberColumn);
@@ -1738,7 +1798,7 @@ namespace Ecommerce.Catalog.Infrastructure.CompliedModels
             relationalModel.Tables.Add(("outbox_message", null), outbox_messageTable);
             var outbox_messageTableMapping = new TableMapping(outboxMessage, outbox_messageTable, true);
             outbox_messageTable.AddTypeMapping(outbox_messageTableMapping, false);
-            tableMappings13.Add(outbox_messageTableMapping);
+            tableMappings14.Add(outbox_messageTableMapping);
             RelationalModel.CreateColumnMapping(sequence_numberColumn, outboxMessage.FindProperty("SequenceNumber")!, outbox_messageTableMapping);
             RelationalModel.CreateColumnMapping(bodyColumn, outboxMessage.FindProperty("Body")!, outbox_messageTableMapping);
             RelationalModel.CreateColumnMapping(content_typeColumn, outboxMessage.FindProperty("ContentType")!, outbox_messageTableMapping);
@@ -1763,8 +1823,8 @@ namespace Ecommerce.Catalog.Infrastructure.CompliedModels
 
             var outboxState = FindEntityType("MassTransit.EntityFrameworkCoreIntegration.OutboxState")!;
 
-            var defaultTableMappings14 = new List<TableMappingBase<ColumnMappingBase>>();
-            outboxState.SetRuntimeAnnotation("Relational:DefaultMappings", defaultTableMappings14);
+            var defaultTableMappings15 = new List<TableMappingBase<ColumnMappingBase>>();
+            outboxState.SetRuntimeAnnotation("Relational:DefaultMappings", defaultTableMappings15);
             var massTransitEntityFrameworkCoreIntegrationOutboxStateTableBase = new TableBase("MassTransit.EntityFrameworkCoreIntegration.OutboxState", null, relationalModel);
             var createdColumnBase = new ColumnBase<ColumnMappingBase>("created", "timestamp with time zone", massTransitEntityFrameworkCoreIntegrationOutboxStateTableBase);
             massTransitEntityFrameworkCoreIntegrationOutboxStateTableBase.Columns.Add("created", createdColumnBase);
@@ -1790,7 +1850,7 @@ namespace Ecommerce.Catalog.Infrastructure.CompliedModels
             relationalModel.DefaultTables.Add("MassTransit.EntityFrameworkCoreIntegration.OutboxState", massTransitEntityFrameworkCoreIntegrationOutboxStateTableBase);
             var massTransitEntityFrameworkCoreIntegrationOutboxStateMappingBase = new TableMappingBase<ColumnMappingBase>(outboxState, massTransitEntityFrameworkCoreIntegrationOutboxStateTableBase, true);
             massTransitEntityFrameworkCoreIntegrationOutboxStateTableBase.AddTypeMapping(massTransitEntityFrameworkCoreIntegrationOutboxStateMappingBase, false);
-            defaultTableMappings14.Add(massTransitEntityFrameworkCoreIntegrationOutboxStateMappingBase);
+            defaultTableMappings15.Add(massTransitEntityFrameworkCoreIntegrationOutboxStateMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)outbox_idColumnBase0, outboxState.FindProperty("OutboxId")!, massTransitEntityFrameworkCoreIntegrationOutboxStateMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)createdColumnBase, outboxState.FindProperty("Created")!, massTransitEntityFrameworkCoreIntegrationOutboxStateMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)deliveredColumnBase0, outboxState.FindProperty("Delivered")!, massTransitEntityFrameworkCoreIntegrationOutboxStateMappingBase);
@@ -1798,8 +1858,8 @@ namespace Ecommerce.Catalog.Infrastructure.CompliedModels
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)lock_idColumnBase0, outboxState.FindProperty("LockId")!, massTransitEntityFrameworkCoreIntegrationOutboxStateMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)row_versionColumnBase0, outboxState.FindProperty("RowVersion")!, massTransitEntityFrameworkCoreIntegrationOutboxStateMappingBase);
 
-            var tableMappings14 = new List<TableMapping>();
-            outboxState.SetRuntimeAnnotation("Relational:TableMappings", tableMappings14);
+            var tableMappings15 = new List<TableMapping>();
+            outboxState.SetRuntimeAnnotation("Relational:TableMappings", tableMappings15);
             var outbox_stateTable = new Table("outbox_state", null, relationalModel);
             var outbox_idColumn0 = new Column("outbox_id", "uuid", outbox_stateTable);
             outbox_stateTable.Columns.Add("outbox_id", outbox_idColumn0);
@@ -1841,7 +1901,7 @@ namespace Ecommerce.Catalog.Infrastructure.CompliedModels
             relationalModel.Tables.Add(("outbox_state", null), outbox_stateTable);
             var outbox_stateTableMapping = new TableMapping(outboxState, outbox_stateTable, true);
             outbox_stateTable.AddTypeMapping(outbox_stateTableMapping, false);
-            tableMappings14.Add(outbox_stateTableMapping);
+            tableMappings15.Add(outbox_stateTableMapping);
             RelationalModel.CreateColumnMapping(outbox_idColumn0, outboxState.FindProperty("OutboxId")!, outbox_stateTableMapping);
             RelationalModel.CreateColumnMapping(createdColumn, outboxState.FindProperty("Created")!, outbox_stateTableMapping);
             RelationalModel.CreateColumnMapping(deliveredColumn0, outboxState.FindProperty("Delivered")!, outbox_stateTableMapping);
@@ -1876,7 +1936,7 @@ namespace Ecommerce.Catalog.Infrastructure.CompliedModels
             product_attributesTable.ReferencingForeignKeyConstraints.Add(fk_product_attribute_combinations_product_attributes_attribute);
             var fk_product_attribute_combinations_products_product_id = new ForeignKeyConstraint(
                 "fk_product_attribute_combinations_products_product_id", product_attribute_combinationsTable, productsTable,
-                new[] { product_idColumn3 },
+                new[] { product_idColumn2 },
                 productsTable.FindUniqueConstraint("pk_products")!, ReferentialAction.Cascade);
             var fk_product_attribute_combinations_products_product_idFk = RelationalModel.GetForeignKey(this,
                 "Ecommerce.Catalog.Domain.ProductAttributeAggregate.ProductAttributeCombination",
@@ -1928,7 +1988,7 @@ namespace Ecommerce.Catalog.Infrastructure.CompliedModels
             productsTable.ReferencingForeignKeyConstraints.Add(fk_product_categories_products_product_id);
             var fk_product_images_products_product_id = new ForeignKeyConstraint(
                 "fk_product_images_products_product_id", product_imagesTable, productsTable,
-                new[] { product_idColumn1 },
+                new[] { product_idColumn0 },
                 productsTable.FindUniqueConstraint("pk_products")!, ReferentialAction.Cascade);
             var fk_product_images_products_product_idFk = RelationalModel.GetForeignKey(this,
                 "Ecommerce.Catalog.Domain.ProductAggregate.ProductImage",
@@ -1941,7 +2001,7 @@ namespace Ecommerce.Catalog.Infrastructure.CompliedModels
             productsTable.ReferencingForeignKeyConstraints.Add(fk_product_images_products_product_id);
             var fk_product_relateds_products_product_id = new ForeignKeyConstraint(
                 "fk_product_relateds_products_product_id", product_relatedsTable, productsTable,
-                new[] { product_idColumn2 },
+                new[] { product_idColumn1 },
                 productsTable.FindUniqueConstraint("pk_products")!, ReferentialAction.Cascade);
             var fk_product_relateds_products_product_idFk = RelationalModel.GetForeignKey(this,
                 "Ecommerce.Catalog.Domain.ProductAggregate.ProductRelated",
@@ -1993,7 +2053,7 @@ namespace Ecommerce.Catalog.Infrastructure.CompliedModels
             variantsTable.ReferencingForeignKeyConstraints.Add(fk_product_variant_combination_variants_variant_id);
             var fk_product_variants_products_product_id = new ForeignKeyConstraint(
                 "fk_product_variants_products_product_id", product_variantsTable, productsTable,
-                new[] { product_idColumn0 },
+                new[] { product_idColumn3 },
                 productsTable.FindUniqueConstraint("pk_products")!, ReferentialAction.Cascade);
             var fk_product_variants_products_product_idFk = RelationalModel.GetForeignKey(this,
                 "Ecommerce.Catalog.Domain.VariantAggregate.ProductVariant",

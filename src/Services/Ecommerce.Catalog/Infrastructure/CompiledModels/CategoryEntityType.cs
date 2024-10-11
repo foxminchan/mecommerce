@@ -14,7 +14,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal.Mapping;
 #pragma warning disable 219, 612, 618
 #nullable disable
 
-namespace Ecommerce.Catalog.Infrastructure.CompliedModels
+namespace Ecommerce.Catalog.Infrastructure.CompiledModels
 {
     internal partial class CategoryEntityType
     {
@@ -71,7 +71,7 @@ namespace Ecommerce.Catalog.Infrastructure.CompliedModels
                     (DateTime v) => v));
             createdAt.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
             createdAt.AddAnnotation("Relational:ColumnName", "created_at");
-            createdAt.AddAnnotation("Relational:DefaultValue", new DateTime(2024, 9, 25, 5, 15, 5, 323, DateTimeKind.Utc).AddTicks(2419));
+            createdAt.AddAnnotation("Relational:DefaultValue", new DateTime(2024, 10, 11, 13, 59, 11, 881, DateTimeKind.Utc).AddTicks(4407));
 
             var description = runtimeEntityType.AddProperty(
                 "Description",
@@ -190,7 +190,7 @@ namespace Ecommerce.Catalog.Infrastructure.CompliedModels
                 (Nullable<DateTime> v) => v.HasValue ? (Nullable<DateTime>)(DateTime)v : default(Nullable<DateTime>)));
         lastModifiedAt.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
         lastModifiedAt.AddAnnotation("Relational:ColumnName", "last_modified_at");
-        lastModifiedAt.AddAnnotation("Relational:DefaultValue", new DateTime(2024, 9, 25, 5, 15, 5, 323, DateTimeKind.Utc).AddTicks(2867));
+        lastModifiedAt.AddAnnotation("Relational:DefaultValue", new DateTime(2024, 10, 11, 13, 59, 11, 881, DateTimeKind.Utc).AddTicks(4811));
 
         var metaDescription = runtimeEntityType.AddProperty(
             "MetaDescription",

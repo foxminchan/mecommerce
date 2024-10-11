@@ -13,15 +13,15 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 #pragma warning disable 219, 612, 618
 #nullable disable
 
-namespace Ecommerce.Catalog.Infrastructure.CompliedModels
+namespace Ecommerce.Catalog.Infrastructure.CompiledModels
 {
-    internal partial class ProductImageEntityType
+    internal partial class ProductRelatedEntityType
     {
         public static RuntimeEntityType Create(RuntimeModel model, RuntimeEntityType baseEntityType = null)
         {
             var runtimeEntityType = model.AddEntityType(
-                "Ecommerce.Catalog.Domain.ProductAggregate.ProductImage",
-                typeof(ProductImage),
+                "Ecommerce.Catalog.Domain.ProductAggregate.ProductRelated",
+                typeof(ProductRelated),
                 baseEntityType);
 
             var id = runtimeEntityType.AddProperty(
@@ -51,9 +51,8 @@ namespace Ecommerce.Catalog.Infrastructure.CompliedModels
             var productId = runtimeEntityType.AddProperty(
                 "ProductId",
                 typeof(Guid),
-                propertyInfo: typeof(ProductImage).GetProperty("ProductId", BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly),
-                fieldInfo: typeof(ProductImage).GetField("<ProductId>k__BackingField", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly),
-                afterSaveBehavior: PropertySaveBehavior.Throw,
+                propertyInfo: typeof(ProductRelated).GetProperty("ProductId", BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly),
+                fieldInfo: typeof(ProductRelated).GetField("<ProductId>k__BackingField", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly),
                 sentinel: new Guid("00000000-0000-0000-0000-000000000000"));
             productId.TypeMapping = GuidTypeMapping.Default.Clone(
                 comparer: new ValueComparer<Guid>(
@@ -73,13 +72,13 @@ namespace Ecommerce.Catalog.Infrastructure.CompliedModels
             productId.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
             productId.AddAnnotation("Relational:ColumnName", "product_id");
 
-            var imageId = runtimeEntityType.AddProperty(
-                "ImageId",
+            var relatedProductId = runtimeEntityType.AddProperty(
+                "RelatedProductId",
                 typeof(Guid),
-                propertyInfo: typeof(ProductImage).GetProperty("ImageId", BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly),
-                fieldInfo: typeof(ProductImage).GetField("<ImageId>k__BackingField", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly),
+                propertyInfo: typeof(ProductRelated).GetProperty("RelatedProductId", BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly),
+                fieldInfo: typeof(ProductRelated).GetField("<RelatedProductId>k__BackingField", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly),
                 sentinel: new Guid("00000000-0000-0000-0000-000000000000"));
-            imageId.TypeMapping = GuidTypeMapping.Default.Clone(
+            relatedProductId.TypeMapping = GuidTypeMapping.Default.Clone(
                 comparer: new ValueComparer<Guid>(
                     (Guid v1, Guid v2) => v1 == v2,
                     (Guid v) => v.GetHashCode(),
@@ -94,17 +93,21 @@ namespace Ecommerce.Catalog.Infrastructure.CompliedModels
                     (Guid v) => v),
                 mappingInfo: new RelationalTypeMappingInfo(
                     storeTypeName: "uuid"));
-            imageId.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
-            imageId.AddAnnotation("Relational:ColumnName", "image_id");
+            relatedProductId.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
+            relatedProductId.AddAnnotation("Relational:ColumnName", "related_product_id");
 
             var key = runtimeEntityType.AddKey(
-                new[] { id, productId });
+                new[] { id });
             runtimeEntityType.SetPrimaryKey(key);
-            key.AddAnnotation("Relational:Name", "pk_product_images");
+            key.AddAnnotation("Relational:Name", "pk_product_relateds");
 
             var index = runtimeEntityType.AddIndex(
                 new[] { productId });
-            index.AddAnnotation("Relational:Name", "ix_product_images_product_id");
+            index.AddAnnotation("Relational:Name", "ix_product_relateds_product_id");
+
+            var index0 = runtimeEntityType.AddIndex(
+                new[] { relatedProductId });
+            index0.AddAnnotation("Relational:Name", "ix_product_relateds_related_product_id");
 
             return runtimeEntityType;
         }
@@ -117,15 +120,42 @@ namespace Ecommerce.Catalog.Infrastructure.CompliedModels
                 deleteBehavior: DeleteBehavior.Cascade,
                 required: true);
 
-            var productImages = principalEntityType.AddNavigation("ProductImages",
+            var product = declaringEntityType.AddNavigation("Product",
                 runtimeForeignKey,
-                onDependent: false,
-                typeof(IReadOnlyCollection<ProductImage>),
-                propertyInfo: typeof(Product).GetProperty("ProductImages", BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly),
-                fieldInfo: typeof(Product).GetField("_productImages", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly),
+                onDependent: true,
+                typeof(Product),
+                propertyInfo: typeof(ProductRelated).GetProperty("Product", BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly),
+                fieldInfo: typeof(ProductRelated).GetField("<Product>k__BackingField", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly),
                 eagerLoaded: true);
 
-            runtimeForeignKey.AddAnnotation("Relational:Name", "fk_product_images_products_product_id");
+            var productRelateds = principalEntityType.AddNavigation("ProductRelateds",
+                runtimeForeignKey,
+                onDependent: false,
+                typeof(IReadOnlyCollection<ProductRelated>),
+                propertyInfo: typeof(Product).GetProperty("ProductRelateds", BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly),
+                fieldInfo: typeof(Product).GetField("_productRelateds", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly),
+                eagerLoaded: true);
+
+            runtimeForeignKey.AddAnnotation("Relational:Name", "fk_product_relateds_products_product_id");
+            return runtimeForeignKey;
+        }
+
+        public static RuntimeForeignKey CreateForeignKey2(RuntimeEntityType declaringEntityType, RuntimeEntityType principalEntityType)
+        {
+            var runtimeForeignKey = declaringEntityType.AddForeignKey(new[] { declaringEntityType.FindProperty("RelatedProductId") },
+                principalEntityType.FindKey(new[] { principalEntityType.FindProperty("Id") }),
+                principalEntityType,
+                deleteBehavior: DeleteBehavior.Cascade,
+                required: true);
+
+            var relatedProduct = declaringEntityType.AddNavigation("RelatedProduct",
+                runtimeForeignKey,
+                onDependent: true,
+                typeof(Product),
+                propertyInfo: typeof(ProductRelated).GetProperty("RelatedProduct", BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly),
+                fieldInfo: typeof(ProductRelated).GetField("<RelatedProduct>k__BackingField", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly));
+
+            runtimeForeignKey.AddAnnotation("Relational:Name", "fk_product_relateds_products_related_product_id");
             return runtimeForeignKey;
         }
 
@@ -134,7 +164,7 @@ namespace Ecommerce.Catalog.Infrastructure.CompliedModels
             runtimeEntityType.AddAnnotation("Relational:FunctionName", null);
             runtimeEntityType.AddAnnotation("Relational:Schema", null);
             runtimeEntityType.AddAnnotation("Relational:SqlQuery", null);
-            runtimeEntityType.AddAnnotation("Relational:TableName", "product_images");
+            runtimeEntityType.AddAnnotation("Relational:TableName", "product_relateds");
             runtimeEntityType.AddAnnotation("Relational:ViewName", null);
             runtimeEntityType.AddAnnotation("Relational:ViewSchema", null);
 

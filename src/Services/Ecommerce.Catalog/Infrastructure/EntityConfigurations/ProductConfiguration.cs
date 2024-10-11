@@ -28,6 +28,16 @@ internal sealed class ProductConfiguration : IEntityTypeConfiguration<Product>
 
         builder.Property(x => x.Gtin).HasMaxLength(DataSchemaLength.Medium);
 
+        builder.OwnsOne(
+            x => x.Price,
+            price =>
+            {
+                price.Property(p => p.OriginalPrice).HasPrecision(18, 2).IsRequired();
+
+                price.Property(p => p.DiscountPrice).HasPrecision(18, 2);
+            }
+        );
+
         builder
             .HasGeneratedTsVectorColumn(
                 p => p.SearchVector!,

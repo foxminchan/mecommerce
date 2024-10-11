@@ -14,7 +14,7 @@ internal sealed class ProductVariantDtoValidator : AbstractValidator<ProductVari
     {
         RuleFor(x => x.Sku).NotEmpty().MaximumLength(DataSchemaLength.Medium);
 
-        RuleFor(x => x.OriginalPrice).GreaterThanOrEqualTo(0);
+        RuleFor(x => x.OriginalPrice).NotNull().GreaterThanOrEqualTo(0);
 
         RuleFor(x => x.DiscountPrice).GreaterThanOrEqualTo(-1);
 

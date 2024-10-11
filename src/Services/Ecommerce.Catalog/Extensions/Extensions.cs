@@ -67,7 +67,7 @@ internal static class Extensions
         builder
             .Services.AddGrpcClient<GrpcMediaClient>(o =>
             {
-                o.Address = new("https+http://media-api");
+                o.Address = new("https://media-api");
             })
             .AddStandardResilienceHandler();
     }

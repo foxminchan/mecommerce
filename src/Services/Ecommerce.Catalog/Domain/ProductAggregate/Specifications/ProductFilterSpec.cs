@@ -13,4 +13,27 @@ public sealed class ProductFilterSpec : Specification<Product>
     {
         Query.Where(x => x.Id == id && !x.IsDeleted);
     }
+
+    public ProductFilterSpec(ListProductsRequest request)
+    {
+        if (!string.IsNullOrWhiteSpace(request.Category))
+        {
+            Query.Where(x => x.ProductCategories.Any(y => y.Category.Slug == request.Category));
+        }
+
+        if (!string.IsNullOrWhiteSpace(request.Brand))
+        {
+            Query.Where(x => x.Brand.Slug == request.Brand);
+        }
+
+        if (!string.IsNullOrWhiteSpace(request.Search))
+        {
+            Query.Where(x => x.SearchVector!.Matches(request.Search));
+        }
+
+        Query
+            .ApplyPriceRange(request.StartPrice, request.EndPrice)
+            .ApplyOrdering(request.SortBy, request.IsDescending)
+            .ApplyPaging(request.PageIndex, request.PageSize);
+    }
 }

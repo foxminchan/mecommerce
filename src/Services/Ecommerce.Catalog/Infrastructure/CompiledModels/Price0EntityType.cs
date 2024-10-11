@@ -13,16 +13,17 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal.Mapping;
 #pragma warning disable 219, 612, 618
 #nullable disable
 
-namespace Ecommerce.Catalog.Infrastructure.CompliedModels
+namespace Ecommerce.Catalog.Infrastructure.CompiledModels
 {
-    internal partial class PriceEntityType
+    internal partial class Price0EntityType
     {
         public static RuntimeEntityType Create(RuntimeModel model, RuntimeEntityType baseEntityType = null)
         {
             var runtimeEntityType = model.AddEntityType(
-                "Ecommerce.Catalog.Domain.ProductAggregate.Price",
+                "Ecommerce.Catalog.Domain.VariantAggregate.ProductVariant.Price#Price",
                 typeof(Price),
-                baseEntityType);
+                baseEntityType,
+                sharedClrType: true);
 
             var productVariantId = runtimeEntityType.AddProperty(
                 "ProductVariantId",

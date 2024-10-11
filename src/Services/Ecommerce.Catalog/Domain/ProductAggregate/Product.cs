@@ -82,6 +82,11 @@ public sealed class Product : AuditableEntity, IAggregateRoot, ISoftDelete
 
         _productVariants.AddRange(variants);
         _productAttributes.AddRange(attributes);
+
+        Price = new(
+            variants.First().Price?.OriginalPrice ?? 0.0m,
+            variants.First().Price?.DiscountPrice
+        );
     }
 
     public string? Name { get; private set; }
@@ -93,6 +98,7 @@ public sealed class Product : AuditableEntity, IAggregateRoot, ISoftDelete
     public string? MetaTitle { get; private set; }
     public string? MetaDescription { get; private set; }
     public string? MetaKeywords { get; private set; }
+    public Price? Price { get; private set; }
     public bool IsFeatured { get; private set; }
     public bool IsPublished { get; private set; }
     public bool IsDiscontinued { get; private set; }
@@ -177,6 +183,11 @@ public sealed class Product : AuditableEntity, IAggregateRoot, ISoftDelete
 
         _productVariants.AddRange(variants);
         _productAttributes.AddRange(attributes);
+
+        Price = new(
+            variants.First().Price?.OriginalPrice ?? 0.0m,
+            variants.First().Price?.DiscountPrice
+        );
     }
 
     public void AddRating(double rating)
