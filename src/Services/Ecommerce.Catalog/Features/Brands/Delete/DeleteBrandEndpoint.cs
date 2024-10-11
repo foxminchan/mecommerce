@@ -15,7 +15,8 @@ internal sealed class DeleteBrandEndpoint
             .ProducesNotFound()
             .WithOpenApi()
             .WithTags(nameof(Brand))
-            .MapToApiVersion(new(1, 0));
+            .MapToApiVersion(new(1, 0))
+            .RequireAuthorization(Constant.Auth.Policies.Admin);
     }
 
     public async Task<Results<NoContent, NotFound>> HandleAsync(

@@ -16,7 +16,8 @@ internal sealed class CreateBrandEndpoint : IEndpoint<Created<long>, CreateBrand
             .ProducesConflictProblem()
             .WithOpenApi()
             .WithTags(nameof(Brand))
-            .MapToApiVersion(new(1, 0));
+            .MapToApiVersion(new(1, 0))
+            .RequireAuthorization(Constant.Auth.Policies.Admin);
     }
 
     public async Task<Created<long>> HandleAsync(

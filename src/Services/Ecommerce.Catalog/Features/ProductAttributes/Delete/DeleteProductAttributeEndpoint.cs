@@ -15,7 +15,8 @@ internal sealed class DeleteProductAttributeEndpoint
             .ProducesNotFound()
             .WithOpenApi()
             .WithTags(nameof(ProductAttribute).Humanize(LetterCasing.Title))
-            .MapToApiVersion(new(1, 0));
+            .MapToApiVersion(new(1, 0))
+            .RequireAuthorization(Constant.Auth.Policies.Admin);
     }
 
     public async Task<NoContent> HandleAsync(

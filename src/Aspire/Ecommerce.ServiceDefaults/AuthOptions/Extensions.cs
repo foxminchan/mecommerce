@@ -37,8 +37,8 @@ public static class Extensions
 
         builder
             .Services.AddAuthorizationBuilder()
-            .AddPolicy(AuthRole.Admin, policy => policy.RequireRole(AuthRole.Admin))
-            .AddPolicy(AuthRole.User, policy => policy.RequireAuthenticatedUser());
+            .AddPolicy(Auth.Policies.Admin, policy => policy.RequireRole(Auth.Roles.Admin))
+            .AddPolicy(Auth.Policies.User, policy => policy.RequireAuthenticatedUser());
 
         return builder;
     }

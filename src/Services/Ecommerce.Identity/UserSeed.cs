@@ -11,14 +11,14 @@ public sealed class UserSeed(
 {
     public async Task SeedAsync(ApplicationDbContext context)
     {
-        var admin = new IdentityRole(AuthRole.Admin);
+        var admin = new IdentityRole(Auth.Roles.Admin);
 
         if (await roleManager.Roles.AllAsync(r => r.Name != admin.Name))
         {
             await roleManager.CreateAsync(admin);
         }
 
-        var user = new IdentityRole(AuthRole.User);
+        var user = new IdentityRole(Auth.Roles.User);
 
         if (await roleManager.Roles.AllAsync(r => r.Name != user.Name))
         {

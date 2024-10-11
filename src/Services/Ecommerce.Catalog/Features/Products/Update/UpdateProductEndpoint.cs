@@ -16,7 +16,8 @@ internal sealed class UpdateProductEndpoint : IEndpoint<Ok, UpdateProductCommand
             .ProducesNotFound()
             .WithOpenApi()
             .WithTags(nameof(Product))
-            .MapToApiVersion(new(1, 0));
+            .MapToApiVersion(new(1, 0))
+            .RequireAuthorization(Constant.Auth.Policies.Admin);
     }
 
     public async Task<Ok> HandleAsync(

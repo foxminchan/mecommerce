@@ -16,7 +16,8 @@ internal sealed class CreateVariantEndpoint
             .ProducesValidationProblem()
             .WithOpenApi()
             .WithTags(nameof(Variant))
-            .MapToApiVersion(new(1, 0));
+            .MapToApiVersion(new(1, 0))
+            .RequireAuthorization(Constant.Auth.Policies.Admin);
     }
 
     public async Task<Created<long>> HandleAsync(

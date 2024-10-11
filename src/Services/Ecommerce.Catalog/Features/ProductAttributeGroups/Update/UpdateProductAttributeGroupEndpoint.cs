@@ -17,7 +17,8 @@ internal sealed class UpdateProductAttributeGroupEndpoint
             .ProducesValidationProblem()
             .WithOpenApi()
             .WithTags(nameof(ProductAttributeGroup).Humanize(LetterCasing.Title))
-            .MapToApiVersion(new(1, 0));
+            .MapToApiVersion(new(1, 0))
+            .RequireAuthorization(Constant.Auth.Policies.Admin);
     }
 
     public async Task<Results<Ok, NotFound>> HandleAsync(
