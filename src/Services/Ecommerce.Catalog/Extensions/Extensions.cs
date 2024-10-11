@@ -1,4 +1,6 @@
-﻿namespace Ecommerce.Catalog.Extensions;
+﻿using GrpcMediaClient = Ecommerce.Media.Grpc.Media.MediaClient;
+
+namespace Ecommerce.Catalog.Extensions;
 
 internal static class Extensions
 {
@@ -8,8 +10,8 @@ internal static class Extensions
 
         builder.AddOpenApi();
         builder.AddVersioning();
-        builder.AddEndpoints(typeof(Program));
         builder.AddDefaultAuthentication();
+        builder.AddEndpoints(typeof(Program));
 
         builder.Services.Configure<JsonOptions>(options =>
         {
@@ -32,6 +34,7 @@ internal static class Extensions
 
         builder.Services.AddValidatorsFromAssemblyContaining<Program>(includeInternalTypes: true);
 
+        builder.Services.AddSingleton<IMediaService, MediaService>();
         builder.Services.AddSingleton<IActivityScope, ActivityScope>();
         builder.Services.AddSingleton<CommandHandlerMetrics>();
         builder.Services.AddSingleton<QueryHandlerMetrics>();
@@ -60,5 +63,12 @@ internal static class Extensions
                 });
             }
         );
+
+        builder
+            .Services.AddGrpcClient<GrpcMediaClient>(o =>
+            {
+                o.Address = new("https+http://media-api");
+            })
+            .AddStandardResilienceHandler();
     }
 }

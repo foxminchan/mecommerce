@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+option csharp_namespace = "Ecommerce.Media.Grpc";
+
+package MediaApi;
+
+service Media {
+    rpc GetImage (ImageRequest) returns (ImageResponse) {}
+}
+
+message ImageRequest {
+    string id = 1;
+}
+
+message ImageResponse {
+    string id = 1;
+    string url = 2;
+    string caption = 3;
+    string mediaType = 4;
+}

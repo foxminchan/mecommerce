@@ -1,4 +1,4 @@
-﻿namespace Ecommerce.Catalog.Features.Products;
+﻿namespace Ecommerce.Catalog.Features.Products.Dtos;
 
 public sealed record ProductVariantDto(
     string? Sku,

@@ -1,6 +1,6 @@
-﻿namespace Ecommerce.Catalog.Features.Products;
+﻿namespace Ecommerce.Catalog.Features.Products.Dtos;
 
-public sealed record ProductDto(
+public sealed record ProductDetailDto(
     Guid Id,
     string? Name,
     string? ShortDescription,
@@ -19,9 +19,9 @@ public sealed record ProductDto(
     string? ThumbnailUrl,
     Guid TaxId,
     long? BrandId,
-    List<ProductImageDto> ProductImages,
-    List<Guid> ProductRelateds,
-    List<ProductVariantDto> ProductVariants,
-    List<ProductAttributeCombinationDto> ProductAttributes,
-    List<long> ProductCategories
+    List<ProductImageDto>? ProductImages,
+    List<Guid>? ProductRelateds,
+    List<ProductVariantDto>? ProductVariants,
+    List<ProductAttributeCombinationDto>? ProductAttributes,
+    List<long>? ProductCategories
 );

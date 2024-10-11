@@ -3,8 +3,13 @@
   <ItemGroup>
     <PackageReference Include="Polly.Core" />
     <PackageReference Include="Aspire.Azure.Storage.Blobs" />
+    <PackageReference Include="Grpc.AspNetCore" />
     <PackageReference Include="MassTransit.EntityFrameworkCore" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Protobuf Include="Protos\media.proto" GrpcServices="Server" />
   </ItemGroup>
 
   <ItemGroup>

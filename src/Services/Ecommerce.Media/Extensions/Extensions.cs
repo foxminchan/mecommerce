@@ -11,6 +11,7 @@ internal static class Extensions
         builder.AddAzureBlobService();
         builder.AddEndpoints(typeof(Program));
 
+        builder.Services.AddGrpc();
         builder.Services.AddExceptionHandler<ValidationExceptionHandler>();
         builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
         builder.Services.AddProblemDetails();

@@ -21,6 +21,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Protobuf Include="..\Ecommerce.Media\Protos\media.proto" Link="Protos\media.proto" GrpcServices="Client" />
+  </ItemGroup>
+
+  <ItemGroup>
     <InternalsVisibleTo Include="Ecommerce.Catalog.UnitTests" />
     <InternalsVisibleTo Include="Ecommerce.Catalog.IntegrationTests" />
   </ItemGroup>
