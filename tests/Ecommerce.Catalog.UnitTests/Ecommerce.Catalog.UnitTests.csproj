@@ -16,6 +16,7 @@
     <PackageReference Include="coverlet.collector" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
     <PackageReference Include="Moq" />
+    <PackageReference Include="AutoBogus" />
     <PackageReference Include="ReportGenerator" />
     <PackageReference Include="FluentAssertions" />
   </ItemGroup>

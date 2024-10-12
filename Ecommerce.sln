@@ -123,6 +123,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{DEF7EDCC
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{20771828-45DD-48A3-8537-8BE48BCCD4E9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecommerce.Marten", "src\BuildingBlocks\Ecommerce.Marten\Ecommerce.Marten.csproj", "{F2F1778A-C43C-476B-871E-B6C217372490}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -255,6 +257,10 @@ Global
 		{42EA5A5C-36D0-42FA-B6CA-1DBEC3AA307E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F1228656-AB54-4AF0-ADA3-905C5BE9AA92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F1228656-AB54-4AF0-ADA3-905C5BE9AA92}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2F1778A-C43C-476B-871E-B6C217372490}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2F1778A-C43C-476B-871E-B6C217372490}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2F1778A-C43C-476B-871E-B6C217372490}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2F1778A-C43C-476B-871E-B6C217372490}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -314,6 +320,7 @@ Global
 		{F3F7DDCE-5A95-435B-86F5-E87746AECF0A} = {C36001D2-976C-4FCC-83A8-7B13758980F1}
 		{42EA5A5C-36D0-42FA-B6CA-1DBEC3AA307E} = {F3F7DDCE-5A95-435B-86F5-E87746AECF0A}
 		{F1228656-AB54-4AF0-ADA3-905C5BE9AA92} = {DEF7EDCC-8BFE-46BA-9A4C-A4B3F72F9381}
+		{F2F1778A-C43C-476B-871E-B6C217372490} = {5AAEE39B-AD5E-45A1-AAA9-ED49F7972486}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6A9BBFB9-9859-4F11-A68F-6B84DE44E6D6}
