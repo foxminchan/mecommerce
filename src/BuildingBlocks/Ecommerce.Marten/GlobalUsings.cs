@@ -1,0 +1,16 @@
+global using System.Diagnostics;
+global using System.Runtime.CompilerServices;
+global using Ecommerce.Marten.Configs;
+global using Ecommerce.Marten.OpenTelemetry;
+global using Ecommerce.MassTransit;
+global using Ecommerce.SharedKernel.ActivityScope;
+global using Ecommerce.SharedKernel.Model;
+global using Ecommerce.SharedKernel.OpenTelemetry;
+global using JasperFx.CodeGeneration;
+global using Marten;
+global using Marten.Events.Daemon.Resiliency;
+global using Marten.Services;
+global using Microsoft.Extensions.Configuration;
+global using Microsoft.Extensions.Hosting;
+global using Microsoft.Extensions.Logging;
+global using Weasel.Core;

@@ -30,4 +30,6 @@ public static class TelemetryTags
     {
         public const string Validation = $"{ActivitySourceProvider.DefaultSourceName}.validator";
     }
+
+    public const string Stream = $"{ActivitySourceProvider.DefaultSourceName}.stream";
 }

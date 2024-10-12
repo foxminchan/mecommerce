@@ -26,8 +26,8 @@ public sealed class CatalogContext(DbContextOptions<CatalogContext> options) : D
     {
         base.OnModelCreating(modelBuilder);
         modelBuilder.AddInboxStateEntity();
-        modelBuilder.AddOutboxMessageEntity();
         modelBuilder.AddOutboxStateEntity();
+        modelBuilder.AddOutboxMessageEntity();
         modelBuilder.HasPostgresExtension(UniqueType.Extension);
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(CatalogContext).Assembly);
     }
