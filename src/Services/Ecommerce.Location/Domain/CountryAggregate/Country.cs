@@ -50,4 +50,19 @@ public sealed class Country : AuditableEntity<long>, IAggregateRoot
         IsShippingAvailable = isShippingAvailable;
         IsBillingAvailable = isBillingAvailable;
     }
+
+    public void UpdateInformation(
+        string? name,
+        string? firstCode,
+        string? secondCode,
+        string? thirdCode,
+        Continent continent
+    )
+    {
+        Name = Guard.Against.NullOrEmpty(name);
+        FirstCode = Guard.Against.NullOrEmpty(firstCode);
+        SecondCode = secondCode;
+        ThirdCode = thirdCode;
+        Continent = Guard.Against.EnumOutOfRange(continent);
+    }
 }

@@ -4,7 +4,7 @@ namespace Ecommerce.Media.Features.GetFile;
 
 internal sealed record GetFileQuery(Guid Id) : IQuery<Result<FileResponse>>;
 
-internal sealed class GetFileHandler(IRepository<Image> repository, IBlobService blobService)
+internal sealed class GetFileHandler(IReadRepository<Image> repository, IBlobService blobService)
     : IQueryHandler<GetFileQuery, Result<FileResponse>>
 {
     public async Task<Result<FileResponse>> Handle(

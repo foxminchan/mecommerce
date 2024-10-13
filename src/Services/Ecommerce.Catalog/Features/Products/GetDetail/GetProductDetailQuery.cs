@@ -6,7 +6,7 @@ namespace Ecommerce.Catalog.Features.Products.GetDetail;
 internal sealed record GetProductDetailQuery(Guid Id) : IQuery<Result<ProductDetailDto>>;
 
 internal sealed class GetProductDetailHandler(
-    IRepository<Product> repository,
+    IReadRepository<Product> repository,
     IMediaService mediaService
 ) : IQueryHandler<GetProductDetailQuery, Result<ProductDetailDto>>
 {

@@ -6,7 +6,7 @@ namespace Ecommerce.Catalog.Features.Variants.ListPagination;
 internal sealed record ListVariantsPaginationQuery(PaginationRequest Filter)
     : IQuery<PagedResult<IEnumerable<VariantDto>>>;
 
-internal sealed class ListVariantsPaginationHandler(IRepository<Variant> repository)
+internal sealed class ListVariantsPaginationHandler(IReadRepository<Variant> repository)
     : IQueryHandler<ListVariantsPaginationQuery, PagedResult<IEnumerable<VariantDto>>>
 {
     public async Task<PagedResult<IEnumerable<VariantDto>>> Handle(

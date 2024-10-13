@@ -1,4 +1,6 @@
 global using Ardalis.GuardClauses;
+global using Ardalis.Result;
+global using Ardalis.Specification;
 global using Ardalis.Specification.EntityFrameworkCore;
 global using Ecommerce.Constant;
 global using Ecommerce.EF;
@@ -20,6 +22,8 @@ global using Ecommerce.SharedKernel.Validator;
 global using Ecommerce.SharedKernel.Versioning;
 global using FluentValidation;
 global using MassTransit;
+global using MediatR;
+global using Microsoft.AspNetCore.Http.HttpResults;
 global using Microsoft.AspNetCore.Http.Json;
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.EntityFrameworkCore.Metadata.Builders;

@@ -5,7 +5,7 @@ namespace Ecommerce.Catalog.Features.Variants.Get;
 
 internal sealed record GetVariantQuery(long Id) : IQuery<Result<VariantDto>>;
 
-internal sealed class GetVariantHandler(IRepository<Variant> repository)
+internal sealed class GetVariantHandler(IReadRepository<Variant> repository)
     : IQueryHandler<GetVariantQuery, Result<VariantDto>>
 {
     public async Task<Result<VariantDto>> Handle(

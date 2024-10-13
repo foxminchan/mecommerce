@@ -4,7 +4,7 @@ namespace Ecommerce.Media.Features.Get;
 
 internal sealed record GetMediaQuery(Guid Id) : IQuery<Result<ImageDto>>;
 
-internal sealed class GetMediaHandler(IRepository<Image> repository, IBlobService blobService)
+internal sealed class GetMediaHandler(IReadRepository<Image> repository, IBlobService blobService)
     : IQueryHandler<GetMediaQuery, Result<ImageDto>>
 {
     public async Task<Result<ImageDto>> Handle(
