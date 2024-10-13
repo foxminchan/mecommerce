@@ -8,6 +8,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Aspire\Ecommerce.ServiceDefaults\Ecommerce.ServiceDefaults.csproj" />
     <ProjectReference Include="..\..\BuildingBlocks\Ecommerce.EF\Ecommerce.EF.csproj" />
+    <ProjectReference Include="..\..\BuildingBlocks\Ecommerce.MassTransit\Ecommerce.MassTransit.csproj" />
   </ItemGroup>
 
 </Project>

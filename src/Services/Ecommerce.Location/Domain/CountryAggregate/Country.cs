@@ -1,8 +1,15 @@
-﻿namespace Ecommerce.Location.Domain.CountryAggregate;
+﻿using Ecommerce.Location.Domain.StateOrProvinceAggregate;
+
+namespace Ecommerce.Location.Domain.CountryAggregate;
 
 public sealed class Country : AuditableEntity<long>, IAggregateRoot
 {
-    private Country() { }
+    private readonly List<StateOrProvince> _stateOrProvinces;
+
+    private Country()
+    {
+        _stateOrProvinces = [];
+    }
 
     public Country(
         string? name,
@@ -34,6 +41,8 @@ public sealed class Country : AuditableEntity<long>, IAggregateRoot
     public bool IsActive { get; private set; }
     public bool IsShippingAvailable { get; private set; }
     public bool IsBillingAvailable { get; private set; }
+
+    public IReadOnlyCollection<StateOrProvince> StateOrProvinces => _stateOrProvinces.AsReadOnly();
 
     public void UpdateStatus(bool isActive, bool isShippingAvailable, bool isBillingAvailable)
     {

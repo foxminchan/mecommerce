@@ -37,5 +37,11 @@ internal sealed class SupplierConfiguration : IEntityTypeConfiguration<Supplier>
                     .IsRequired();
             }
         );
+
+        builder.Property(e => e.CreatedAt).HasDefaultValue(DateTime.UtcNow);
+
+        builder.Property(e => e.LastModifiedAt).HasDefaultValue(DateTime.UtcNow);
+
+        builder.Property(e => e.Version).IsConcurrencyToken();
     }
 }

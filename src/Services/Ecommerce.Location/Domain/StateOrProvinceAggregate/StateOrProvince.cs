@@ -1,10 +1,16 @@
 ﻿using Ecommerce.Location.Domain.CountryAggregate;
+using Ecommerce.Location.Domain.DistrictAggregate;
 
 namespace Ecommerce.Location.Domain.StateOrProvinceAggregate;
 
 public sealed class StateOrProvince : AuditableEntity<long>, IAggregateRoot
 {
-    private StateOrProvince() { }
+    private readonly List<District> _districts;
+
+    private StateOrProvince()
+    {
+        _districts = [];
+    }
 
     public StateOrProvince(string? name, string? code, Type type, long countryId)
         : this()
@@ -20,6 +26,8 @@ public sealed class StateOrProvince : AuditableEntity<long>, IAggregateRoot
     public Type Type { get; private set; }
     public long CountryId { get; private set; }
     public Country Country { get; private set; } = default!;
+
+    public IReadOnlyCollection<District> Districts => _districts.AsReadOnly();
 
     public void UpdateInformation(string name, string code, Type type, long countryId)
     {

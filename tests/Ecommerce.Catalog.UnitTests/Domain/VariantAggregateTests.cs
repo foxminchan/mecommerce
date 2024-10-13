@@ -39,7 +39,7 @@ public sealed class VariantAggregateTests
     {
         // Arrange
         const string name = "Color";
-        const VariantType invalidType = (VariantType)999;
+        const VariantType invalidType = (VariantType)99;
 
         // Act
         Func<Variant> action = () => new Variant(name, invalidType);
@@ -98,7 +98,7 @@ public sealed class VariantAggregateTests
         // Arrange
         var variant = new Variant("Color", VariantType.Color);
         const string newName = "Size";
-        const VariantType invalidType = (VariantType)999;
+        const VariantType invalidType = (VariantType)99;
 
         // Act
         Action action = () => variant.Update(newName, invalidType);
