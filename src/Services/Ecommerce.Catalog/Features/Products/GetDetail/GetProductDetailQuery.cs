@@ -25,23 +25,15 @@ internal sealed class GetProductDetailHandler(
             return Result.NotFound();
         }
 
-        var thumbnailTask = mediaService.GetImageAsync(product.ThumbnailId, cancellationToken);
+        var (thumbnail, productImageDto) = await product.GetFirstAsync(
+            item => mediaService.GetImageAsync(item.ThumbnailId, cancellationToken),
+            item =>
+                item.ProductImages.Select(x =>
+                    mediaService.GetImageAsync(x.ImageId, cancellationToken)
+                ),
+            cancellationToken
+        );
 
-        var productImages = product.ProductImages.Select(x => x.ImageId).ToList();
-
-        var productImageTasks = productImages
-            .Select(x => mediaService.GetImageAsync(x, cancellationToken))
-            .ToList();
-
-        await Task.WhenAll(thumbnailTask, Task.WhenAll(productImageTasks));
-
-        var thumbnailUrl = thumbnailTask.Result;
-        var productImageDto = productImageTasks
-            .Select(x => x.Result)
-            .Where(x => x is not null)
-            .Select(x => x!)
-            .ToList();
-
-        return product.ToProductDetailDto(thumbnailUrl?.Url, productImageDto);
+        return product.ToProductDetailDto(thumbnail?.Url, productImageDto);
     }
 }

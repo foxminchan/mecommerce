@@ -23,20 +23,14 @@ internal sealed class ListProductsRelatedHandler(
             cancellationToken
         );
 
-        var imageTasks = products
-            .Select(async product =>
-            {
-                var image = await mediaService.GetImageAsync(
-                    product.ThumbnailId,
-                    cancellationToken
-                );
-                return (product.Id, image?.Url);
-            })
-            .ToList();
-
-        var productImages = await Task.WhenAll(imageTasks);
-
-        var productImagesDict = productImages.ToDictionary(x => x.Id, x => x.Url);
+        var productImages = await products.ToDictionaryAsync(
+            product => product.Id,
+            product =>
+                mediaService
+                    .GetImageAsync(product.ThumbnailId, cancellationToken)
+                    .ContinueWith(t => t.Result?.Url, cancellationToken),
+            cancellationToken
+        );
 
         var totalRecords = await repository.CountAsync(
             new ProductFilterSpec(request.Id),
@@ -47,6 +41,6 @@ internal sealed class ListProductsRelatedHandler(
 
         PagedInfo pagedInfo = new(filter.PageIndex, filter.PageSize, totalPages, totalRecords);
 
-        return new(pagedInfo, products.ToProductListDtos(productImagesDict));
+        return new(pagedInfo, products.ToProductListDtos(productImages));
     }
 }
