@@ -16,6 +16,8 @@ public static class ServiceName
         public const string Tax = "tax-db";
         public const string Webhook = "webhook-db";
         public const string Location = "location-db";
+        public const string Shipment = "shipment-db";
+        public const string Payment = "payment-db";
     }
 
     public const string Redis = "redis";

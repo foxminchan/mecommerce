@@ -45,6 +45,8 @@ var ratingDb = mongodb.AddDatabase(ServiceName.Database.Rating);
 var taxDb = postgres.AddDatabase(ServiceName.Database.Tax);
 var webhookDb = postgres.AddDatabase(ServiceName.Database.Webhook);
 var locationDb = postgres.AddDatabase(ServiceName.Database.Location);
+var shipmentDb = postgres.AddDatabase(ServiceName.Database.Shipment);
+var paymentDb = postgres.AddDatabase(ServiceName.Database.Payment);
 
 // Services
 var identityApi = builder
@@ -126,6 +128,18 @@ var locationApi = builder
     .WithReference(locationDb)
     .WithEnvironment("Identity__Url", identityEndpoint);
 
+var shipmentApi = builder
+    .AddProject<Ecommerce_Shipment>("shipment-api")
+    .WithReference(shipmentDb)
+    .WithReference(rabbitMq)
+    .WithEnvironment("Identity__Url", identityEndpoint);
+
+var paymentApi = builder
+    .AddProject<Ecommerce_Payment>("payment-api")
+    .WithReference(paymentDb)
+    .WithReference(rabbitMq)
+    .WithEnvironment("Identity__Url", identityEndpoint);
+
 // Bff
 var userBff = builder
     .AddProject<Ecommerce_Bff_StoreFront>("user-bff")
@@ -171,13 +185,15 @@ builder
     .WithReference(promotionApi)
     .WithReference(ratingApi)
     .WithReference(taxApi)
+    .WithReference(locationApi)
+    .WithReference(shipmentApi)
+    .WithReference(paymentApi)
     .WithReference(userBff)
     .WithReference(adminBff)
     .WithReference(storeFront)
     .WithReference(backOffice)
     .WithReference(webhookApi)
     .WithReference(webhookClient)
-    .WithReference(locationApi)
     .WithExternalHttpEndpoints();
 
 identityApi
@@ -191,6 +207,8 @@ identityApi
     .WithEnvironment("Clients__Rating", ratingApi.GetEndpoint(launchProfileName))
     .WithEnvironment("Clients__Tax", taxApi.GetEndpoint(launchProfileName))
     .WithEnvironment("Clients__Location", locationApi.GetEndpoint(launchProfileName))
+    .WithEnvironment("Clients__Shipment", shipmentApi.GetEndpoint(launchProfileName))
+    .WithEnvironment("Clients__Payment", paymentApi.GetEndpoint(launchProfileName))
     .WithEnvironment("Clients__StoreFront", userBffEndpoint)
     .WithEnvironment("Clients__BackOffice", adminBffEndpoint)
     .WithEnvironment("Clients__Webhook", webhookApi.GetEndpoint(launchProfileName))

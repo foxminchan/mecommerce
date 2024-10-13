@@ -33,8 +33,10 @@
     <ProjectReference Include="..\..\Services\Ecommerce.Media\Ecommerce.Media.csproj" />
     <ProjectReference Include="..\..\Services\Ecommerce.Notification\Ecommerce.Notification.csproj" />
     <ProjectReference Include="..\..\Services\Ecommerce.Order\Ecommerce.Order.csproj" />
+    <ProjectReference Include="..\..\Services\Ecommerce.Payment\Ecommerce.Payment.csproj" />
     <ProjectReference Include="..\..\Services\Ecommerce.Promotion\Ecommerce.Promotion.csproj" />
     <ProjectReference Include="..\..\Services\Ecommerce.Rating\Ecommerce.Rating.csproj" />
+    <ProjectReference Include="..\..\Services\Ecommerce.Shipment\Ecommerce.Shipment.csproj" />
     <ProjectReference Include="..\..\Services\Ecommerce.Tax\Ecommerce.Tax.csproj" />
     <ProjectReference Include="..\..\Services\Ecommerce.Webhook\Ecommerce.Webhook.csproj" />
   </ItemGroup>

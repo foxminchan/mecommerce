@@ -1,4 +1,6 @@
-﻿namespace Ecommerce.Marten;
+﻿using Microsoft.Extensions.DependencyInjection;
+
+namespace Ecommerce.Marten;
 
 public static class Extensions
 {
@@ -25,5 +27,14 @@ public static class Extensions
                 .OptimizeArtifactWorkflow(TypeLoadMode.Static)
                 .AddAsyncDaemon(martenConfig.DaemonMode);
         }
+
+        builder
+            .Services.AddOpenTelemetry()
+            .WithMetrics(t =>
+                t.AddMeter(Telemetry.ActivityName, ActivitySourceProvider.DefaultSourceName)
+            )
+            .WithTracing(t =>
+                t.AddSource(Telemetry.ActivityName, ActivitySourceProvider.DefaultSourceName)
+            );
     }
 }
