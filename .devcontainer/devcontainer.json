@@ -1,14 +1,14 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/ubuntu
 {
-  "name": "Ubuntu",
-  "image": "mcr.microsoft.com/devcontainers/base:jammy",
+  "name": "Ecommerce",
+  "dockerFile": "Dockerfile",
   "features": {
     "ghcr.io/devcontainers/features/docker-in-docker:2": {},
     "ghcr.io/devcontainers/features/node:1": {},
     "ghcr.io/rio/features/k3d:1": {},
-    "ghcr.io/nikiforovall/devcontainer-features/dotnet-aspire:1": {},
     "ghcr.io/devcontainers/features/common-utils:2": {},
     "ghcr.io/prom3theu5/aspirational-manifests/aspirate:latest": {}
-  }
+  },
+  "postCreateCommand": "dotnet restore"
 }
