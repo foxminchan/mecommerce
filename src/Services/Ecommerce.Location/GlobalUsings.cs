@@ -1,0 +1,9 @@
+global using Ardalis.GuardClauses;
+global using Ecommerce.Location.Extensions;
+global using Ecommerce.ServiceDefaults;
+global using Ecommerce.ServiceDefaults.OpenApiOptions;
+global using Ecommerce.SharedKernel.Converters;
+global using Ecommerce.SharedKernel.Endpoints;
+global using Ecommerce.SharedKernel.Model;
+global using Ecommerce.SharedKernel.Versioning;
+global using Microsoft.AspNetCore.Http.Json;

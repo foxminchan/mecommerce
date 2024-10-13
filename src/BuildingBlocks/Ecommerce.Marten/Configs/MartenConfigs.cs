@@ -1,6 +1,6 @@
 ﻿namespace Ecommerce.Marten.Configs;
 
-public class MartenConfigs
+public sealed class MartenConfigs
 {
     public const string DefaultSchema = "public";
     public bool UseMetadata = true;

@@ -3,7 +3,7 @@
 namespace Ecommerce.Inventory.Domain.WarehouseAggregate;
 
 [JsonConverter(typeof(JsonStringEnumConverter))]
-public enum Status
+public enum Status : byte
 {
     Available = 0,
     AlmostFull = 1,

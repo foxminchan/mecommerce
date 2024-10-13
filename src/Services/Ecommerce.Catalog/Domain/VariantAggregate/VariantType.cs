@@ -3,7 +3,7 @@
 namespace Ecommerce.Catalog.Domain.VariantAggregate;
 
 [JsonConverter(typeof(JsonStringEnumConverter))]
-public enum VariantType
+public enum VariantType : byte
 {
     Color = 0,
     Storage = 1,

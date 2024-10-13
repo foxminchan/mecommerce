@@ -3,7 +3,7 @@
 /// <summary>
 ///     ref: https://github.com/oskardudycz/EventSourcing.NetCore/blob/main/Core.Marten/MartenConfig.cs
 /// </summary>
-public class StoreConfigs
+public sealed class StoreConfigs
 {
     public static StoreOptions SetStoreOptions(
         MartenConfigs martenConfig,
