@@ -29,7 +29,7 @@ public sealed class StateOrProvince : AuditableEntity<long>, IAggregateRoot
 
     public IReadOnlyCollection<District> Districts => _districts.AsReadOnly();
 
-    public void UpdateInformation(string name, string code, Type type, long countryId)
+    public void UpdateInformation(string? name, string? code, Type type, long countryId)
     {
         Name = Guard.Against.NullOrEmpty(name);
         Code = Guard.Against.NullOrEmpty(code);

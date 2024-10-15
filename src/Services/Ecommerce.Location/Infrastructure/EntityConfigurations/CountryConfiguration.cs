@@ -29,5 +29,7 @@ internal sealed class CountryConfiguration : IEntityTypeConfiguration<Country>
             .WithOne(x => x.Country)
             .HasForeignKey(x => x.CountryId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Navigation(x => x.StateOrProvinces).AutoInclude();
     }
 }

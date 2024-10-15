@@ -21,6 +21,7 @@ global using Ecommerce.SharedKernel.Queries;
 global using Ecommerce.SharedKernel.Validator;
 global using Ecommerce.SharedKernel.Versioning;
 global using FluentValidation;
+global using Humanizer;
 global using MassTransit;
 global using MediatR;
 global using Microsoft.AspNetCore.Http.HttpResults;
