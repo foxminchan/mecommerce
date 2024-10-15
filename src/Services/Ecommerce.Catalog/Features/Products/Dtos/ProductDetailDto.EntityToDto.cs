@@ -12,10 +12,10 @@ public static partial class EntityToDto
     {
         var productRelates = entity.ProductRelateds.Select(x => x.ProductId).ToList();
         var productCategories = entity.ProductCategories.Select(x => x.CategoryId).ToList();
-        var productVariants = entity.ProductVariants.ToList().ToProductVariantDtos();
+        var productVariants = entity.ProductVariants.ToProductVariantDtos().ToList();
         var productAttributeCombinations = entity
-            .ProductAttributes.ToList()
-            .ToProductAttributeCombinationDtos();
+            .ProductAttributes.ToProductAttributeCombinationDtos()
+            .ToList();
 
         return new(
             entity.Id,

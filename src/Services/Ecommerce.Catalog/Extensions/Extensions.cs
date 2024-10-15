@@ -19,6 +19,7 @@ internal static class Extensions
             options.SerializerOptions.Converters.Add(new StringTrimmerJsonConverter());
         });
 
+        builder.Services.AddGrpc();
         builder.Services.AddExceptionHandler<ValidationExceptionHandler>();
         builder.Services.AddExceptionHandler<UniqueConstraintExceptionHandler>();
         builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
@@ -30,6 +31,7 @@ internal static class Extensions
             cfg.AddOpenBehavior(typeof(ValidationBehavior<,>));
             cfg.AddOpenBehavior(typeof(LoggingBehavior<,>));
             cfg.AddOpenBehavior(typeof(ActivityBehavior<,>));
+            cfg.AddOpenBehavior(typeof(TxBehavior<,>));
         });
 
         builder.Services.AddValidatorsFromAssemblyContaining<Program>(includeInternalTypes: true);

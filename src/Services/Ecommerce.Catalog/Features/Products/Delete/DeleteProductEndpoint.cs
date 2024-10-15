@@ -15,7 +15,7 @@ internal sealed class DeleteProductEndpoint : IEndpoint<NoContent, DeleteProduct
             .WithOpenApi()
             .WithTags(nameof(Product))
             .MapToApiVersion(new(1, 0))
-            .RequireAuthorization(Constant.Auth.Policies.Admin);
+            .RequireAuthorization(Authorization.Policies.Admin);
     }
 
     public async Task<NoContent> HandleAsync(

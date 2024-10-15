@@ -1,4 +1,6 @@
-﻿namespace Ecommerce.Catalog.Domain.ProductAggregate.Specifications;
+﻿using DbFunctions = Microsoft.EntityFrameworkCore.EF;
+
+namespace Ecommerce.Catalog.Domain.ProductAggregate.Specifications;
 
 public sealed class ProductFilterSpec : Specification<Product>
 {
@@ -28,7 +30,11 @@ public sealed class ProductFilterSpec : Specification<Product>
 
         if (!string.IsNullOrWhiteSpace(request.Search))
         {
-            Query.Where(x => x.SearchVector!.Matches(request.Search));
+            var query = DbFunctions.Functions.PhraseToTsQuery("english", request.Search);
+
+            Query
+                .Where(x => x.SearchVector!.Matches(query))
+                .OrderBy(x => x.SearchVector!.Rank(query));
         }
 
         if (request.IsFeatured)

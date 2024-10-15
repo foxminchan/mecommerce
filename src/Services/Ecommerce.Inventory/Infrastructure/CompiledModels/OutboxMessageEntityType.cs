@@ -592,6 +592,26 @@ index2.AddAnnotation("Relational:Name", "ix_outbox_message_inbox_message_id_inbo
 return runtimeEntityType;
 }
 
+public static RuntimeForeignKey CreateForeignKey1(RuntimeEntityType declaringEntityType, RuntimeEntityType principalEntityType)
+{
+    var runtimeForeignKey = declaringEntityType.AddForeignKey(new[] { declaringEntityType.FindProperty("OutboxId") },
+        principalEntityType.FindKey(new[] { principalEntityType.FindProperty("OutboxId") }),
+        principalEntityType);
+
+    runtimeForeignKey.AddAnnotation("Relational:Name", "fk_outbox_message_outbox_state_outbox_id");
+    return runtimeForeignKey;
+}
+
+public static RuntimeForeignKey CreateForeignKey2(RuntimeEntityType declaringEntityType, RuntimeEntityType principalEntityType)
+{
+    var runtimeForeignKey = declaringEntityType.AddForeignKey(new[] { declaringEntityType.FindProperty("InboxMessageId"), declaringEntityType.FindProperty("InboxConsumerId") },
+        principalEntityType.FindKey(new[] { principalEntityType.FindProperty("MessageId"), principalEntityType.FindProperty("ConsumerId") }),
+        principalEntityType);
+
+    runtimeForeignKey.AddAnnotation("Relational:Name", "fk_outbox_message_inbox_state_inbox_message_id_inbox_consumer_");
+    return runtimeForeignKey;
+}
+
 public static void CreateAnnotations(RuntimeEntityType runtimeEntityType)
 {
     runtimeEntityType.AddAnnotation("Relational:FunctionName", null);

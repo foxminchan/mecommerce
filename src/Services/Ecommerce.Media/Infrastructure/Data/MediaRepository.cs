@@ -1,4 +1,6 @@
-﻿namespace Ecommerce.Media.Infrastructure.Data;
+﻿using Ecommerce.EF.Repositories;
+
+namespace Ecommerce.Media.Infrastructure.Data;
 
 public sealed class MediaRepository<T>(MediaContext dbContext)
     : RepositoryBase<T>(dbContext),

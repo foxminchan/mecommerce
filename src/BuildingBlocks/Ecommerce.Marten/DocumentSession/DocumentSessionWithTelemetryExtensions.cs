@@ -5,7 +5,7 @@ public static class DocumentSessionWithTelemetryExtensions
     public static async Task GetAndUpdate<T>(
         this IDocumentSession documentSession,
         Guid id,
-        Event @event,
+        DomainEvent @event,
         CancellationToken cancellationToken = default
     )
         where T : class

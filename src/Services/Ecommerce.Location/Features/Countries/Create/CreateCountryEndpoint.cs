@@ -16,7 +16,8 @@ internal sealed class CreateCountryEndpoint
             .ProducesValidationProblem()
             .WithOpenApi()
             .WithTags(nameof(Country))
-            .MapToApiVersion(new(1, 0));
+            .MapToApiVersion(new(1, 0))
+            .RequireAuthorization(Authorization.Policies.Admin);
     }
 
     public async Task<Created<long>> HandleAsync(
@@ -27,6 +28,13 @@ internal sealed class CreateCountryEndpoint
     {
         var result = await sender.Send(request, cancellationToken);
 
-        return TypedResults.Created($"/api/v1/{result.Value}", result.Value);
+        return TypedResults.Created(
+            new UrlBuilder()
+                .WithVersion()
+                .WithResource(nameof(Countries))
+                .WithId(result.Value)
+                .Build(),
+            result.Value
+        );
     }
 }

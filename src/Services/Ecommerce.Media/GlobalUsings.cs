@@ -3,6 +3,7 @@ global using Ardalis.Result;
 global using Ardalis.Specification.EntityFrameworkCore;
 global using Ecommerce.Constant;
 global using Ecommerce.EF;
+global using Ecommerce.EF.Transaction;
 global using Ecommerce.MassTransit;
 global using Ecommerce.Media.Extensions;
 global using Ecommerce.Media.Filters;

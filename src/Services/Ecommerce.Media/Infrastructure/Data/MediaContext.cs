@@ -2,7 +2,9 @@
 
 namespace Ecommerce.Media.Infrastructure.Data;
 
-public sealed class MediaContext(DbContextOptions<MediaContext> options) : DbContext(options)
+public sealed class MediaContext(DbContextOptions<MediaContext> options)
+    : DbContext(options),
+        IDatabaseFacade
 {
     public DbSet<Image> Images => Set<Image>();
 

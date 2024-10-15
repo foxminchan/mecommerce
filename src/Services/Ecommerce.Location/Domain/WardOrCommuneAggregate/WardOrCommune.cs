@@ -27,7 +27,7 @@ public sealed class WardOrCommune : AuditableEntity<long>, IAggregateRoot
 
     public IReadOnlyCollection<Address> Addresses => _addresses.AsReadOnly();
 
-    public void UpdateInformation(string name, Type type, long districtId)
+    public void UpdateInformation(string? name, Type type, long districtId)
     {
         Name = Guard.Against.NullOrEmpty(name);
         Type = Guard.Against.EnumOutOfRange(type);

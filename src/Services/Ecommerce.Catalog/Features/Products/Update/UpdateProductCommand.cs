@@ -29,6 +29,7 @@ internal sealed record UpdateProductCommand(
     ProductAttributeCombinationDto[] ProductAttributeCombination
 ) : ICommand;
 
+[TxScope]
 internal sealed class UpdateProductHandler(IRepository<Product> repository)
     : ICommandHandler<UpdateProductCommand>
 {

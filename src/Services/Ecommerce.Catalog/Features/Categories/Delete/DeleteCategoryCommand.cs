@@ -23,6 +23,6 @@ internal sealed class DeleteCategoryHandler(IRepository<Category> repository)
 
         await repository.SaveChangesAsync(cancellationToken);
 
-        return Result.Success();
+        return Result.NoContent();
     }
 }

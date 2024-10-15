@@ -27,6 +27,9 @@ internal sealed class CreateMediaEndpoint : IEndpoint<Created<Guid>, CreateMedia
     {
         var result = await sender.Send(request, cancellationToken);
 
-        return TypedResults.Created($"/api/v1/{result.Value}", result.Value);
+        return TypedResults.Created(
+            new UrlBuilder().WithVersion().WithResource("medias").WithId(result.Value).Build(),
+            result.Value
+        );
     }
 }

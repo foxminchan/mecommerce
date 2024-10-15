@@ -1,4 +1,5 @@
-﻿using Ecommerce.Media.Domain;
+﻿using Ecommerce.EF.Repositories;
+using Ecommerce.Media.Domain;
 
 namespace Ecommerce.Media.Features.Delete;
 
@@ -27,6 +28,6 @@ internal sealed class DeleteMediaHandler(IRepository<Image> repository, IBlobSer
 
         await Task.WhenAll(tasks);
 
-        return Result.Success();
+        return Result.NoContent();
     }
 }

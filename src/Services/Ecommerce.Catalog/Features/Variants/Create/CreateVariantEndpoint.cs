@@ -17,7 +17,7 @@ internal sealed class CreateVariantEndpoint
             .WithOpenApi()
             .WithTags(nameof(Variant))
             .MapToApiVersion(new(1, 0))
-            .RequireAuthorization(Constant.Auth.Policies.Admin);
+            .RequireAuthorization(Authorization.Policies.Admin);
     }
 
     public async Task<Created<long>> HandleAsync(
@@ -28,6 +28,13 @@ internal sealed class CreateVariantEndpoint
     {
         var result = await sender.Send(request, cancellationToken);
 
-        return TypedResults.Created($"/api/v1/variants/{result.Value}", result.Value);
+        return TypedResults.Created(
+            new UrlBuilder()
+                .WithVersion()
+                .WithResource(nameof(Variants))
+                .WithId(result.Value)
+                .Build(),
+            result.Value
+        );
     }
 }

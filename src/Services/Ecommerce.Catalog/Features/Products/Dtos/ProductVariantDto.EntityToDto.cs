@@ -15,7 +15,7 @@ public static partial class EntityToDto
         );
     }
 
-    public static List<ProductVariantDto> ToProductVariantDtos(
+    public static IEnumerable<ProductVariantDto> ToProductVariantDtos(
         this IEnumerable<ProductVariant> productVariants
     )
     {

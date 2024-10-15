@@ -76,6 +76,7 @@ namespace Ecommerce.Inventory.Infrastructure.CompiledModels
                 typeof(DateTime),
                 propertyInfo: typeof(AuditableEntity<long>).GetProperty("CreatedAt", BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly),
                 fieldInfo: typeof(AuditableEntity<long>).GetField("<CreatedAt>k__BackingField", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly),
+                valueGenerated: ValueGenerated.OnAdd,
                 sentinel: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
             createdAt.TypeMapping = NpgsqlTimestampTzTypeMapping.Default.Clone(
                 comparer: new ValueComparer<DateTime>(
@@ -92,6 +93,7 @@ namespace Ecommerce.Inventory.Infrastructure.CompiledModels
                     (DateTime v) => v));
             createdAt.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
             createdAt.AddAnnotation("Relational:ColumnName", "created_at");
+            createdAt.AddAnnotation("Relational:DefaultValue", new DateTime(2024, 10, 20, 10, 46, 27, 321, DateTimeKind.Utc).AddTicks(6934));
 
             var email = runtimeEntityType.AddProperty(
                 "Email",
@@ -119,34 +121,13 @@ namespace Ecommerce.Inventory.Infrastructure.CompiledModels
         email.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
         email.AddAnnotation("Relational:ColumnName", "email");
 
-        var isDeleted = runtimeEntityType.AddProperty(
-            "IsDeleted",
-            typeof(bool),
-            propertyInfo: typeof(Supplier).GetProperty("IsDeleted", BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly),
-            fieldInfo: typeof(Supplier).GetField("<IsDeleted>k__BackingField", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly),
-            sentinel: false);
-        isDeleted.TypeMapping = NpgsqlBoolTypeMapping.Default.Clone(
-            comparer: new ValueComparer<bool>(
-                (bool v1, bool v2) => v1 == v2,
-                (bool v) => v.GetHashCode(),
-                (bool v) => v),
-            keyComparer: new ValueComparer<bool>(
-                (bool v1, bool v2) => v1 == v2,
-                (bool v) => v.GetHashCode(),
-                (bool v) => v),
-            providerValueComparer: new ValueComparer<bool>(
-                (bool v1, bool v2) => v1 == v2,
-                (bool v) => v.GetHashCode(),
-                (bool v) => v));
-        isDeleted.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
-        isDeleted.AddAnnotation("Relational:ColumnName", "is_deleted");
-
         var lastModifiedAt = runtimeEntityType.AddProperty(
             "LastModifiedAt",
             typeof(DateTime?),
             propertyInfo: typeof(AuditableEntity<long>).GetProperty("LastModifiedAt", BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly),
             fieldInfo: typeof(AuditableEntity<long>).GetField("<LastModifiedAt>k__BackingField", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly),
-            nullable: true);
+            nullable: true,
+            valueGenerated: ValueGenerated.OnAdd);
         lastModifiedAt.TypeMapping = NpgsqlTimestampTzTypeMapping.Default.Clone(
             comparer: new ValueComparer<DateTime?>(
                 (Nullable<DateTime> v1, Nullable<DateTime> v2) => v1.HasValue && v2.HasValue && (DateTime)v1 == (DateTime)v2 || !v1.HasValue && !v2.HasValue,
@@ -162,6 +143,7 @@ namespace Ecommerce.Inventory.Infrastructure.CompiledModels
                 (Nullable<DateTime> v) => v.HasValue ? (Nullable<DateTime>)(DateTime)v : default(Nullable<DateTime>)));
         lastModifiedAt.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
         lastModifiedAt.AddAnnotation("Relational:ColumnName", "last_modified_at");
+        lastModifiedAt.AddAnnotation("Relational:DefaultValue", new DateTime(2024, 10, 20, 10, 46, 27, 321, DateTimeKind.Utc).AddTicks(7314));
 
         var name = runtimeEntityType.AddProperty(
             "Name",
@@ -220,6 +202,7 @@ var version = runtimeEntityType.AddProperty(
     typeof(Guid),
     propertyInfo: typeof(AuditableEntity<long>).GetProperty("Version", BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly),
     fieldInfo: typeof(AuditableEntity<long>).GetField("<Version>k__BackingField", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly),
+    concurrencyToken: true,
     sentinel: new Guid("00000000-0000-0000-0000-000000000000"));
 version.TypeMapping = GuidTypeMapping.Default.Clone(
     comparer: new ValueComparer<Guid>(

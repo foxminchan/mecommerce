@@ -21,6 +21,6 @@ internal sealed class DeleteAttributeGroupHandler(IRepository<ProductAttributeGr
 
         await repository.DeleteAsync(attributeGroup, cancellationToken);
 
-        return Result.Success();
+        return Result.NoContent();
     }
 }

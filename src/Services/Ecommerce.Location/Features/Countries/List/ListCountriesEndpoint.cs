@@ -7,7 +7,10 @@ internal sealed class ListCountriesEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        app.MapGet("/countries", async (ISender sender) => await HandleAsync(new(), sender))
+        app.MapGet(
+                "/countries",
+                async (string? name, ISender sender) => await HandleAsync(new(name), sender)
+            )
             .ProducesOk<List<CountryDto>>()
             .WithOpenApi()
             .WithTags(nameof(Country))

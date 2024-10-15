@@ -1,4 +1,6 @@
-﻿var builder = WebApplication.CreateBuilder(args);
+﻿using Ecommerce.Catalog.Grpc;
+
+var builder = WebApplication.CreateBuilder(args);
 
 builder.AddApplicationServices();
 
@@ -13,5 +15,7 @@ var apiVersionSet = app.NewApiVersionSet().HasApiVersion(new(1, 0)).ReportApiVer
 app.UseDefaultOpenApi();
 
 app.MapEndpoints(apiVersionSet);
+
+app.MapGrpcService<ProductService>();
 
 app.Run();

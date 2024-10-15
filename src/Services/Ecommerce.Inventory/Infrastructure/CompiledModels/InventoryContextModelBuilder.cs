@@ -28,6 +28,8 @@ namespace Ecommerce.Inventory.Infrastructure.CompiledModels
             StockEntityType.CreateForeignKey1(stock, supplier);
             StockEntityType.CreateForeignKey2(stock, warehouse);
             ContactPersonEntityType.CreateForeignKey1(contactPerson, supplier);
+            OutboxMessageEntityType.CreateForeignKey1(outboxMessage, outboxState);
+            OutboxMessageEntityType.CreateForeignKey2(outboxMessage, inboxState);
 
             StockEntityType.CreateAnnotations(stock);
             ContactPersonEntityType.CreateAnnotations(contactPerson);
@@ -67,6 +69,8 @@ namespace Ecommerce.Inventory.Infrastructure.CompiledModels
             ecommerceInventoryDomainStockAggregateStockTableBase.Columns.Add("on_hand_qty", on_hand_qtyColumnBase);
             var product_idColumnBase = new ColumnBase<ColumnMappingBase>("product_id", "uuid", ecommerceInventoryDomainStockAggregateStockTableBase);
             ecommerceInventoryDomainStockAggregateStockTableBase.Columns.Add("product_id", product_idColumnBase);
+            var product_variant_idColumnBase = new ColumnBase<ColumnMappingBase>("product_variant_id", "bigint", ecommerceInventoryDomainStockAggregateStockTableBase);
+            ecommerceInventoryDomainStockAggregateStockTableBase.Columns.Add("product_variant_id", product_variant_idColumnBase);
             var reserved_qtyColumnBase = new ColumnBase<ColumnMappingBase>("reserved_qty", "bigint", ecommerceInventoryDomainStockAggregateStockTableBase);
             ecommerceInventoryDomainStockAggregateStockTableBase.Columns.Add("reserved_qty", reserved_qtyColumnBase);
             var supplier_idColumnBase = new ColumnBase<ColumnMappingBase>("supplier_id", "bigint", ecommerceInventoryDomainStockAggregateStockTableBase)
@@ -88,6 +92,7 @@ namespace Ecommerce.Inventory.Infrastructure.CompiledModels
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)last_modified_atColumnBase, stock.FindProperty("LastModifiedAt")!, ecommerceInventoryDomainStockAggregateStockMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)on_hand_qtyColumnBase, stock.FindProperty("OnHandQty")!, ecommerceInventoryDomainStockAggregateStockMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)product_idColumnBase, stock.FindProperty("ProductId")!, ecommerceInventoryDomainStockAggregateStockMappingBase);
+            RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)product_variant_idColumnBase, stock.FindProperty("ProductVariantId")!, ecommerceInventoryDomainStockAggregateStockMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)reserved_qtyColumnBase, stock.FindProperty("ReservedQty")!, ecommerceInventoryDomainStockAggregateStockMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)supplier_idColumnBase, stock.FindProperty("SupplierId")!, ecommerceInventoryDomainStockAggregateStockMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)versionColumnBase, stock.FindProperty("Version")!, ecommerceInventoryDomainStockAggregateStockMappingBase);
@@ -111,6 +116,8 @@ namespace Ecommerce.Inventory.Infrastructure.CompiledModels
             stocksTable.Columns.Add("on_hand_qty", on_hand_qtyColumn);
             var product_idColumn = new Column("product_id", "uuid", stocksTable);
             stocksTable.Columns.Add("product_id", product_idColumn);
+            var product_variant_idColumn = new Column("product_variant_id", "bigint", stocksTable);
+            stocksTable.Columns.Add("product_variant_id", product_variant_idColumn);
             var reserved_qtyColumn = new Column("reserved_qty", "bigint", stocksTable);
             stocksTable.Columns.Add("reserved_qty", reserved_qtyColumn);
             var supplier_idColumn = new Column("supplier_id", "bigint", stocksTable)
@@ -156,6 +163,7 @@ namespace Ecommerce.Inventory.Infrastructure.CompiledModels
             RelationalModel.CreateColumnMapping(last_modified_atColumn, stock.FindProperty("LastModifiedAt")!, stocksTableMapping);
             RelationalModel.CreateColumnMapping(on_hand_qtyColumn, stock.FindProperty("OnHandQty")!, stocksTableMapping);
             RelationalModel.CreateColumnMapping(product_idColumn, stock.FindProperty("ProductId")!, stocksTableMapping);
+            RelationalModel.CreateColumnMapping(product_variant_idColumn, stock.FindProperty("ProductVariantId")!, stocksTableMapping);
             RelationalModel.CreateColumnMapping(reserved_qtyColumn, stock.FindProperty("ReservedQty")!, stocksTableMapping);
             RelationalModel.CreateColumnMapping(supplier_idColumn, stock.FindProperty("SupplierId")!, stocksTableMapping);
             RelationalModel.CreateColumnMapping(versionColumn, stock.FindProperty("Version")!, stocksTableMapping);
@@ -245,8 +253,6 @@ namespace Ecommerce.Inventory.Infrastructure.CompiledModels
             ecommerceInventoryDomainSupplierAggregateSupplierTableBase.Columns.Add("email", emailColumnBase0);
             var idColumnBase1 = new ColumnBase<ColumnMappingBase>("id", "bigint", ecommerceInventoryDomainSupplierAggregateSupplierTableBase);
             ecommerceInventoryDomainSupplierAggregateSupplierTableBase.Columns.Add("id", idColumnBase1);
-            var is_deletedColumnBase0 = new ColumnBase<ColumnMappingBase>("is_deleted", "boolean", ecommerceInventoryDomainSupplierAggregateSupplierTableBase);
-            ecommerceInventoryDomainSupplierAggregateSupplierTableBase.Columns.Add("is_deleted", is_deletedColumnBase0);
             var last_modified_atColumnBase0 = new ColumnBase<ColumnMappingBase>("last_modified_at", "timestamp with time zone", ecommerceInventoryDomainSupplierAggregateSupplierTableBase)
             {
                 IsNullable = true
@@ -266,7 +272,6 @@ namespace Ecommerce.Inventory.Infrastructure.CompiledModels
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)address_idColumnBase, supplier.FindProperty("AddressId")!, ecommerceInventoryDomainSupplierAggregateSupplierMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)created_atColumnBase0, supplier.FindProperty("CreatedAt")!, ecommerceInventoryDomainSupplierAggregateSupplierMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)emailColumnBase0, supplier.FindProperty("Email")!, ecommerceInventoryDomainSupplierAggregateSupplierMappingBase);
-            RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)is_deletedColumnBase0, supplier.FindProperty("IsDeleted")!, ecommerceInventoryDomainSupplierAggregateSupplierMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)last_modified_atColumnBase0, supplier.FindProperty("LastModifiedAt")!, ecommerceInventoryDomainSupplierAggregateSupplierMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)nameColumnBase0, supplier.FindProperty("Name")!, ecommerceInventoryDomainSupplierAggregateSupplierMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)phoneColumnBase0, supplier.FindProperty("Phone")!, ecommerceInventoryDomainSupplierAggregateSupplierMappingBase);
@@ -284,8 +289,6 @@ namespace Ecommerce.Inventory.Infrastructure.CompiledModels
             suppliersTable.Columns.Add("created_at", created_atColumn0);
             var emailColumn0 = new Column("email", "character varying(255)", suppliersTable);
             suppliersTable.Columns.Add("email", emailColumn0);
-            var is_deletedColumn0 = new Column("is_deleted", "boolean", suppliersTable);
-            suppliersTable.Columns.Add("is_deleted", is_deletedColumn0);
             var last_modified_atColumn0 = new Column("last_modified_at", "timestamp with time zone", suppliersTable)
             {
                 IsNullable = true
@@ -313,7 +316,6 @@ namespace Ecommerce.Inventory.Infrastructure.CompiledModels
             RelationalModel.CreateColumnMapping(address_idColumn, supplier.FindProperty("AddressId")!, suppliersTableMapping);
             RelationalModel.CreateColumnMapping(created_atColumn0, supplier.FindProperty("CreatedAt")!, suppliersTableMapping);
             RelationalModel.CreateColumnMapping(emailColumn0, supplier.FindProperty("Email")!, suppliersTableMapping);
-            RelationalModel.CreateColumnMapping(is_deletedColumn0, supplier.FindProperty("IsDeleted")!, suppliersTableMapping);
             RelationalModel.CreateColumnMapping(last_modified_atColumn0, supplier.FindProperty("LastModifiedAt")!, suppliersTableMapping);
             RelationalModel.CreateColumnMapping(nameColumn0, supplier.FindProperty("Name")!, suppliersTableMapping);
             RelationalModel.CreateColumnMapping(phoneColumn0, supplier.FindProperty("Phone")!, suppliersTableMapping);
@@ -324,8 +326,6 @@ namespace Ecommerce.Inventory.Infrastructure.CompiledModels
             var defaultTableMappings2 = new List<TableMappingBase<ColumnMappingBase>>();
             warehouse.SetRuntimeAnnotation("Relational:DefaultMappings", defaultTableMappings2);
             var ecommerceInventoryDomainWarehouseAggregateWarehouseTableBase = new TableBase("Ecommerce.Inventory.Domain.WarehouseAggregate.Warehouse", null, relationalModel);
-            var address_idColumnBase0 = new ColumnBase<ColumnMappingBase>("address_id", "uuid", ecommerceInventoryDomainWarehouseAggregateWarehouseTableBase);
-            ecommerceInventoryDomainWarehouseAggregateWarehouseTableBase.Columns.Add("address_id", address_idColumnBase0);
             var capacityColumnBase = new ColumnBase<ColumnMappingBase>("capacity", "bigint", ecommerceInventoryDomainWarehouseAggregateWarehouseTableBase);
             ecommerceInventoryDomainWarehouseAggregateWarehouseTableBase.Columns.Add("capacity", capacityColumnBase);
             var created_atColumnBase1 = new ColumnBase<ColumnMappingBase>("created_at", "timestamp with time zone", ecommerceInventoryDomainWarehouseAggregateWarehouseTableBase);
@@ -339,7 +339,7 @@ namespace Ecommerce.Inventory.Infrastructure.CompiledModels
             ecommerceInventoryDomainWarehouseAggregateWarehouseTableBase.Columns.Add("last_modified_at", last_modified_atColumnBase1);
             var nameColumnBase1 = new ColumnBase<ColumnMappingBase>("name", "character varying(255)", ecommerceInventoryDomainWarehouseAggregateWarehouseTableBase);
             ecommerceInventoryDomainWarehouseAggregateWarehouseTableBase.Columns.Add("name", nameColumnBase1);
-            var statusColumnBase = new ColumnBase<ColumnMappingBase>("status", "integer", ecommerceInventoryDomainWarehouseAggregateWarehouseTableBase);
+            var statusColumnBase = new ColumnBase<ColumnMappingBase>("status", "smallint", ecommerceInventoryDomainWarehouseAggregateWarehouseTableBase);
             ecommerceInventoryDomainWarehouseAggregateWarehouseTableBase.Columns.Add("status", statusColumnBase);
             var versionColumnBase1 = new ColumnBase<ColumnMappingBase>("version", "uuid", ecommerceInventoryDomainWarehouseAggregateWarehouseTableBase);
             ecommerceInventoryDomainWarehouseAggregateWarehouseTableBase.Columns.Add("version", versionColumnBase1);
@@ -348,7 +348,6 @@ namespace Ecommerce.Inventory.Infrastructure.CompiledModels
             ecommerceInventoryDomainWarehouseAggregateWarehouseTableBase.AddTypeMapping(ecommerceInventoryDomainWarehouseAggregateWarehouseMappingBase, false);
             defaultTableMappings2.Add(ecommerceInventoryDomainWarehouseAggregateWarehouseMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)idColumnBase2, warehouse.FindProperty("Id")!, ecommerceInventoryDomainWarehouseAggregateWarehouseMappingBase);
-            RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)address_idColumnBase0, warehouse.FindProperty("AddressId")!, ecommerceInventoryDomainWarehouseAggregateWarehouseMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)capacityColumnBase, warehouse.FindProperty("Capacity")!, ecommerceInventoryDomainWarehouseAggregateWarehouseMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)created_atColumnBase1, warehouse.FindProperty("CreatedAt")!, ecommerceInventoryDomainWarehouseAggregateWarehouseMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)last_modified_atColumnBase1, warehouse.FindProperty("LastModifiedAt")!, ecommerceInventoryDomainWarehouseAggregateWarehouseMappingBase);
@@ -362,8 +361,6 @@ namespace Ecommerce.Inventory.Infrastructure.CompiledModels
             var idColumn2 = new Column("id", "bigint", warehousesTable);
             warehousesTable.Columns.Add("id", idColumn2);
             idColumn2.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-            var address_idColumn0 = new Column("address_id", "uuid", warehousesTable);
-            warehousesTable.Columns.Add("address_id", address_idColumn0);
             var capacityColumn = new Column("capacity", "bigint", warehousesTable);
             warehousesTable.Columns.Add("capacity", capacityColumn);
             var created_atColumn1 = new Column("created_at", "timestamp with time zone", warehousesTable);
@@ -375,7 +372,7 @@ namespace Ecommerce.Inventory.Infrastructure.CompiledModels
             warehousesTable.Columns.Add("last_modified_at", last_modified_atColumn1);
             var nameColumn1 = new Column("name", "character varying(255)", warehousesTable);
             warehousesTable.Columns.Add("name", nameColumn1);
-            var statusColumn = new Column("status", "integer", warehousesTable);
+            var statusColumn = new Column("status", "smallint", warehousesTable);
             warehousesTable.Columns.Add("status", statusColumn);
             var versionColumn1 = new Column("version", "uuid", warehousesTable);
             warehousesTable.Columns.Add("version", versionColumn1);
@@ -392,7 +389,6 @@ namespace Ecommerce.Inventory.Infrastructure.CompiledModels
             warehousesTable.AddTypeMapping(warehousesTableMapping, false);
             tableMappings2.Add(warehousesTableMapping);
             RelationalModel.CreateColumnMapping(idColumn2, warehouse.FindProperty("Id")!, warehousesTableMapping);
-            RelationalModel.CreateColumnMapping(address_idColumn0, warehouse.FindProperty("AddressId")!, warehousesTableMapping);
             RelationalModel.CreateColumnMapping(capacityColumn, warehouse.FindProperty("Capacity")!, warehousesTableMapping);
             RelationalModel.CreateColumnMapping(created_atColumn1, warehouse.FindProperty("CreatedAt")!, warehousesTableMapping);
             RelationalModel.CreateColumnMapping(last_modified_atColumn1, warehouse.FindProperty("LastModifiedAt")!, warehousesTableMapping);
@@ -913,6 +909,32 @@ namespace Ecommerce.Inventory.Infrastructure.CompiledModels
             RelationalModel.GetOrCreateForeignKeyConstraints(fk_contact_person_suppliers_supplier_idFk).Add(fk_contact_person_suppliers_supplier_id);
             contact_personTable.ForeignKeyConstraints.Add(fk_contact_person_suppliers_supplier_id);
             suppliersTable.ReferencingForeignKeyConstraints.Add(fk_contact_person_suppliers_supplier_id);
+            var fk_outbox_message_inbox_state_inbox_message_id_inbox_consumer_ = new ForeignKeyConstraint(
+                "fk_outbox_message_inbox_state_inbox_message_id_inbox_consumer_", outbox_messageTable, inbox_stateTable,
+                new[] { inbox_message_idColumn, inbox_consumer_idColumn },
+                inbox_stateTable.FindUniqueConstraint("ak_inbox_state_message_id_consumer_id")!, ReferentialAction.NoAction);
+            var fk_outbox_message_inbox_state_inbox_message_id_inbox_consumer_Fk = RelationalModel.GetForeignKey(this,
+                "MassTransit.EntityFrameworkCoreIntegration.OutboxMessage",
+                new[] { "InboxMessageId", "InboxConsumerId" },
+                "MassTransit.EntityFrameworkCoreIntegration.InboxState",
+                new[] { "MessageId", "ConsumerId" });
+            fk_outbox_message_inbox_state_inbox_message_id_inbox_consumer_.MappedForeignKeys.Add(fk_outbox_message_inbox_state_inbox_message_id_inbox_consumer_Fk);
+            RelationalModel.GetOrCreateForeignKeyConstraints(fk_outbox_message_inbox_state_inbox_message_id_inbox_consumer_Fk).Add(fk_outbox_message_inbox_state_inbox_message_id_inbox_consumer_);
+            outbox_messageTable.ForeignKeyConstraints.Add(fk_outbox_message_inbox_state_inbox_message_id_inbox_consumer_);
+            inbox_stateTable.ReferencingForeignKeyConstraints.Add(fk_outbox_message_inbox_state_inbox_message_id_inbox_consumer_);
+            var fk_outbox_message_outbox_state_outbox_id = new ForeignKeyConstraint(
+                "fk_outbox_message_outbox_state_outbox_id", outbox_messageTable, outbox_stateTable,
+                new[] { outbox_idColumn },
+                outbox_stateTable.FindUniqueConstraint("pk_outbox_state")!, ReferentialAction.NoAction);
+            var fk_outbox_message_outbox_state_outbox_idFk = RelationalModel.GetForeignKey(this,
+                "MassTransit.EntityFrameworkCoreIntegration.OutboxMessage",
+                new[] { "OutboxId" },
+                "MassTransit.EntityFrameworkCoreIntegration.OutboxState",
+                new[] { "OutboxId" });
+            fk_outbox_message_outbox_state_outbox_id.MappedForeignKeys.Add(fk_outbox_message_outbox_state_outbox_idFk);
+            RelationalModel.GetOrCreateForeignKeyConstraints(fk_outbox_message_outbox_state_outbox_idFk).Add(fk_outbox_message_outbox_state_outbox_id);
+            outbox_messageTable.ForeignKeyConstraints.Add(fk_outbox_message_outbox_state_outbox_id);
+            outbox_stateTable.ReferencingForeignKeyConstraints.Add(fk_outbox_message_outbox_state_outbox_id);
             var fk_stocks_suppliers_supplier_id = new ForeignKeyConstraint(
                 "fk_stocks_suppliers_supplier_id", stocksTable, suppliersTable,
                 new[] { supplier_idColumn },

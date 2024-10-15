@@ -27,5 +27,7 @@ internal sealed class StateOrProvinceConfiguration : IEntityTypeConfiguration<St
             .WithMany(x => x.StateOrProvinces)
             .HasForeignKey(x => x.CountryId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Navigation(x => x.Districts).AutoInclude();
     }
 }

@@ -27,6 +27,6 @@ internal sealed class DeleteBrandHandler(IRepository<Brand> repository)
 
         await repository.SaveChangesAsync(cancellationToken);
 
-        return Result.Success();
+        return Result.NoContent();
     }
 }

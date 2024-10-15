@@ -23,7 +23,7 @@ internal sealed class ListProductsRelatedHandler(
             cancellationToken
         );
 
-        var productImages = await products.ToDictionaryAsync(
+        var images = await products.ToDictionaryAsync(
             product => product.Id,
             product =>
                 mediaService
@@ -41,6 +41,6 @@ internal sealed class ListProductsRelatedHandler(
 
         PagedInfo pagedInfo = new(filter.PageIndex, filter.PageSize, totalPages, totalRecords);
 
-        return new(pagedInfo, products.ToProductListDtos(productImages));
+        return new(pagedInfo, products.ToProductListDtos(images));
     }
 }

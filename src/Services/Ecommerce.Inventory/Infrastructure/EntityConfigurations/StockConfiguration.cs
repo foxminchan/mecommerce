@@ -1,6 +1,4 @@
-﻿using Ecommerce.Inventory.Domain.StockAggregate;
-
-namespace Ecommerce.Inventory.Infrastructure.EntityConfigurations;
+﻿namespace Ecommerce.Inventory.Infrastructure.EntityConfigurations;
 
 internal sealed class StockConfiguration : IEntityTypeConfiguration<Stock>
 {

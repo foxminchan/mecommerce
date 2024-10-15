@@ -18,7 +18,7 @@ internal sealed class UpdateVariantEndpoint
             .WithOpenApi()
             .WithTags(nameof(Variant))
             .MapToApiVersion(new(1, 0))
-            .RequireAuthorization(Constant.Auth.Policies.Admin);
+            .RequireAuthorization(Authorization.Policies.Admin);
     }
 
     public async Task<Results<Ok, NotFound>> HandleAsync(

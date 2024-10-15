@@ -1,8 +1,6 @@
 ﻿// Copyright (c) Duende Software. All rights reserved.
 // See LICENSE in the project root for license information.
 
-using System.Security.Claims;
-
 namespace Ecommerce.Identity.Pages.ExternalLogin;
 
 [AllowAnonymous]

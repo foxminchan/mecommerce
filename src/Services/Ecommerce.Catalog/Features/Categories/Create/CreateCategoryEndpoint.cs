@@ -18,7 +18,7 @@ internal sealed class CreateCategoryEndpoint
             .WithOpenApi()
             .WithTags(nameof(Category))
             .MapToApiVersion(new(1, 0))
-            .RequireAuthorization(Constant.Auth.Policies.Admin);
+            .RequireAuthorization(Authorization.Policies.Admin);
     }
 
     public async Task<Created<long>> HandleAsync(
@@ -29,6 +29,13 @@ internal sealed class CreateCategoryEndpoint
     {
         var result = await sender.Send(request, cancellationToken);
 
-        return TypedResults.Created($"/api/v1/categories/{result.Value}", result.Value);
+        return TypedResults.Created(
+            new UrlBuilder()
+                .WithVersion()
+                .WithResource(nameof(Categories))
+                .WithId(result.Value)
+                .Build(),
+            result.Value
+        );
     }
 }

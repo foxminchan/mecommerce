@@ -3,3 +3,17 @@ syntax = "proto3";
 option csharp_namespace = "Ecommerce.Catalog.Grpc";
 
 package CatalogApi;
+
+service Product {
+    rpc GetProductInfo(GetProductInfoRequest) returns (GetProductInfoResponse);
+}
+
+message GetProductInfoRequest {
+    string ProductId = 1;
+}
+
+message GetProductInfoResponse {
+    string ProductId = 1;
+    string Name = 2;
+    map<int64, string> Skus = 3;
+}

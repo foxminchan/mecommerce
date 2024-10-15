@@ -6,7 +6,9 @@ using Ecommerce.Location.Domain.WardOrCommuneAggregate;
 
 namespace Ecommerce.Location.Infrastructure;
 
-public sealed class LocationContext(DbContextOptions<LocationContext> options) : DbContext(options)
+public sealed class LocationContext(DbContextOptions<LocationContext> options)
+    : DbContext(options),
+        IDatabaseFacade
 {
     public DbSet<Country> Countries => Set<Country>();
     public DbSet<StateOrProvince> StateOrProvinces => Set<StateOrProvince>();

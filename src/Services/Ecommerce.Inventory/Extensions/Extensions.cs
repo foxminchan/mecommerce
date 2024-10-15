@@ -1,4 +1,7 @@
-﻿namespace Ecommerce.Inventory.Extensions;
+﻿using GrpcCatalogClient = Ecommerce.Catalog.Grpc.Product.ProductClient;
+using GrpcLocationClient = Ecommerce.Location.Grpc.Location.LocationClient;
+
+namespace Ecommerce.Inventory.Extensions;
 
 internal static class Extensions
 {
@@ -8,6 +11,7 @@ internal static class Extensions
 
         builder.AddOpenApi();
         builder.AddVersioning();
+        builder.AddDefaultAuthentication();
         builder.AddEndpoints(typeof(Program));
 
         builder.Services.Configure<JsonOptions>(options =>
@@ -26,9 +30,13 @@ internal static class Extensions
             cfg.AddOpenBehavior(typeof(ValidationBehavior<,>));
             cfg.AddOpenBehavior(typeof(LoggingBehavior<,>));
             cfg.AddOpenBehavior(typeof(ActivityBehavior<,>));
+            cfg.AddOpenBehavior(typeof(TxBehavior<,>));
         });
 
         builder.Services.AddValidatorsFromAssemblyContaining<Program>(includeInternalTypes: true);
+
+        builder.Services.AddSingleton<ILocationService, LocationService>();
+        builder.Services.AddSingleton<IProductService, ProductService>();
 
         builder.Services.AddSingleton<IActivityScope, ActivityScope>();
         builder.Services.AddSingleton<CommandHandlerMetrics>();
@@ -41,7 +49,8 @@ internal static class Extensions
             {
                 options.AddScoped(typeof(IReadRepository<>), typeof(InventoryRepository<>));
                 options.AddScoped(typeof(IRepository<>), typeof(InventoryRepository<>));
-            }
+            },
+            false
         );
 
         builder.AddRabbitMqEventBus(
@@ -59,6 +68,27 @@ internal static class Extensions
             }
         );
 
-        builder.AddMarten(ServiceName.Database.Inventory);
+        builder.AddMarten(
+            ServiceName.Database.Inventory,
+            cfg =>
+            {
+                cfg.Projections.LiveStreamAggregation<StockHistory>();
+                cfg.Projections.Add<StockHistoryProjection>(ProjectionLifecycle.Async);
+            }
+        );
+
+        builder
+            .Services.AddGrpcClient<GrpcLocationClient>(o =>
+            {
+                o.Address = new("https://location-api");
+            })
+            .AddStandardResilienceHandler();
+
+        builder
+            .Services.AddGrpcClient<GrpcCatalogClient>(o =>
+            {
+                o.Address = new("https://catalog-api");
+            })
+            .AddStandardResilienceHandler();
     }
 }

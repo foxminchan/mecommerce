@@ -1,20 +1,21 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace Ecommerce.SharedKernel.Model;
 
 public abstract class HasDomainEventsBase
 {
-    private readonly List<Event> _domainEvents = [];
+    private readonly List<DomainEvent> _domainEvents = [];
 
-    [NotMapped]
-    public IReadOnlyCollection<Event> DomainEvents => _domainEvents.AsReadOnly();
+    [NotMapped, JsonIgnore]
+    public IReadOnlyCollection<DomainEvent> DomainEvents => _domainEvents.AsReadOnly();
 
-    public void RegisterDomainEvent(Event domainEvent)
+    public void RegisterDomainEvent(DomainEvent domainEvent)
     {
         _domainEvents.Add(domainEvent);
     }
 
-    public void RemoveDomainEvent(Event domainEvent)
+    public void RemoveDomainEvent(DomainEvent domainEvent)
     {
         _domainEvents.Remove(domainEvent);
     }

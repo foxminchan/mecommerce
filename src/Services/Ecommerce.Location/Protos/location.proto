@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+option csharp_namespace = "Ecommerce.Location.Grpc";
+
+package LocationApi;
+
+service Location {
+  rpc CreateAddress(CreateAddressRequest) returns (CreateAddressResponse);
+  rpc GetAddress(GetAddressRequest) returns (GetAddressResponse);
+}
+
+message CreateAddressRequest {
+  string street = 1;
+  string zipCode = 2;
+  int64 wardOrCommuneId = 3;
+}
+
+message CreateAddressResponse {
+  string addressId = 1;
+}
+
+message GetAddressRequest {
+  string addressId = 1;
+}
+
+message GetAddressResponse {
+  string id = 1;
+  string street = 2;
+  string zipCode = 3;
+  string wardOrCommune = 4;
+  string district = 5;
+  string stateOrProvince = 6;
+  string country = 7;
+  string continent = 8;
+}

@@ -8,6 +8,7 @@ internal static class Extensions
 
         builder.AddOpenApi();
         builder.AddVersioning();
+        builder.AddDefaultAuthentication();
         builder.AddEndpoints(typeof(Program));
 
         builder.Services.Configure<JsonOptions>(options =>
@@ -16,6 +17,7 @@ internal static class Extensions
             options.SerializerOptions.Converters.Add(new StringTrimmerJsonConverter());
         });
 
+        builder.Services.AddGrpc();
         builder.Services.AddExceptionHandler<ValidationExceptionHandler>();
         builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
         builder.Services.AddProblemDetails();

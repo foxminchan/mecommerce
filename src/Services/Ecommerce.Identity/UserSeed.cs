@@ -1,7 +1,4 @@
-﻿using System.Security.Claims;
-using Microsoft.EntityFrameworkCore;
-
-namespace Ecommerce.Identity;
+﻿namespace Ecommerce.Identity;
 
 public sealed class UserSeed(
     ILogger<UserSeed> logger,
@@ -11,14 +8,14 @@ public sealed class UserSeed(
 {
     public async Task SeedAsync(ApplicationDbContext context)
     {
-        var admin = new IdentityRole(Auth.Roles.Admin);
+        var admin = new IdentityRole(Authorization.Roles.Admin);
 
         if (await roleManager.Roles.AllAsync(r => r.Name != admin.Name))
         {
             await roleManager.CreateAsync(admin);
         }
 
-        var user = new IdentityRole(Auth.Roles.User);
+        var user = new IdentityRole(Authorization.Roles.User);
 
         if (await roleManager.Roles.AllAsync(r => r.Name != user.Name))
         {

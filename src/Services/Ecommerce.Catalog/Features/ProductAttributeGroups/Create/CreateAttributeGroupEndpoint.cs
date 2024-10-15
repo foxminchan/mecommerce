@@ -18,7 +18,7 @@ internal sealed class CreateAttributeGroupEndpoint
             .WithOpenApi()
             .WithTags(nameof(ProductAttributeGroup).Humanize(LetterCasing.Title))
             .MapToApiVersion(new(1, 0))
-            .RequireAuthorization(Constant.Auth.Policies.Admin);
+            .RequireAuthorization(Authorization.Policies.Admin);
     }
 
     public async Task<Created<long>> HandleAsync(
@@ -30,7 +30,11 @@ internal sealed class CreateAttributeGroupEndpoint
         var result = await sender.Send(request, cancellationToken);
 
         return TypedResults.Created(
-            $"/api/v1/product-attribute-groups/{result.Value}",
+            new UrlBuilder()
+                .WithVersion()
+                .WithResource("product-attribute-groups")
+                .WithId(result.Value)
+                .Build(),
             result.Value
         );
     }

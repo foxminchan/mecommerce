@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Protobuf Include="Protos\product.proto" GrpcServices="Server" />
     <Protobuf Include="..\Ecommerce.Media\Protos\media.proto" Link="Protos\media.proto" GrpcServices="Client" />
   </ItemGroup>
 

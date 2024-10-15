@@ -1,5 +1,7 @@
-﻿using Ecommerce.Inventory.Domain.SupplierAggregate;
+﻿using Ecommerce.Inventory.Domain.StockAggregate.DomainEvents.Events;
+using Ecommerce.Inventory.Domain.SupplierAggregate;
 using Ecommerce.Inventory.Domain.WarehouseAggregate;
+using Ecommerce.Inventory.Domain.WarehouseAggregate.DomainEvents.Events;
 
 namespace Ecommerce.Inventory.Domain.StockAggregate;
 
@@ -12,7 +14,8 @@ public sealed class Stock : AuditableEntity<Guid>, IAggregateRoot, ISoftDelete
         long reservedQty,
         Guid productId,
         long warehouseId,
-        long supplierId
+        long supplierId,
+        long productVariantId
     )
         : this()
     {
@@ -21,10 +24,14 @@ public sealed class Stock : AuditableEntity<Guid>, IAggregateRoot, ISoftDelete
         ProductId = Guard.Against.Default(productId);
         WarehouseId = Guard.Against.Null(warehouseId);
         SupplierId = Guard.Against.Null(supplierId);
+        ProductVariantId = Guard.Against.Null(productVariantId);
+        RegisterDomainEvent(new StockCreatedEvent(Id, onHandQty));
+        RegisterDomainEvent(new WarehouseStatusUpdatedEvent(this));
     }
 
     public long OnHandQty { get; private set; }
     public long ReservedQty { get; private set; }
+    public long ProductVariantId { get; private set; }
     public Guid ProductId { get; private set; }
     public long WarehouseId { get; private set; }
     public Warehouse Warehouse { get; private set; } = default!;
@@ -37,9 +44,11 @@ public sealed class Stock : AuditableEntity<Guid>, IAggregateRoot, ISoftDelete
         IsDeleted = true;
     }
 
-    public void AddStock(long qty)
+    public void AddStock(long qty, string? note)
     {
         OnHandQty += Guard.Against.NegativeOrZero(qty);
+        RegisterDomainEvent(new StockUpdatedEvent(Id, false, qty, note));
+        RegisterDomainEvent(new WarehouseStatusUpdatedEvent(this));
     }
 
     public void ReserveStock(long qty)
@@ -52,10 +61,11 @@ public sealed class Stock : AuditableEntity<Guid>, IAggregateRoot, ISoftDelete
         ReservedQty -= Guard.Against.NegativeOrZero(qty);
     }
 
-    public void ReduceStock(long qty)
+    public void ReduceStock(long qty, string? note)
     {
         OnHandQty -= Guard.Against.NegativeOrZero(qty);
-        ReservedQty -= Guard.Against.NegativeOrZero(qty);
+        RegisterDomainEvent(new StockUpdatedEvent(Id, true, qty, note));
+        RegisterDomainEvent(new WarehouseStatusUpdatedEvent(this));
     }
 
     public void UpdateWarehouse(long warehouseId)

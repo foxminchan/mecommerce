@@ -17,7 +17,7 @@ internal sealed class CreateBrandEndpoint : IEndpoint<Created<long>, CreateBrand
             .WithOpenApi()
             .WithTags(nameof(Brand))
             .MapToApiVersion(new(1, 0))
-            .RequireAuthorization(Constant.Auth.Policies.Admin);
+            .RequireAuthorization(Authorization.Policies.Admin);
     }
 
     public async Task<Created<long>> HandleAsync(
@@ -28,6 +28,13 @@ internal sealed class CreateBrandEndpoint : IEndpoint<Created<long>, CreateBrand
     {
         var result = await sender.Send(request, cancellationToken);
 
-        return TypedResults.Created($"/api/v1/brands/{result.Value}", result.Value);
+        return TypedResults.Created(
+            new UrlBuilder()
+                .WithVersion()
+                .WithResource(nameof(Brands))
+                .WithId(result.Value)
+                .Build(),
+            result.Value
+        );
     }
 }

@@ -1,8 +1,12 @@
+global using System.Collections.Immutable;
+global using System.Data;
 global using System.Diagnostics;
+global using System.Reflection;
 global using Ardalis.Specification;
 global using Ecommerce.SharedKernel.Model;
 global using EntityFramework.Exceptions.Common;
 global using EntityFramework.Exceptions.PostgreSQL;
+global using MediatR;
 global using Microsoft.AspNetCore.Diagnostics;
 global using Microsoft.AspNetCore.Http;
 global using Microsoft.AspNetCore.Mvc;

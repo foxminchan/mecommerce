@@ -7,7 +7,16 @@ public record PaginationRequest(
     int PageSize = Pagination.DefaultPageSize
 );
 
-public record PaginationWithSearchRequest(string? Search = null) : PaginationRequest;
+public sealed record PaginationWithSearchRequest(
+    string? Search,
+    int PageIndex = Pagination.DefaultPageIndex,
+    int PageSize = Pagination.DefaultPageSize
+);
 
-public record PaginationWithFilterRequest(string? SortBy = null, bool IsDescending = false)
-    : PaginationWithSearchRequest;
+public sealed record PaginationWithSearchAndSortRequest(
+    string? Search,
+    string? SortBy,
+    int PageIndex = Pagination.DefaultPageIndex,
+    int PageSize = Pagination.DefaultPageSize,
+    bool IsDescending = false
+);

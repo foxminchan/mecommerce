@@ -21,7 +21,7 @@ public static partial class EntityToDto
         );
     }
 
-    public static List<ProductListDto> ToProductListDtos(
+    public static IEnumerable<ProductListDto> ToProductListDtos(
         this IEnumerable<Product> products,
         Dictionary<Guid, string?> productImages
     )

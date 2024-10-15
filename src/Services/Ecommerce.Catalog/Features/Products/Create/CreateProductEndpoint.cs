@@ -17,7 +17,7 @@ internal sealed class CreateProductEndpoint
             .WithOpenApi()
             .WithTags(nameof(Product))
             .MapToApiVersion(new(1, 0))
-            .RequireAuthorization(Constant.Auth.Policies.Admin);
+            .RequireAuthorization(Authorization.Policies.Admin);
     }
 
     public async Task<Created<Guid>> HandleAsync(
@@ -28,6 +28,13 @@ internal sealed class CreateProductEndpoint
     {
         var result = await sender.Send(request, cancellationToken);
 
-        return TypedResults.Created($"/api/v1/{result.Value}", result.Value);
+        return TypedResults.Created(
+            new UrlBuilder()
+                .WithVersion()
+                .WithResource(nameof(Products))
+                .WithId(result.Value)
+                .Build(),
+            result.Value
+        );
     }
 }

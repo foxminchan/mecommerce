@@ -32,8 +32,8 @@ internal sealed class CreateCountryHandler(IRepository<Country> repository)
             request.IsBillingAvailable
         );
 
-        await repository.AddAsync(country, cancellationToken);
+        var result = await repository.AddAsync(country, cancellationToken);
 
-        return country.Id;
+        return result.Id;
     }
 }

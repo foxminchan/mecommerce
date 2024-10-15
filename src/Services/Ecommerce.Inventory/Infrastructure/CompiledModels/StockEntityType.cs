@@ -76,7 +76,7 @@ namespace Ecommerce.Inventory.Infrastructure.CompiledModels
                     (DateTime v) => v));
             createdAt.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
             createdAt.AddAnnotation("Relational:ColumnName", "created_at");
-            createdAt.AddAnnotation("Relational:DefaultValue", new DateTime(2024, 10, 12, 14, 51, 13, 561, DateTimeKind.Utc).AddTicks(5824));
+            createdAt.AddAnnotation("Relational:DefaultValue", new DateTime(2024, 10, 20, 10, 46, 27, 305, DateTimeKind.Utc).AddTicks(101));
 
             var isDeleted = runtimeEntityType.AddProperty(
                 "IsDeleted",
@@ -122,7 +122,7 @@ namespace Ecommerce.Inventory.Infrastructure.CompiledModels
                     (Nullable<DateTime> v) => v.HasValue ? (Nullable<DateTime>)(DateTime)v : default(Nullable<DateTime>)));
             lastModifiedAt.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
             lastModifiedAt.AddAnnotation("Relational:ColumnName", "last_modified_at");
-            lastModifiedAt.AddAnnotation("Relational:DefaultValue", new DateTime(2024, 10, 12, 14, 51, 13, 561, DateTimeKind.Utc).AddTicks(6032));
+            lastModifiedAt.AddAnnotation("Relational:DefaultValue", new DateTime(2024, 10, 20, 10, 46, 27, 305, DateTimeKind.Utc).AddTicks(9408));
 
             var onHandQty = runtimeEntityType.AddProperty(
                 "OnHandQty",
@@ -169,6 +169,28 @@ namespace Ecommerce.Inventory.Infrastructure.CompiledModels
                     storeTypeName: "uuid"));
             productId.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
             productId.AddAnnotation("Relational:ColumnName", "product_id");
+
+            var productVariantId = runtimeEntityType.AddProperty(
+                "ProductVariantId",
+                typeof(long),
+                propertyInfo: typeof(Stock).GetProperty("ProductVariantId", BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly),
+                fieldInfo: typeof(Stock).GetField("<ProductVariantId>k__BackingField", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly),
+                sentinel: 0L);
+            productVariantId.TypeMapping = LongTypeMapping.Default.Clone(
+                comparer: new ValueComparer<long>(
+                    (long v1, long v2) => v1 == v2,
+                    (long v) => v.GetHashCode(),
+                    (long v) => v),
+                keyComparer: new ValueComparer<long>(
+                    (long v1, long v2) => v1 == v2,
+                    (long v) => v.GetHashCode(),
+                    (long v) => v),
+                providerValueComparer: new ValueComparer<long>(
+                    (long v1, long v2) => v1 == v2,
+                    (long v) => v.GetHashCode(),
+                    (long v) => v));
+            productVariantId.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
+            productVariantId.AddAnnotation("Relational:ColumnName", "product_variant_id");
 
             var reservedQty = runtimeEntityType.AddProperty(
                 "ReservedQty",
@@ -317,7 +339,8 @@ namespace Ecommerce.Inventory.Infrastructure.CompiledModels
                 onDependent: false,
                 typeof(IReadOnlyCollection<Stock>),
                 propertyInfo: typeof(Warehouse).GetProperty("Stocks", BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly),
-                fieldInfo: typeof(Warehouse).GetField("_stocks", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly));
+                fieldInfo: typeof(Warehouse).GetField("_stocks", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly),
+                eagerLoaded: true);
 
             runtimeForeignKey.AddAnnotation("Relational:Name", "fk_stocks_warehouses_warehouse_id");
             return runtimeForeignKey;

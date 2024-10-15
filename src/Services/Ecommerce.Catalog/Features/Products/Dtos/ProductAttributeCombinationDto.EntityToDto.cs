@@ -15,7 +15,7 @@ public static partial class EntityToDto
         );
     }
 
-    public static List<ProductAttributeCombinationDto> ToProductAttributeCombinationDtos(
+    public static IEnumerable<ProductAttributeCombinationDto> ToProductAttributeCombinationDtos(
         this IEnumerable<ProductAttributeCombination> productAttributeCombinations
     )
     {

@@ -23,5 +23,7 @@ internal sealed class WarehouseConfiguration : IEntityTypeConfiguration<Warehous
             .WithOne(x => x.Warehouse)
             .HasForeignKey(x => x.WarehouseId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Navigation(x => x.Stocks).AutoInclude();
     }
 }
