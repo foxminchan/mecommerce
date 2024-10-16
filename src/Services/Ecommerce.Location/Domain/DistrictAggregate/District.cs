@@ -25,7 +25,7 @@ public sealed class District : AuditableEntity<long>, IAggregateRoot
 
     public IReadOnlyCollection<WardOrCommune> WardOrCommunes => _wardOrCommunes.AsReadOnly();
 
-    public void UpdateInformation(string name, long stateOrProvinceId)
+    public void UpdateInformation(string? name, long stateOrProvinceId)
     {
         Name = Guard.Against.NullOrEmpty(name);
         StateOrProvinceId = Guard.Against.Null(stateOrProvinceId);

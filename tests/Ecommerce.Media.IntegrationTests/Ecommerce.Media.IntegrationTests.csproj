@@ -26,7 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Services\Ecommerce.Catalog\Ecommerce.Catalog.csproj" />
+    <ProjectReference Include="..\..\src\Services\Ecommerce.Media\Ecommerce.Media.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -35,7 +35,6 @@
     <Using Include="Aspire.Hosting.ApplicationModel" />
     <Using Include="Aspire.Hosting.Testing" />
     <Using Include="Xunit" />
-    <Using Include="FluentAssertions" />
   </ItemGroup>
 
 </Project>

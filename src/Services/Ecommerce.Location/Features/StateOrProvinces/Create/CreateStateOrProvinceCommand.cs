@@ -25,8 +25,8 @@ internal sealed class CreateStateOrProvinceHandler(IRepository<StateOrProvince> 
             request.CountryId
         );
 
-        await repository.AddAsync(stateOrProvince, cancellationToken);
+        var result = await repository.AddAsync(stateOrProvince, cancellationToken);
 
-        return stateOrProvince.Id;
+        return result.Id;
     }
 }
