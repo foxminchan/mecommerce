@@ -10,7 +10,7 @@ internal sealed class CreateStateOrProvinceValidator : AbstractValidator<StateOr
 
         RuleFor(x => x.Code).NotEmpty().MaximumLength(DataSchemaLength.Small);
 
-        RuleFor(x => x.Type).IsInEnum();
+        RuleFor(x => x.Type).NotNull().IsInEnum();
 
         RuleFor(x => x.CountryId).NotNull();
     }

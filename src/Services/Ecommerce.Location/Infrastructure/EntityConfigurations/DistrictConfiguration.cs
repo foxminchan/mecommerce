@@ -23,5 +23,7 @@ internal sealed class DistrictConfiguration : IEntityTypeConfiguration<District>
             .WithMany(x => x.Districts)
             .HasForeignKey(x => x.StateOrProvinceId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Navigation(x => x.WardOrCommunes).AutoInclude();
     }
 }
