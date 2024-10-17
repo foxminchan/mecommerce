@@ -133,13 +133,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Payment", "Payment", "{2509
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ecommerce.Payment", "src\Services\Ecommerce.Payment\Ecommerce.Payment.csproj", "{8D126C4D-3162-4D0D-A9B3-66362CF5DCDE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecommerce.Media.UnitTests", "tests\Ecommerce.Media.UnitTests\Ecommerce.Media.UnitTests.csproj", "{7E459314-4BC3-496E-A848-F6653D43CB44}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ecommerce.Media.UnitTests", "tests\Ecommerce.Media.UnitTests\Ecommerce.Media.UnitTests.csproj", "{7E459314-4BC3-496E-A848-F6653D43CB44}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecommerce.Media.IntegrationTests", "tests\Ecommerce.Media.IntegrationTests\Ecommerce.Media.IntegrationTests.csproj", "{05868555-7F17-4630-918F-05D3998BFBB2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ecommerce.Media.IntegrationTests", "tests\Ecommerce.Media.IntegrationTests\Ecommerce.Media.IntegrationTests.csproj", "{05868555-7F17-4630-918F-05D3998BFBB2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecommerce.Location.UnitTests", "tests\Ecommerce.Location.UnitTests\Ecommerce.Location.UnitTests.csproj", "{F5D28722-C03C-4F6F-9097-F061F58DC8EF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ecommerce.Location.UnitTests", "tests\Ecommerce.Location.UnitTests\Ecommerce.Location.UnitTests.csproj", "{F5D28722-C03C-4F6F-9097-F061F58DC8EF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecommerce.Location.IntegrationTests", "tests\Ecommerce.Location.IntegrationTests\Ecommerce.Location.IntegrationTests.csproj", "{F172814A-1AFA-455F-83C0-B3D75CB93B42}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ecommerce.Location.IntegrationTests", "tests\Ecommerce.Location.IntegrationTests\Ecommerce.Location.IntegrationTests.csproj", "{F172814A-1AFA-455F-83C0-B3D75CB93B42}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

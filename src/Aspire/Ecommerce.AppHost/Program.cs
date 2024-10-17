@@ -126,6 +126,7 @@ var webhookApi = builder
 var locationApi = builder
     .AddProject<Ecommerce_Location>("location-api")
     .WithReference(locationDb)
+    .WithReference(rabbitMq)
     .WithEnvironment("Identity__Url", identityEndpoint);
 
 var shipmentApi = builder

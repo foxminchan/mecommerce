@@ -14,4 +14,6 @@ app.UseDefaultOpenApi();
 
 app.MapEndpoints(apiVersionSet);
 
+app.MapGrpcService<LocationService>();
+
 app.Run();
