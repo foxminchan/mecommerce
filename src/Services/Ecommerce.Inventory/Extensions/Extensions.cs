@@ -1,4 +1,6 @@
-﻿namespace Ecommerce.Inventory.Extensions;
+﻿using GrpcLocationClient = Ecommerce.Location.Grpc.Location.LocationClient;
+
+namespace Ecommerce.Inventory.Extensions;
 
 internal static class Extensions
 {
@@ -30,6 +32,7 @@ internal static class Extensions
 
         builder.Services.AddValidatorsFromAssemblyContaining<Program>(includeInternalTypes: true);
 
+        builder.Services.AddSingleton<ILocationService, LocationService>();
         builder.Services.AddSingleton<IActivityScope, ActivityScope>();
         builder.Services.AddSingleton<CommandHandlerMetrics>();
         builder.Services.AddSingleton<QueryHandlerMetrics>();
@@ -60,5 +63,12 @@ internal static class Extensions
         );
 
         builder.AddMarten(ServiceName.Database.Inventory);
+
+        builder
+            .Services.AddGrpcClient<GrpcLocationClient>(o =>
+            {
+                o.Address = new("https://location-api");
+            })
+            .AddStandardResilienceHandler();
     }
 }

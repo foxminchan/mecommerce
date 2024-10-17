@@ -1,10 +1,13 @@
 ﻿global using Ardalis.GuardClauses;
+global using Ardalis.Result;
 global using Ardalis.Specification.EntityFrameworkCore;
 global using Ecommerce.Constant;
 global using Ecommerce.EF;
 global using Ecommerce.Inventory.Extensions;
 global using Ecommerce.Inventory.Infrastructure;
 global using Ecommerce.Inventory.Infrastructure.CompiledModels;
+global using Ecommerce.Inventory.Services;
+global using Ecommerce.Location.Grpc;
 global using Ecommerce.Marten;
 global using Ecommerce.MassTransit;
 global using Ecommerce.ServiceDefaults;

@@ -7,7 +7,6 @@
 
   <ItemGroup>
     <PackageReference Include="Grpc.AspNetCore" />
-    <PackageReference Include="Grpc.Tools" PrivateAssets="All" />
   </ItemGroup>
 
   <ItemGroup>
@@ -18,11 +17,6 @@
 
   <ItemGroup>
     <Protobuf Include="Protos\location.proto" GrpcServices="Server" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Features\Addresses\Get\" />
-    <Folder Include="Grpc\" />
   </ItemGroup>
 
 </Project>
