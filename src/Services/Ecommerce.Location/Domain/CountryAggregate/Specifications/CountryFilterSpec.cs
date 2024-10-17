@@ -11,4 +11,12 @@ public sealed class CountryFilterSpec : Specification<Country>
     {
         Query.Skip((request.PageIndex - 1) * request.PageSize).Take(request.PageSize);
     }
+
+    public CountryFilterSpec(string? name)
+    {
+        if (!string.IsNullOrEmpty(name))
+        {
+            Query.Where(x => x.Name!.Contains(name));
+        }
+    }
 }

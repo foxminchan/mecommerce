@@ -3,7 +3,7 @@ using Ecommerce.Location.Domain.StateOrProvinceAggregate.Specifications;
 
 namespace Ecommerce.Location.Features.StateOrProvinces.ListPagination;
 
-internal sealed record ListStateOrProvincesPaginationQuery(ListStateOrProvinceRequest Filter)
+internal sealed record ListStateOrProvincesPaginationQuery(ListStateOrProvincesRequest Filter)
     : IQuery<PagedResult<IEnumerable<StateOrProvinceDto>>>;
 
 internal sealed class ListStateOrProvincesPaginationHandler(

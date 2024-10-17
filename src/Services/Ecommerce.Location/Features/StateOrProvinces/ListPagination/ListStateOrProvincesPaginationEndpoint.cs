@@ -10,7 +10,7 @@ internal sealed class ListStateOrProvincesPaginationEndpoint
     {
         app.MapGet(
                 "/state-or-provinces/by",
-                async ([AsParameters] ListStateOrProvinceRequest request, ISender sender) =>
+                async ([AsParameters] ListStateOrProvincesRequest request, ISender sender) =>
                     await HandleAsync(new(request), sender)
             )
             .ProducesOk<PagedItems<StateOrProvinceDto>>()

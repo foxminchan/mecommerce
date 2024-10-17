@@ -20,7 +20,7 @@ public sealed class StateOrProvinceFilterSpec : Specification<StateOrProvince>
         }
     }
 
-    public StateOrProvinceFilterSpec(ListStateOrProvinceRequest request)
+    public StateOrProvinceFilterSpec(ListStateOrProvincesRequest request)
         : this(request.CountryId, request.Search)
     {
         Query.Skip((request.PageIndex - 1) * request.PageSize).Take(request.PageSize);
