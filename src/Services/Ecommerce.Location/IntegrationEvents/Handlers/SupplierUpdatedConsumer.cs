@@ -1,10 +1,10 @@
 ﻿using Ecommerce.Contracts;
-using Ecommerce.Location.Domain.AddressAggregate;
+using Ecommerce.Location.Features.Addresses.Update;
 
 namespace Ecommerce.Location.IntegrationEvents.Handlers;
 
 internal sealed class SupplierUpdatedConsumer(
-    IRepository<Address> repository,
+    ISender sender,
     ILogger<SupplierUpdatedConsumer> logger
 ) : IConsumer<SupplierUpdatedIntegrationEvent>
 {
@@ -21,14 +21,14 @@ internal sealed class SupplierUpdatedConsumer(
 
         var message = context.Message;
 
-        var address = await repository.GetByIdAsync(message.AddressId);
+        var command = new UpdateAddressCommand(
+            message.AddressId,
+            message.Street,
+            message.ZipCode,
+            message.WardOrCommuneId
+        );
 
-        if (address is not null)
-        {
-            address.UpdateInformation(message.Street, message.ZipCode, message.WardOrCommuneId);
-
-            await repository.SaveChangesAsync();
-        }
+        await sender.Send(command);
     }
 }
 

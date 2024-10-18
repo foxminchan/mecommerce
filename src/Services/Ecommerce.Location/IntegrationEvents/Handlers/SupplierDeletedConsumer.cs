@@ -1,12 +1,10 @@
 ﻿using Ecommerce.Contracts;
-using Ecommerce.Location.Domain.AddressAggregate;
+using Ecommerce.Location.Features.Addresses.Delete;
 
 namespace Ecommerce.Location.IntegrationEvents.Handlers;
 
-public sealed class SupplierDeletedConsumer(
-    IRepository<Address> repository,
-    ILogger<SupplierDeletedConsumer> logger
-) : IConsumer<SupplierDeletedIntegrationEvent>
+public sealed class SupplierDeletedConsumer(ISender sender, ILogger<SupplierDeletedConsumer> logger)
+    : IConsumer<SupplierDeletedIntegrationEvent>
 {
     public async Task Consume(ConsumeContext<SupplierDeletedIntegrationEvent> context)
     {
@@ -19,12 +17,7 @@ public sealed class SupplierDeletedConsumer(
             );
         }
 
-        var address = await repository.GetByIdAsync(context.Message.AddressId);
-
-        if (address is not null)
-        {
-            await repository.DeleteAsync(address);
-        }
+        await sender.Send(new DeleteAddressCommand(context.Message.AddressId));
     }
 }
 
