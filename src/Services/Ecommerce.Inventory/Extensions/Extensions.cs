@@ -19,6 +19,9 @@ internal static class Extensions
             options.SerializerOptions.Converters.Add(new StringTrimmerJsonConverter());
         });
 
+        builder.Services.AddScoped<IDeleteSupplierService, DeleteSupplierService>();
+        builder.Services.AddScoped<IUpdateSupplierService, UpdateSupplierService>();
+
         builder.Services.AddExceptionHandler<ValidationExceptionHandler>();
         builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
         builder.Services.AddProblemDetails();

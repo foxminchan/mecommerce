@@ -1,6 +1,4 @@
-﻿using Ecommerce.Inventory.Domain.SupplierAggregate;
-
-namespace Ecommerce.Inventory.Features.Suppliers.Update;
+﻿namespace Ecommerce.Inventory.Features.Suppliers.Update;
 
 internal sealed record UpdateSupplierCommand(
     long Id,
@@ -13,7 +11,7 @@ internal sealed record UpdateSupplierCommand(
 ) : ICommand;
 
 [TxScope]
-internal sealed class UpdateSupplierHandler(IRepository<Supplier> repository)
+internal sealed class UpdateSupplierHandler(IUpdateSupplierService updateSupplierService)
     : ICommandHandler<UpdateSupplierCommand>
 {
     public async Task<Result> Handle(
@@ -21,24 +19,15 @@ internal sealed class UpdateSupplierHandler(IRepository<Supplier> repository)
         CancellationToken cancellationToken
     )
     {
-        var supplier = await repository.GetByIdAsync(request.Id, cancellationToken);
-
-        if (supplier is null)
-        {
-            return Result.NotFound();
-        }
-
-        supplier.UpdateInformation(
+        return await updateSupplierService.UpdateSupplierAsync(
+            request.Id,
             request.Name,
             request.Email,
             request.Phone,
             request.Street,
             request.ZipCode,
-            request.WardOrCommuneId
+            request.WardOrCommuneId,
+            cancellationToken
         );
-
-        await repository.SaveChangesAsync(cancellationToken);
-
-        return Result.Success();
     }
 }

@@ -5,6 +5,8 @@ global using Ecommerce.Constant;
 global using Ecommerce.EF.Extensions;
 global using Ecommerce.EF.Repositories;
 global using Ecommerce.EF.Transaction;
+global using Ecommerce.Inventory.Domain.SupplierAggregate.DomainServices.Interfaces;
+global using Ecommerce.Inventory.Domain.SupplierAggregate.DomainServices.Services;
 global using Ecommerce.Inventory.Extensions;
 global using Ecommerce.Inventory.Infrastructure;
 global using Ecommerce.Inventory.Infrastructure.CompiledModels;
