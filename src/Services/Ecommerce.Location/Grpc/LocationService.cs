@@ -1,12 +1,14 @@
 ﻿using Ecommerce.Location.Features.Addresses;
 using Ecommerce.Location.Features.Addresses.Create;
 using Ecommerce.Location.Features.Addresses.Get;
+using Auth = Ecommerce.Constant.Auth;
 
 namespace Ecommerce.Location.Grpc;
 
 internal sealed class LocationService(ISender sender, ILogger<LocationService> logger)
     : Location.LocationBase
 {
+    [Authorize(Auth.Policies.Admin)]
     public override async Task<CreateAddressResponse> CreateAddress(
         CreateAddressRequest request,
         ServerCallContext context
@@ -32,6 +34,7 @@ internal sealed class LocationService(ISender sender, ILogger<LocationService> l
         return MapToCreateAddressResponse(result.Value);
     }
 
+    [AllowAnonymous]
     public override async Task<GetAddressResponse> GetAddress(
         GetAddressRequest request,
         ServerCallContext context

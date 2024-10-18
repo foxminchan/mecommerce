@@ -14,7 +14,7 @@ internal sealed class ListWardOrCommunesEndpoint
             )
             .ProducesOk<List<WardOrCommuneDto>>()
             .WithOpenApi()
-            .WithTags(nameof(WardOrCommune))
+            .WithTags(nameof(WardOrCommune).Humanize(LetterCasing.Title))
             .MapToApiVersion(new(1, 0));
     }
 

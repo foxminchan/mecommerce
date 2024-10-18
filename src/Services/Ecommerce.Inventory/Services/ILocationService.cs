@@ -6,4 +6,9 @@ public interface ILocationService
         CreateAddressRequest request,
         CancellationToken cancellationToken = default
     );
+
+    Task<GetAddressResponse> GetLocationAsync(
+        Guid addressId,
+        CancellationToken cancellationToken = default
+    );
 }

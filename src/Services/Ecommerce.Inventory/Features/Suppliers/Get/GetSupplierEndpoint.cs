@@ -1,25 +1,25 @@
-﻿using Ecommerce.Location.Domain.WardOrCommuneAggregate;
+﻿using Ecommerce.Inventory.Domain.SupplierAggregate;
 
-namespace Ecommerce.Location.Features.WardOrCommunes.Get;
+namespace Ecommerce.Inventory.Features.Suppliers.Get;
 
-internal sealed class GetWardOrCommuneEndpoint
-    : IEndpoint<Results<Ok<WardOrCommuneDto>, NotFound>, GetWardOrCommuneQuery, ISender>
+internal sealed class GetSupplierEndpoint
+    : IEndpoint<Results<Ok<SupplierDto>, NotFound>, GetSupplierQuery, ISender>
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
         app.MapGet(
-                "/ward-or-communes/{id:long}",
+                "/suppliers/{id:long}",
                 async (long id, ISender sender) => await HandleAsync(new(id), sender)
             )
-            .ProducesOk<WardOrCommuneDto>()
+            .ProducesOk<SupplierDto>()
             .ProducesNotFound()
             .WithOpenApi()
-            .WithTags(nameof(WardOrCommune).Humanize(LetterCasing.Title))
+            .WithTags(nameof(Supplier))
             .MapToApiVersion(new(1, 0));
     }
 
-    public async Task<Results<Ok<WardOrCommuneDto>, NotFound>> HandleAsync(
-        GetWardOrCommuneQuery request,
+    public async Task<Results<Ok<SupplierDto>, NotFound>> HandleAsync(
+        GetSupplierQuery request,
         ISender sender,
         CancellationToken cancellationToken = default
     )

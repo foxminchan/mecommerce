@@ -28,4 +28,26 @@ public sealed class LocationService(GrpcLocationClient client, ILogger<LocationS
 
         return id;
     }
+
+    public async Task<GetAddressResponse> GetLocationAsync(
+        Guid addressId,
+        CancellationToken cancellationToken = default
+    )
+    {
+        if (logger.IsEnabled(LogLevel.Debug))
+        {
+            logger.LogDebug(
+                "[{Service}] - Begin grpc call {Method}",
+                nameof(LocationService),
+                nameof(GetLocationAsync)
+            );
+        }
+
+        var response = await client.GetAddressAsync(
+            new() { AddressId = addressId.ToString() },
+            cancellationToken: cancellationToken
+        );
+
+        return response;
+    }
 }

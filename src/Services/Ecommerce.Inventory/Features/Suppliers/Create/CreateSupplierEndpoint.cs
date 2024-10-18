@@ -1,28 +1,28 @@
-﻿using Ecommerce.Location.Domain.CountryAggregate;
+﻿using Ecommerce.Inventory.Domain.SupplierAggregate;
 using Auth = Ecommerce.Constant.Auth;
 
-namespace Ecommerce.Location.Features.Countries.Create;
+namespace Ecommerce.Inventory.Features.Suppliers.Create;
 
-internal sealed class CreateCountryEndpoint
-    : IEndpoint<Created<long>, CreateCountryCommand, ISender>
+internal sealed class CreateSupplierEndpoint
+    : IEndpoint<Created<long>, CreateSupplierCommand, ISender>
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
         app.MapPost(
-                "/countries",
-                async (CreateCountryCommand request, ISender sender) =>
+                "/suppliers",
+                async (CreateSupplierCommand request, ISender sender) =>
                     await HandleAsync(request, sender)
             )
             .ProducesCreated<long>()
             .ProducesValidationProblem()
             .WithOpenApi()
-            .WithTags(nameof(Country))
+            .WithTags(nameof(Supplier))
             .MapToApiVersion(new(1, 0))
             .RequireAuthorization(Auth.Policies.Admin);
     }
 
     public async Task<Created<long>> HandleAsync(
-        CreateCountryCommand request,
+        CreateSupplierCommand request,
         ISender sender,
         CancellationToken cancellationToken = default
     )

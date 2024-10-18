@@ -1,4 +1,5 @@
 ﻿using Ecommerce.Location.Domain.DistrictAggregate;
+using Auth = Ecommerce.Constant.Auth;
 
 namespace Ecommerce.Location.Features.Districts.Delete;
 
@@ -16,7 +17,8 @@ internal sealed class DeleteDistrictEndpoint
             .ProducesValidationProblem()
             .WithOpenApi()
             .WithTags(nameof(District))
-            .MapToApiVersion(new(1, 0));
+            .MapToApiVersion(new(1, 0))
+            .RequireAuthorization(Auth.Policies.Admin);
     }
 
     public async Task<Results<NoContent, NotFound>> HandleAsync(

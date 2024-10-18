@@ -18,6 +18,7 @@ public static class Config
             new("catalog", "Catalog Service"),
             new("media", "Media Service"),
             new("inventory", "Inventory Service"),
+            new("location", "Location Service"),
         ];
     }
 
@@ -29,6 +30,7 @@ public static class Config
             new("catalog", "Catalog Service"),
             new("media", "Media Service"),
             new("inventory", "Inventory Service"),
+            new("location", "Location Service"),
         ];
     }
 
@@ -78,6 +80,20 @@ public static class Config
                 PostLogoutRedirectUris = { $"{client.Inventory}/swagger/" },
                 AllowedCorsOrigins = { client.Inventory },
                 AllowedScopes = { "inventory" },
+            },
+            new()
+            {
+                ClientId = "locationswaggerui",
+                ClientName = "Location Swagger UI",
+                ClientSecrets = { new("secret".Sha256()) },
+                AllowedGrantTypes = GrantTypes.Code,
+                RequireConsent = false,
+                RequirePkce = true,
+                AllowAccessTokensViaBrowser = true,
+                RedirectUris = { $"{client.Location}/swagger/oauth2-redirect.html" },
+                PostLogoutRedirectUris = { $"{client.Location}/swagger/" },
+                AllowedCorsOrigins = { client.Location },
+                AllowedScopes = { "location" },
             },
         ];
     }

@@ -8,6 +8,7 @@ internal static class Extensions
 
         builder.AddOpenApi();
         builder.AddVersioning();
+        builder.AddDefaultAuthentication();
         builder.AddEndpoints(typeof(Program));
 
         builder.Services.Configure<JsonOptions>(options =>

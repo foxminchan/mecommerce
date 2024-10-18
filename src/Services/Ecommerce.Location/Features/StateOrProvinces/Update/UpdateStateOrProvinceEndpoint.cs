@@ -1,4 +1,5 @@
 ﻿using Ecommerce.Location.Domain.StateOrProvinceAggregate;
+using Auth = Ecommerce.Constant.Auth;
 
 namespace Ecommerce.Location.Features.StateOrProvinces.Update;
 
@@ -17,7 +18,8 @@ internal sealed class UpdateStateOrProvinceEndpoint
             .ProducesValidationProblem()
             .WithOpenApi()
             .WithTags(nameof(StateOrProvince).Humanize(LetterCasing.Title))
-            .MapToApiVersion(new(1, 0));
+            .MapToApiVersion(new(1, 0))
+            .RequireAuthorization(Auth.Policies.Admin);
     }
 
     public async Task<Results<Ok, NotFound>> HandleAsync(

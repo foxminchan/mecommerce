@@ -1,4 +1,5 @@
 ﻿using Ecommerce.Location.Domain.CountryAggregate;
+using Auth = Ecommerce.Constant.Auth;
 
 namespace Ecommerce.Location.Features.Countries.Delete;
 
@@ -16,7 +17,8 @@ internal sealed class DeleteCountryEndpoint
             .ProducesValidationProblem()
             .WithOpenApi()
             .WithTags(nameof(Country))
-            .MapToApiVersion(new(1, 0));
+            .MapToApiVersion(new(1, 0))
+            .RequireAuthorization(Auth.Policies.Admin);
     }
 
     public async Task<Results<NoContent, NotFound>> HandleAsync(

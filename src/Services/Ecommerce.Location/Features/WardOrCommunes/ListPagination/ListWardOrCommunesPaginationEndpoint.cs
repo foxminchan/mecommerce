@@ -16,7 +16,7 @@ internal sealed class ListWardOrCommunesPaginationEndpoint
             .ProducesOk<PagedItems<WardOrCommuneDto>>()
             .ProducesValidationProblem()
             .WithOpenApi()
-            .WithTags(nameof(WardOrCommune))
+            .WithTags(nameof(WardOrCommune).Humanize(LetterCasing.Title))
             .MapToApiVersion(new(1, 0));
     }
 

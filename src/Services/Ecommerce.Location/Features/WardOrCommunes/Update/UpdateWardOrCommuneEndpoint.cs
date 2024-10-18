@@ -1,4 +1,5 @@
 ﻿using Ecommerce.Location.Domain.WardOrCommuneAggregate;
+using Auth = Ecommerce.Constant.Auth;
 
 namespace Ecommerce.Location.Features.WardOrCommunes.Update;
 
@@ -16,8 +17,9 @@ internal sealed class UpdateWardOrCommuneEndpoint
             .ProducesNotFound()
             .ProducesValidationProblem()
             .WithOpenApi()
-            .WithTags(nameof(WardOrCommune))
-            .MapToApiVersion(new(1, 0));
+            .WithTags(nameof(WardOrCommune).Humanize(LetterCasing.Title))
+            .MapToApiVersion(new(1, 0))
+            .RequireAuthorization(Auth.Policies.Admin);
     }
 
     public async Task<Results<Ok, NotFound>> HandleAsync(
