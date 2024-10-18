@@ -27,6 +27,6 @@ internal sealed class DeleteVariantHandler(IRepository<Variant> repository)
 
         await repository.SaveChangesAsync(cancellationToken);
 
-        return Result.Success();
+        return Result.NoContent();
     }
 }

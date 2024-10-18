@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Ecommerce.Inventory.Infrastructure.Migrations
 {
     [DbContext(typeof(InventoryContext))]
-    [Migration("20241012145122_Initiallize-database")]
+    [Migration("20241018162023_Initiallize-database")]
     partial class Initiallizedatabase
     {
         /// <inheritdoc />
@@ -37,7 +37,7 @@ namespace Ecommerce.Inventory.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2024, 10, 12, 14, 51, 22, 394, DateTimeKind.Utc).AddTicks(7940))
+                        .HasDefaultValue(new DateTime(2024, 10, 18, 16, 20, 23, 10, DateTimeKind.Utc).AddTicks(3599))
                         .HasColumnName("created_at");
 
                     b.Property<bool>("IsDeleted")
@@ -47,7 +47,7 @@ namespace Ecommerce.Inventory.Infrastructure.Migrations
                     b.Property<DateTime?>("LastModifiedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2024, 10, 12, 14, 51, 22, 394, DateTimeKind.Utc).AddTicks(8151))
+                        .HasDefaultValue(new DateTime(2024, 10, 18, 16, 20, 23, 10, DateTimeKind.Utc).AddTicks(3883))
                         .HasColumnName("last_modified_at");
 
                     b.Property<long>("OnHandQty")
@@ -101,7 +101,9 @@ namespace Ecommerce.Inventory.Infrastructure.Migrations
                         .HasColumnName("address_id");
 
                     b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
+                        .HasDefaultValue(new DateTime(2024, 10, 18, 16, 20, 23, 11, DateTimeKind.Utc).AddTicks(5874))
                         .HasColumnName("created_at");
 
                     b.Property<string>("Email")
@@ -110,12 +112,10 @@ namespace Ecommerce.Inventory.Infrastructure.Migrations
                         .HasColumnType("character varying(255)")
                         .HasColumnName("email");
 
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean")
-                        .HasColumnName("is_deleted");
-
                     b.Property<DateTime?>("LastModifiedAt")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
+                        .HasDefaultValue(new DateTime(2024, 10, 18, 16, 20, 23, 11, DateTimeKind.Utc).AddTicks(6076))
                         .HasColumnName("last_modified_at");
 
                     b.Property<string>("Name")
@@ -131,6 +131,7 @@ namespace Ecommerce.Inventory.Infrastructure.Migrations
                         .HasColumnName("phone");
 
                     b.Property<Guid>("Version")
+                        .IsConcurrencyToken()
                         .HasColumnType("uuid")
                         .HasColumnName("version");
 
@@ -160,13 +161,13 @@ namespace Ecommerce.Inventory.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2024, 10, 12, 14, 51, 22, 396, DateTimeKind.Utc).AddTicks(801))
+                        .HasDefaultValue(new DateTime(2024, 10, 18, 16, 20, 23, 11, DateTimeKind.Utc).AddTicks(7896))
                         .HasColumnName("created_at");
 
                     b.Property<DateTime?>("LastModifiedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2024, 10, 12, 14, 51, 22, 396, DateTimeKind.Utc).AddTicks(1011))
+                        .HasDefaultValue(new DateTime(2024, 10, 18, 16, 20, 23, 11, DateTimeKind.Utc).AddTicks(8120))
                         .HasColumnName("last_modified_at");
 
                     b.Property<string>("Name")
@@ -175,8 +176,8 @@ namespace Ecommerce.Inventory.Infrastructure.Migrations
                         .HasColumnType("character varying(255)")
                         .HasColumnName("name");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("integer")
+                    b.Property<byte>("Status")
+                        .HasColumnType("smallint")
                         .HasColumnName("status");
 
                     b.Property<Guid>("Version")
@@ -474,6 +475,20 @@ namespace Ecommerce.Inventory.Infrastructure.Migrations
                         });
 
                     b.Navigation("ContactPersons");
+                });
+
+            modelBuilder.Entity("MassTransit.EntityFrameworkCoreIntegration.OutboxMessage", b =>
+                {
+                    b.HasOne("MassTransit.EntityFrameworkCoreIntegration.OutboxState", null)
+                        .WithMany()
+                        .HasForeignKey("OutboxId")
+                        .HasConstraintName("fk_outbox_message_outbox_state_outbox_id");
+
+                    b.HasOne("MassTransit.EntityFrameworkCoreIntegration.InboxState", null)
+                        .WithMany()
+                        .HasForeignKey("InboxMessageId", "InboxConsumerId")
+                        .HasPrincipalKey("MessageId", "ConsumerId")
+                        .HasConstraintName("fk_outbox_message_inbox_state_inbox_message_id_inbox_consumer_");
                 });
 
             modelBuilder.Entity("Ecommerce.Inventory.Domain.WarehouseAggregate.Warehouse", b =>

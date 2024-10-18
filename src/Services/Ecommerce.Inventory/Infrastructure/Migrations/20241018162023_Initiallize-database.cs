@@ -62,6 +62,149 @@ namespace Ecommerce.Inventory.Infrastructure.Migrations
             );
 
             migrationBuilder.CreateTable(
+                name: "outbox_state",
+                columns: table => new
+                {
+                    outbox_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    lock_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    row_version = table.Column<byte[]>(
+                        type: "bytea",
+                        rowVersion: true,
+                        nullable: true
+                    ),
+                    created = table.Column<DateTime>(
+                        type: "timestamp with time zone",
+                        nullable: false
+                    ),
+                    delivered = table.Column<DateTime>(
+                        type: "timestamp with time zone",
+                        nullable: true
+                    ),
+                    last_sequence_number = table.Column<long>(type: "bigint", nullable: true),
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_outbox_state", x => x.outbox_id);
+                }
+            );
+
+            migrationBuilder.CreateTable(
+                name: "suppliers",
+                columns: table => new
+                {
+                    id = table
+                        .Column<long>(type: "bigint", nullable: false)
+                        .Annotation(
+                            "Npgsql:ValueGenerationStrategy",
+                            NpgsqlValueGenerationStrategy.IdentityByDefaultColumn
+                        ),
+                    name = table.Column<string>(
+                        type: "character varying(255)",
+                        maxLength: 255,
+                        nullable: false
+                    ),
+                    email = table.Column<string>(
+                        type: "character varying(255)",
+                        maxLength: 255,
+                        nullable: false
+                    ),
+                    phone = table.Column<string>(
+                        type: "character varying(20)",
+                        maxLength: 20,
+                        nullable: false
+                    ),
+                    address_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    created_at = table.Column<DateTime>(
+                        type: "timestamp with time zone",
+                        nullable: false,
+                        defaultValue: new DateTime(
+                            2024,
+                            10,
+                            18,
+                            16,
+                            20,
+                            23,
+                            11,
+                            DateTimeKind.Utc
+                        ).AddTicks(5874)
+                    ),
+                    last_modified_at = table.Column<DateTime>(
+                        type: "timestamp with time zone",
+                        nullable: true,
+                        defaultValue: new DateTime(
+                            2024,
+                            10,
+                            18,
+                            16,
+                            20,
+                            23,
+                            11,
+                            DateTimeKind.Utc
+                        ).AddTicks(6076)
+                    ),
+                    version = table.Column<Guid>(type: "uuid", nullable: false),
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_suppliers", x => x.id);
+                }
+            );
+
+            migrationBuilder.CreateTable(
+                name: "warehouses",
+                columns: table => new
+                {
+                    id = table
+                        .Column<long>(type: "bigint", nullable: false)
+                        .Annotation(
+                            "Npgsql:ValueGenerationStrategy",
+                            NpgsqlValueGenerationStrategy.IdentityByDefaultColumn
+                        ),
+                    name = table.Column<string>(
+                        type: "character varying(255)",
+                        maxLength: 255,
+                        nullable: false
+                    ),
+                    capacity = table.Column<long>(type: "bigint", nullable: false),
+                    status = table.Column<byte>(type: "smallint", nullable: false),
+                    address_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    created_at = table.Column<DateTime>(
+                        type: "timestamp with time zone",
+                        nullable: false,
+                        defaultValue: new DateTime(
+                            2024,
+                            10,
+                            18,
+                            16,
+                            20,
+                            23,
+                            11,
+                            DateTimeKind.Utc
+                        ).AddTicks(7896)
+                    ),
+                    last_modified_at = table.Column<DateTime>(
+                        type: "timestamp with time zone",
+                        nullable: true,
+                        defaultValue: new DateTime(
+                            2024,
+                            10,
+                            18,
+                            16,
+                            20,
+                            23,
+                            11,
+                            DateTimeKind.Utc
+                        ).AddTicks(8120)
+                    ),
+                    version = table.Column<Guid>(type: "uuid", nullable: false),
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_warehouses", x => x.id);
+                }
+            );
+
+            migrationBuilder.CreateTable(
                 name: "outbox_message",
                 columns: table => new
                 {
@@ -124,130 +267,18 @@ namespace Ecommerce.Inventory.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_outbox_message", x => x.sequence_number);
-                }
-            );
-
-            migrationBuilder.CreateTable(
-                name: "outbox_state",
-                columns: table => new
-                {
-                    outbox_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    lock_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    row_version = table.Column<byte[]>(
-                        type: "bytea",
-                        rowVersion: true,
-                        nullable: true
-                    ),
-                    created = table.Column<DateTime>(
-                        type: "timestamp with time zone",
-                        nullable: false
-                    ),
-                    delivered = table.Column<DateTime>(
-                        type: "timestamp with time zone",
-                        nullable: true
-                    ),
-                    last_sequence_number = table.Column<long>(type: "bigint", nullable: true),
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("pk_outbox_state", x => x.outbox_id);
-                }
-            );
-
-            migrationBuilder.CreateTable(
-                name: "suppliers",
-                columns: table => new
-                {
-                    id = table
-                        .Column<long>(type: "bigint", nullable: false)
-                        .Annotation(
-                            "Npgsql:ValueGenerationStrategy",
-                            NpgsqlValueGenerationStrategy.IdentityByDefaultColumn
-                        ),
-                    name = table.Column<string>(
-                        type: "character varying(255)",
-                        maxLength: 255,
-                        nullable: false
-                    ),
-                    email = table.Column<string>(
-                        type: "character varying(255)",
-                        maxLength: 255,
-                        nullable: false
-                    ),
-                    phone = table.Column<string>(
-                        type: "character varying(20)",
-                        maxLength: 20,
-                        nullable: false
-                    ),
-                    address_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    is_deleted = table.Column<bool>(type: "boolean", nullable: false),
-                    created_at = table.Column<DateTime>(
-                        type: "timestamp with time zone",
-                        nullable: false
-                    ),
-                    last_modified_at = table.Column<DateTime>(
-                        type: "timestamp with time zone",
-                        nullable: true
-                    ),
-                    version = table.Column<Guid>(type: "uuid", nullable: false),
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("pk_suppliers", x => x.id);
-                }
-            );
-
-            migrationBuilder.CreateTable(
-                name: "warehouses",
-                columns: table => new
-                {
-                    id = table
-                        .Column<long>(type: "bigint", nullable: false)
-                        .Annotation(
-                            "Npgsql:ValueGenerationStrategy",
-                            NpgsqlValueGenerationStrategy.IdentityByDefaultColumn
-                        ),
-                    name = table.Column<string>(
-                        type: "character varying(255)",
-                        maxLength: 255,
-                        nullable: false
-                    ),
-                    capacity = table.Column<long>(type: "bigint", nullable: false),
-                    status = table.Column<int>(type: "integer", nullable: false),
-                    address_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    created_at = table.Column<DateTime>(
-                        type: "timestamp with time zone",
-                        nullable: false,
-                        defaultValue: new DateTime(
-                            2024,
-                            10,
-                            12,
-                            14,
-                            51,
-                            22,
-                            396,
-                            DateTimeKind.Utc
-                        ).AddTicks(801)
-                    ),
-                    last_modified_at = table.Column<DateTime>(
-                        type: "timestamp with time zone",
-                        nullable: true,
-                        defaultValue: new DateTime(
-                            2024,
-                            10,
-                            12,
-                            14,
-                            51,
-                            22,
-                            396,
-                            DateTimeKind.Utc
-                        ).AddTicks(1011)
-                    ),
-                    version = table.Column<Guid>(type: "uuid", nullable: false),
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("pk_warehouses", x => x.id);
+                    table.ForeignKey(
+                        name: "fk_outbox_message_inbox_state_inbox_message_id_inbox_consumer_",
+                        columns: x => new { x.inbox_message_id, x.inbox_consumer_id },
+                        principalTable: "inbox_state",
+                        principalColumns: new[] { "message_id", "consumer_id" }
+                    );
+                    table.ForeignKey(
+                        name: "fk_outbox_message_outbox_state_outbox_id",
+                        column: x => x.outbox_id,
+                        principalTable: "outbox_state",
+                        principalColumn: "outbox_id"
+                    );
                 }
             );
 
@@ -312,13 +343,13 @@ namespace Ecommerce.Inventory.Infrastructure.Migrations
                         defaultValue: new DateTime(
                             2024,
                             10,
-                            12,
-                            14,
-                            51,
-                            22,
-                            394,
+                            18,
+                            16,
+                            20,
+                            23,
+                            10,
                             DateTimeKind.Utc
-                        ).AddTicks(7940)
+                        ).AddTicks(3599)
                     ),
                     last_modified_at = table.Column<DateTime>(
                         type: "timestamp with time zone",
@@ -326,13 +357,13 @@ namespace Ecommerce.Inventory.Infrastructure.Migrations
                         defaultValue: new DateTime(
                             2024,
                             10,
-                            12,
-                            14,
-                            51,
-                            22,
-                            394,
+                            18,
+                            16,
+                            20,
+                            23,
+                            10,
                             DateTimeKind.Utc
-                        ).AddTicks(8151)
+                        ).AddTicks(3883)
                     ),
                     version = table.Column<Guid>(type: "uuid", nullable: false),
                 },
@@ -418,13 +449,13 @@ namespace Ecommerce.Inventory.Infrastructure.Migrations
         {
             migrationBuilder.DropTable(name: "contact_person");
 
-            migrationBuilder.DropTable(name: "inbox_state");
-
             migrationBuilder.DropTable(name: "outbox_message");
 
-            migrationBuilder.DropTable(name: "outbox_state");
-
             migrationBuilder.DropTable(name: "stocks");
+
+            migrationBuilder.DropTable(name: "inbox_state");
+
+            migrationBuilder.DropTable(name: "outbox_state");
 
             migrationBuilder.DropTable(name: "suppliers");
 

@@ -1,7 +1,4 @@
-﻿using System.Security.Claims;
-using Microsoft.EntityFrameworkCore;
-
-namespace Ecommerce.Identity;
+﻿namespace Ecommerce.Identity;
 
 public sealed class UserSeed(
     ILogger<UserSeed> logger,

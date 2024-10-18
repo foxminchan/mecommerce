@@ -30,6 +30,7 @@ internal static class Extensions
             cfg.AddOpenBehavior(typeof(ValidationBehavior<,>));
             cfg.AddOpenBehavior(typeof(LoggingBehavior<,>));
             cfg.AddOpenBehavior(typeof(ActivityBehavior<,>));
+            cfg.AddOpenBehavior(typeof(TxBehavior<,>));
         });
 
         builder.Services.AddValidatorsFromAssemblyContaining<Program>(includeInternalTypes: true);

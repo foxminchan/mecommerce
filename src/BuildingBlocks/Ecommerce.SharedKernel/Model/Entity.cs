@@ -5,8 +5,8 @@ public abstract class Entity : HasDomainEventsBase
     public Guid Id { get; set; }
 }
 
-public abstract class Entity<TId> : HasDomainEventsBase
+public abstract class Entity<TId> : Entity
     where TId : struct, IEquatable<TId>
 {
-    public TId Id { get; set; }
+    public new TId Id { get; set; }
 }

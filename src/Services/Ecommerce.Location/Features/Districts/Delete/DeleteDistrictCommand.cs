@@ -21,6 +21,6 @@ internal sealed class DeleteDistrictHandler(IRepository<District> repository)
 
         await repository.DeleteAsync(district, cancellationToken);
 
-        return Result.Success();
+        return Result.NoContent();
     }
 }

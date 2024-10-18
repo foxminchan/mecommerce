@@ -2,7 +2,9 @@
 global using Ardalis.Result;
 global using Ardalis.Specification.EntityFrameworkCore;
 global using Ecommerce.Constant;
-global using Ecommerce.EF;
+global using Ecommerce.EF.Extensions;
+global using Ecommerce.EF.Repositories;
+global using Ecommerce.EF.Transaction;
 global using Ecommerce.Inventory.Extensions;
 global using Ecommerce.Inventory.Infrastructure;
 global using Ecommerce.Inventory.Infrastructure.CompiledModels;

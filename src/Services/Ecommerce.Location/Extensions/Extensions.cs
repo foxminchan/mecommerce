@@ -1,4 +1,6 @@
-﻿namespace Ecommerce.Location.Extensions;
+﻿using Ecommerce.EF.Extensions;
+
+namespace Ecommerce.Location.Extensions;
 
 internal static class Extensions
 {

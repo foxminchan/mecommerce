@@ -4,6 +4,8 @@ global using Ardalis.Specification;
 global using Ardalis.Specification.EntityFrameworkCore;
 global using Ecommerce.Constant;
 global using Ecommerce.EF;
+global using Ecommerce.EF.Repositories;
+global using Ecommerce.EF.Transaction;
 global using Ecommerce.Location.Extensions;
 global using Ecommerce.Location.Grpc;
 global using Ecommerce.Location.Infrastructure;

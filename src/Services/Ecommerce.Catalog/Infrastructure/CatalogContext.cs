@@ -7,7 +7,9 @@ using Ecommerce.Catalog.Domain.VariantAggregate;
 
 namespace Ecommerce.Catalog.Infrastructure;
 
-public sealed class CatalogContext(DbContextOptions<CatalogContext> options) : DbContext(options)
+public sealed class CatalogContext(DbContextOptions<CatalogContext> options)
+    : DbContext(options),
+        IDatabaseFacade
 {
     public DbSet<Brand> Brands => Set<Brand>();
     public DbSet<Product> Products => Set<Product>();

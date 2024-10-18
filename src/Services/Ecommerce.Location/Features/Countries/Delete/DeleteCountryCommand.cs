@@ -21,6 +21,6 @@ internal sealed class DeleteCountryHandler(IRepository<Country> repository)
 
         await repository.DeleteAsync(country, cancellationToken);
 
-        return Result.Success();
+        return Result.NoContent();
     }
 }

@@ -1,4 +1,5 @@
-﻿using Ecommerce.Media.Domain;
+﻿using Ecommerce.EF.Repositories;
+using Ecommerce.Media.Domain;
 
 namespace Ecommerce.Media.Features.GetFile;
 

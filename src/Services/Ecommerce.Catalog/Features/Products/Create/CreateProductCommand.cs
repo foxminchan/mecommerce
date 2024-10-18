@@ -27,6 +27,7 @@ internal sealed record CreateProductCommand(
     ProductAttributeCombinationDto[] ProductAttributeCombination
 ) : ICommand<Result<Guid>>;
 
+[TxScope]
 internal sealed class CreateProductHandler(IRepository<Product> repository)
     : ICommandHandler<CreateProductCommand, Result<Guid>>
 {

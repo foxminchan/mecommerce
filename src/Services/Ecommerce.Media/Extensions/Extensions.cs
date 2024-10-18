@@ -1,4 +1,7 @@
-﻿namespace Ecommerce.Media.Extensions;
+﻿using Ecommerce.EF.Extensions;
+using Ecommerce.EF.Repositories;
+
+namespace Ecommerce.Media.Extensions;
 
 internal static class Extensions
 {

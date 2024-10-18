@@ -117,7 +117,7 @@ namespace Ecommerce.Inventory.Infrastructure.CompiledModels
                     (DateTime v) => v));
             createdAt.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
             createdAt.AddAnnotation("Relational:ColumnName", "created_at");
-            createdAt.AddAnnotation("Relational:DefaultValue", new DateTime(2024, 10, 12, 14, 51, 13, 562, DateTimeKind.Utc).AddTicks(7474));
+            createdAt.AddAnnotation("Relational:DefaultValue", new DateTime(2024, 10, 18, 16, 19, 43, 923, DateTimeKind.Utc).AddTicks(5445));
 
             var lastModifiedAt = runtimeEntityType.AddProperty(
                 "LastModifiedAt",
@@ -141,7 +141,7 @@ namespace Ecommerce.Inventory.Infrastructure.CompiledModels
                     (Nullable<DateTime> v) => v.HasValue ? (Nullable<DateTime>)(DateTime)v : default(Nullable<DateTime>)));
             lastModifiedAt.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
             lastModifiedAt.AddAnnotation("Relational:ColumnName", "last_modified_at");
-            lastModifiedAt.AddAnnotation("Relational:DefaultValue", new DateTime(2024, 10, 12, 14, 51, 13, 562, DateTimeKind.Utc).AddTicks(7687));
+            lastModifiedAt.AddAnnotation("Relational:DefaultValue", new DateTime(2024, 10, 18, 16, 19, 43, 923, DateTimeKind.Utc).AddTicks(5729));
 
             var name = runtimeEntityType.AddProperty(
                 "Name",
@@ -174,7 +174,7 @@ namespace Ecommerce.Inventory.Infrastructure.CompiledModels
             typeof(Status),
             propertyInfo: typeof(Warehouse).GetProperty("Status", BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly),
             fieldInfo: typeof(Warehouse).GetField("<Status>k__BackingField", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly));
-        status.TypeMapping = IntTypeMapping.Default.Clone(
+        status.TypeMapping = ByteTypeMapping.Default.Clone(
             comparer: new ValueComparer<Status>(
                 (Status v1, Status v2) => object.Equals((object)v1, (object)v2),
                 (Status v) => v.GetHashCode(),
@@ -183,21 +183,21 @@ namespace Ecommerce.Inventory.Infrastructure.CompiledModels
                 (Status v1, Status v2) => object.Equals((object)v1, (object)v2),
                 (Status v) => v.GetHashCode(),
                 (Status v) => v),
-            providerValueComparer: new ValueComparer<int>(
-                (int v1, int v2) => v1 == v2,
-                (int v) => v,
-                (int v) => v),
+            providerValueComparer: new ValueComparer<byte>(
+                (byte v1, byte v2) => v1 == v2,
+                (byte v) => (int)v,
+                (byte v) => v),
             mappingInfo: new RelationalTypeMappingInfo(
-                storeTypeName: "integer"),
-            converter: new ValueConverter<Status, int>(
-                (Status value) => (int)value,
-                (int value) => (Status)value),
-            jsonValueReaderWriter: new JsonConvertedValueReaderWriter<Status, int>(
-                JsonInt32ReaderWriter.Instance,
-                new ValueConverter<Status, int>(
-                    (Status value) => (int)value,
-                    (int value) => (Status)value)));
-        status.SetSentinelFromProviderValue(0);
+                storeTypeName: "smallint"),
+            converter: new ValueConverter<Status, byte>(
+                (Status value) => (byte)value,
+                (byte value) => (Status)value),
+            jsonValueReaderWriter: new JsonConvertedValueReaderWriter<Status, byte>(
+                JsonByteReaderWriter.Instance,
+                new ValueConverter<Status, byte>(
+                    (Status value) => (byte)value,
+                    (byte value) => (Status)value)));
+        status.SetSentinelFromProviderValue((byte)0);
         status.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
         status.AddAnnotation("Relational:ColumnName", "status");
 

@@ -1,4 +1,4 @@
-﻿namespace Ecommerce.EF;
+﻿namespace Ecommerce.EF.Extensions;
 
 internal static class MigrateDbContextExtensions
 {

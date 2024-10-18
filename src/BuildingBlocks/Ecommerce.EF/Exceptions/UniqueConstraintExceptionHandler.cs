@@ -1,4 +1,4 @@
-﻿namespace Ecommerce.EF;
+﻿namespace Ecommerce.EF.Exceptions;
 
 public sealed class UniqueConstraintExceptionHandler(
     ILogger<UniqueConstraintExceptionHandler> logger

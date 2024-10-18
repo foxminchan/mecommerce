@@ -21,6 +21,6 @@ internal sealed class DeleteWardOrCommuneHandler(IRepository<WardOrCommune> repo
 
         await repository.DeleteAsync(wardOrCommune, cancellationToken);
 
-        return Result.Success();
+        return Result.NoContent();
     }
 }

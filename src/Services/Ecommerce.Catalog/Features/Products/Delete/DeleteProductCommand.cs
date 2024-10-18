@@ -24,6 +24,6 @@ internal sealed class DeleteProductHandler(IRepository<Product> repository)
 
         await repository.SaveChangesAsync(cancellationToken);
 
-        return Result.Success();
+        return Result.NoContent();
     }
 }

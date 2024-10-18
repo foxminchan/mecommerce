@@ -76,7 +76,7 @@ namespace Ecommerce.Inventory.Infrastructure.CompiledModels
                     (DateTime v) => v));
             createdAt.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
             createdAt.AddAnnotation("Relational:ColumnName", "created_at");
-            createdAt.AddAnnotation("Relational:DefaultValue", new DateTime(2024, 10, 12, 14, 51, 13, 561, DateTimeKind.Utc).AddTicks(5824));
+            createdAt.AddAnnotation("Relational:DefaultValue", new DateTime(2024, 10, 18, 16, 19, 43, 921, DateTimeKind.Utc).AddTicks(9206));
 
             var isDeleted = runtimeEntityType.AddProperty(
                 "IsDeleted",
@@ -122,7 +122,7 @@ namespace Ecommerce.Inventory.Infrastructure.CompiledModels
                     (Nullable<DateTime> v) => v.HasValue ? (Nullable<DateTime>)(DateTime)v : default(Nullable<DateTime>)));
             lastModifiedAt.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
             lastModifiedAt.AddAnnotation("Relational:ColumnName", "last_modified_at");
-            lastModifiedAt.AddAnnotation("Relational:DefaultValue", new DateTime(2024, 10, 12, 14, 51, 13, 561, DateTimeKind.Utc).AddTicks(6032));
+            lastModifiedAt.AddAnnotation("Relational:DefaultValue", new DateTime(2024, 10, 18, 16, 19, 43, 921, DateTimeKind.Utc).AddTicks(9572));
 
             var onHandQty = runtimeEntityType.AddProperty(
                 "OnHandQty",

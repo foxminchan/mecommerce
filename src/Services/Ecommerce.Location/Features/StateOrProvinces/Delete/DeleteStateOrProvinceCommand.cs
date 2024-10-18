@@ -21,6 +21,6 @@ internal sealed class DeleteStateOrProvinceHandler(IRepository<StateOrProvince> 
 
         await repository.DeleteAsync(stateOrProvince, cancellationToken);
 
-        return Result.Success();
+        return Result.NoContent();
     }
 }

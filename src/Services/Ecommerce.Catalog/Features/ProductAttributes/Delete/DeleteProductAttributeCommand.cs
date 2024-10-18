@@ -18,6 +18,6 @@ internal sealed class DeleteProductAttributeHandler(IRepository<ProductAttribute
 
         await repository.DeleteAsync(productAttribute, cancellationToken);
 
-        return Result.Success();
+        return Result.NoContent();
     }
 }
