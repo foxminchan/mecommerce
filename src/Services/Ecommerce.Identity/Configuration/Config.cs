@@ -3,7 +3,7 @@
 public static class Config
 {
     // Identity resources are data like user ID, name, or email address of a user
-    // see: http://docs.identityserver.io/en/release/configuration/resources.html
+    // see: https://docs.duendesoftware.com/identityserver/v7/fundamentals/resources/
     public static IEnumerable<IdentityResource> GetResources()
     {
         return [new IdentityResources.OpenId(), new IdentityResources.Profile()];
@@ -19,6 +19,7 @@ public static class Config
             new("media", "Media Service"),
             new("inventory", "Inventory Service"),
             new("location", "Location Service"),
+            new("tax", "Tax Service"),
         ];
     }
 
@@ -31,6 +32,7 @@ public static class Config
             new("media", "Media Service"),
             new("inventory", "Inventory Service"),
             new("location", "Location Service"),
+            new("tax", "Tax Service"),
         ];
     }
 
@@ -94,6 +96,20 @@ public static class Config
                 PostLogoutRedirectUris = { $"{client.Location}/swagger/" },
                 AllowedCorsOrigins = { client.Location },
                 AllowedScopes = { "location" },
+            },
+            new()
+            {
+                ClientId = "taxswaggerui",
+                ClientName = "Tax Swagger UI",
+                ClientSecrets = { new("secret".Sha256()) },
+                AllowedGrantTypes = GrantTypes.Code,
+                RequireConsent = false,
+                RequirePkce = true,
+                AllowAccessTokensViaBrowser = true,
+                RedirectUris = { $"{client.Tax}/swagger/oauth2-redirect.html" },
+                PostLogoutRedirectUris = { $"{client.Tax}/swagger/" },
+                AllowedCorsOrigins = { client.Tax },
+                AllowedScopes = { "tax" },
             },
         ];
     }
