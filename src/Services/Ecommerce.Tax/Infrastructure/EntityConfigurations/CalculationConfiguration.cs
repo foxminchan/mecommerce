@@ -16,7 +16,8 @@ internal sealed class CalculationConfiguration : IEntityTypeConfiguration<Calcul
 
         builder.Property(e => e.Version).IsConcurrencyToken();
 
-        builder.HasOne(x => x.Category)
+        builder
+            .HasOne(x => x.Category)
             .WithMany()
             .HasForeignKey(x => x.CategoryId)
             .OnDelete(DeleteBehavior.Restrict);

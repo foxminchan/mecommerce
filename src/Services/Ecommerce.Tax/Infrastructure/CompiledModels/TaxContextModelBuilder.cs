@@ -133,6 +133,8 @@ namespace Ecommerce.Tax.Infrastructure.CompiledModels
             ecommerceTaxDomainCategoryAggregateCategoryTableBase.Columns.Add("created_at", created_atColumnBase0);
             var idColumnBase0 = new ColumnBase<ColumnMappingBase>("id", "bigint", ecommerceTaxDomainCategoryAggregateCategoryTableBase);
             ecommerceTaxDomainCategoryAggregateCategoryTableBase.Columns.Add("id", idColumnBase0);
+            var is_deletedColumnBase0 = new ColumnBase<ColumnMappingBase>("is_deleted", "boolean", ecommerceTaxDomainCategoryAggregateCategoryTableBase);
+            ecommerceTaxDomainCategoryAggregateCategoryTableBase.Columns.Add("is_deleted", is_deletedColumnBase0);
             var last_modified_atColumnBase0 = new ColumnBase<ColumnMappingBase>("last_modified_at", "timestamp with time zone", ecommerceTaxDomainCategoryAggregateCategoryTableBase)
             {
                 IsNullable = true
@@ -148,6 +150,7 @@ namespace Ecommerce.Tax.Infrastructure.CompiledModels
             defaultTableMappings0.Add(ecommerceTaxDomainCategoryAggregateCategoryMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)idColumnBase0, category.FindProperty("Id")!, ecommerceTaxDomainCategoryAggregateCategoryMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)created_atColumnBase0, category.FindProperty("CreatedAt")!, ecommerceTaxDomainCategoryAggregateCategoryMappingBase);
+            RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)is_deletedColumnBase0, category.FindProperty("IsDeleted")!, ecommerceTaxDomainCategoryAggregateCategoryMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)last_modified_atColumnBase0, category.FindProperty("LastModifiedAt")!, ecommerceTaxDomainCategoryAggregateCategoryMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)nameColumnBase, category.FindProperty("Name")!, ecommerceTaxDomainCategoryAggregateCategoryMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)versionColumnBase0, category.FindProperty("Version")!, ecommerceTaxDomainCategoryAggregateCategoryMappingBase);
@@ -160,6 +163,8 @@ namespace Ecommerce.Tax.Infrastructure.CompiledModels
             idColumn0.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
             var created_atColumn0 = new Column("created_at", "timestamp with time zone", categoriesTable);
             categoriesTable.Columns.Add("created_at", created_atColumn0);
+            var is_deletedColumn0 = new Column("is_deleted", "boolean", categoriesTable);
+            categoriesTable.Columns.Add("is_deleted", is_deletedColumn0);
             var last_modified_atColumn0 = new Column("last_modified_at", "timestamp with time zone", categoriesTable)
             {
                 IsNullable = true
@@ -191,6 +196,7 @@ namespace Ecommerce.Tax.Infrastructure.CompiledModels
             tableMappings0.Add(categoriesTableMapping);
             RelationalModel.CreateColumnMapping(idColumn0, category.FindProperty("Id")!, categoriesTableMapping);
             RelationalModel.CreateColumnMapping(created_atColumn0, category.FindProperty("CreatedAt")!, categoriesTableMapping);
+            RelationalModel.CreateColumnMapping(is_deletedColumn0, category.FindProperty("IsDeleted")!, categoriesTableMapping);
             RelationalModel.CreateColumnMapping(last_modified_atColumn0, category.FindProperty("LastModifiedAt")!, categoriesTableMapping);
             RelationalModel.CreateColumnMapping(nameColumn, category.FindProperty("Name")!, categoriesTableMapping);
             RelationalModel.CreateColumnMapping(versionColumn0, category.FindProperty("Version")!, categoriesTableMapping);

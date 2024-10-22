@@ -6,4 +6,3 @@
 // in this case, because the accessibility of the
 // `Program` type is checked.
 public class Program;
-

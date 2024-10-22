@@ -3,7 +3,9 @@ using Ecommerce.Tax.Domain.CategoryAggregate;
 
 namespace Ecommerce.Tax.Infrastructure;
 
-public sealed class TaxContext(DbContextOptions<TaxContext> options) : DbContext(options), IDatabaseFacade
+public sealed class TaxContext(DbContextOptions<TaxContext> options)
+    : DbContext(options),
+        IDatabaseFacade
 {
     public DbSet<Category> Categories => Set<Category>();
     public DbSet<Calculation> Calculations => Set<Calculation>();

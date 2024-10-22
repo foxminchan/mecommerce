@@ -69,7 +69,29 @@ namespace Ecommerce.Tax.Infrastructure.CompiledModels
                     (DateTime v) => v));
             createdAt.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
             createdAt.AddAnnotation("Relational:ColumnName", "created_at");
-            createdAt.AddAnnotation("Relational:DefaultValue", new DateTime(2024, 10, 20, 17, 2, 0, 927, DateTimeKind.Utc).AddTicks(5095));
+            createdAt.AddAnnotation("Relational:DefaultValue", new DateTime(2024, 10, 22, 14, 10, 10, 872, DateTimeKind.Utc).AddTicks(3805));
+
+            var isDeleted = runtimeEntityType.AddProperty(
+                "IsDeleted",
+                typeof(bool),
+                propertyInfo: typeof(Category).GetProperty("IsDeleted", BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly),
+                fieldInfo: typeof(Category).GetField("<IsDeleted>k__BackingField", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly),
+                sentinel: false);
+            isDeleted.TypeMapping = NpgsqlBoolTypeMapping.Default.Clone(
+                comparer: new ValueComparer<bool>(
+                    (bool v1, bool v2) => v1 == v2,
+                    (bool v) => v.GetHashCode(),
+                    (bool v) => v),
+                keyComparer: new ValueComparer<bool>(
+                    (bool v1, bool v2) => v1 == v2,
+                    (bool v) => v.GetHashCode(),
+                    (bool v) => v),
+                providerValueComparer: new ValueComparer<bool>(
+                    (bool v1, bool v2) => v1 == v2,
+                    (bool v) => v.GetHashCode(),
+                    (bool v) => v));
+            isDeleted.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
+            isDeleted.AddAnnotation("Relational:ColumnName", "is_deleted");
 
             var lastModifiedAt = runtimeEntityType.AddProperty(
                 "LastModifiedAt",
@@ -93,7 +115,7 @@ namespace Ecommerce.Tax.Infrastructure.CompiledModels
                     (Nullable<DateTime> v) => v.HasValue ? (Nullable<DateTime>)(DateTime)v : default(Nullable<DateTime>)));
             lastModifiedAt.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
             lastModifiedAt.AddAnnotation("Relational:ColumnName", "last_modified_at");
-            lastModifiedAt.AddAnnotation("Relational:DefaultValue", new DateTime(2024, 10, 20, 17, 2, 0, 927, DateTimeKind.Utc).AddTicks(5318));
+            lastModifiedAt.AddAnnotation("Relational:DefaultValue", new DateTime(2024, 10, 22, 14, 10, 10, 872, DateTimeKind.Utc).AddTicks(4299));
 
             var name = runtimeEntityType.AddProperty(
                 "Name",

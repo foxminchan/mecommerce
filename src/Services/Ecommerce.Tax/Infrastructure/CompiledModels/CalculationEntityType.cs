@@ -93,7 +93,7 @@ namespace Ecommerce.Tax.Infrastructure.CompiledModels
                     (DateTime v) => v));
             createdAt.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
             createdAt.AddAnnotation("Relational:ColumnName", "created_at");
-            createdAt.AddAnnotation("Relational:DefaultValue", new DateTime(2024, 10, 20, 17, 2, 0, 927, DateTimeKind.Utc).AddTicks(1822));
+            createdAt.AddAnnotation("Relational:DefaultValue", new DateTime(2024, 10, 22, 14, 10, 10, 864, DateTimeKind.Utc).AddTicks(9696));
 
             var isDeleted = runtimeEntityType.AddProperty(
                 "IsDeleted",
@@ -139,7 +139,7 @@ namespace Ecommerce.Tax.Infrastructure.CompiledModels
                     (Nullable<DateTime> v) => v.HasValue ? (Nullable<DateTime>)(DateTime)v : default(Nullable<DateTime>)));
             lastModifiedAt.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
             lastModifiedAt.AddAnnotation("Relational:ColumnName", "last_modified_at");
-            lastModifiedAt.AddAnnotation("Relational:DefaultValue", new DateTime(2024, 10, 20, 17, 2, 0, 927, DateTimeKind.Utc).AddTicks(2149));
+            lastModifiedAt.AddAnnotation("Relational:DefaultValue", new DateTime(2024, 10, 22, 14, 10, 10, 866, DateTimeKind.Utc).AddTicks(2508));
 
             var rate = runtimeEntityType.AddProperty(
                 "Rate",
